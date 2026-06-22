@@ -1,0 +1,51 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: qa-postgres
+
+    environment:
+      POSTGRES_DB: qasandbox
+      POSTGRES_USER: qauser
+      POSTGRES_PASSWORD: qapass
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: qa-backend
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qasandbox
+      SPRING_DATASOURCE_USERNAME: qauser
+      SPRING_DATASOURCE_PASSWORD: qapass
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: qa-frontend
+
+    depends_on:
+      - backend
+
+    ports:
+      - "5173:5173"
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:

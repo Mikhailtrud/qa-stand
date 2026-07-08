@@ -1,125 +1,106 @@
 import { useEffect, useState } from "react";
+import AppRouter from "./router/AppRouter";
 
 function App() {
 
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("USER");
-  const [users, setUsers] = useState([]);
+    const [token, setToken] = useState(null);
 
-  async function loadUsers() {
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("USER");
 
-    const response = await fetch("http://localhost:8080/users");
+    const [users, setUsers] = useState([]);
 
-    const data = await response.json();
+    async function loadUsers() {
 
-    setUsers(data);
-  }
+        if (!token) {
+            return;
+        }
 
-  async function createUser() {
+        const response = await fetch("http://localhost:8080/users", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-    const response = await fetch("http://localhost:8080/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        name,
-        role
-      })
-    });
+        const data = await response.json();
 
-    const data = await response.json();
+        setUsers(data);
+    }
 
-    await loadUsers();
+    async function createUser() {
 
-    alert(`User created. ID = ${data.id}`);
-  }
+        const response = await fetch("http://localhost:8080/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                role
+            })
+        });
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
+        const data = await response.json();
 
-  return (
-    <div style={{ padding: "20px" }}>
+        await loadUsers();
 
-      <h1>QA Sandbox</h1>
+        setEmail("");
+        setName("");
+        setPassword("");
+        setRole("USER");
 
-      <div>
-        <label>Email</label>
-        <br />
-        <input
-          data-testid="email-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+        alert("User created. ID = " + data.id);
+
+    }
+
+    async function deleteUser(id) {
+
+        await fetch("http://localhost:8080/users/" + id, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        await loadUsers();
+
+    }
+
+    useEffect(() => {
+        loadUsers();
+    }, [token]);
+
+    return (
+
+        <AppRouter
+            token={token}
+            setToken={setToken}
+
+            email={email}
+            setEmail={setEmail}
+
+            name={name}
+            setName={setName}
+
+            password={password}
+            setPassword={setPassword}
+
+            role={role}
+            setRole={setRole}
+
+            users={users}
+
+            createUser={createUser}
+            deleteUser={deleteUser}
         />
-      </div>
 
-      <br />
+    );
 
-      <div>
-        <label>Name</label>
-        <br />
-        <input
-          data-testid="name-input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Role</label>
-        <br />
-        <select
-          data-testid="role-select"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option>USER</option>
-          <option>ADMIN</option>
-        </select>
-      </div>
-
-      <br />
-
-      <button
-        data-testid="create-user-button"
-        onClick={createUser}
-      >
-        Create User
-      </button>
-
-      <hr />
-
-      <h2>Users</h2>
-
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.email}</td>
-              <td>{user.name}</td>
-              <td>{user.role}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-    </div>
-  );
 }
 
 export default App;

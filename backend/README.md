@@ -1,15 +1,30 @@
 # Backend
 
-Spring Boot backend для QA Sandbox.
+Spring Boot backend для проекта QA Sandbox.
 
 ## Стек
 
-* Java 21
-* Spring Boot 3
-* Spring Data JPA
-* PostgreSQL
-* Flyway
-* Swagger
+- Java 21
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- Flyway
+- Swagger / OpenAPI
+- Docker
+
+---
+
+## Возможности
+
+- Bearer Token авторизация
+- Ролевая модель (ADMIN / USER)
+- CRUD пользователей
+- Bean Validation
+- Flyway миграции
+- Swagger UI
+
+---
 
 ## Запуск локально
 
@@ -17,11 +32,7 @@ Spring Boot backend для QA Sandbox.
 ./gradlew bootRun
 ```
 
-Swagger:
-
-```text
-http://localhost:8080/swagger-ui.html
-```
+---
 
 ## Сборка
 
@@ -29,19 +40,41 @@ http://localhost:8080/swagger-ui.html
 ./gradlew build
 ```
 
-## Структура
+---
+
+## Swagger
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+---
+
+## Структура проекта
 
 ```text
 src/main/java/com/qasandbox/backend
 
 ├── controller
+├── dto
 ├── entity
 ├── repository
+├── security
 ├── config
 └── BackendApplication
 ```
 
-## API
+---
+
+## REST API
+
+### Authentication
+
+```http
+POST /auth/login
+```
+
+---
 
 ### Users
 
@@ -52,17 +85,44 @@ POST   /users
 DELETE /users/{id}
 ```
 
+---
+
+## Авторизация
+
+Все запросы (кроме `/auth/login` и Swagger) требуют Bearer Token.
+
+Пример:
+
+```
+Authorization: Bearer admin-token
+```
+
+---
+
 ## Миграции
 
-Папка:
+Расположение:
 
 ```text
 src/main/resources/db/migration
 ```
 
-Формат:
+Пример:
 
 ```text
 V1__create_users_table.sql
-V2__...
+V2__insert_default_users.sql
 ```
+
+---
+
+## Roadmap
+
+Планируется добавить:
+
+- BCrypt Password Encoder
+- Global Exception Handler
+- DTO для всех запросов и ответов
+- API Validation Errors
+- Integration Tests
+- Testcontainers

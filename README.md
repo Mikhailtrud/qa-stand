@@ -1,57 +1,87 @@
 # QA Sandbox
 
-Учебный стенд для практики QA Automation.
+QA Sandbox — учебный проект для практики QA Automation, построенный на современном стеке Java + Spring Boot + React.
 
-## Технологии
-
-### Frontend
-
-* React
-* Vite
-
-### Backend
-
-* Java 21
-* Spring Boot 3
-* Spring Data JPA
-* Flyway
-* Swagger/OpenAPI
-
-### Database
-
-* PostgreSQL 17
-
-### Infrastructure
-
-* Docker
-* Docker Compose
+Проект используется как полигон для изучения UI, API и Database тестирования, а также инфраструктуры автоматизации.
 
 ---
 
-## Архитектура
+# Технологии
+
+## Frontend
+
+- React
+- React Router
+- Vite
+
+## Backend
+
+- Java 21
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- Flyway
+- Swagger / OpenAPI
+
+## Database
+
+- PostgreSQL 17
+
+## Automation
+
+- Java 21
+- JUnit 5
+- Selenide
+- REST Assured (планируется)
+- Allure
+- Gradle
+
+## Infrastructure
+
+- Docker
+- Docker Compose
+
+---
+
+# Архитектура
 
 ```text
-Frontend (React)
-        |
-        v
-Backend (Spring Boot)
-        |
-        v
-PostgreSQL
+                +----------------+
+                |    Frontend    |
+                | React + Vite   |
+                +-------+--------+
+                        |
+                        |
+                        v
+                +----------------+
+                |    Backend     |
+                | Spring Boot    |
+                +-------+--------+
+                        |
+                        |
+                        v
+                +----------------+
+                | PostgreSQL 17  |
+                +----------------+
 ```
 
 ---
 
-## Текущие возможности
+# Возможности
 
-### Backend API
+## Backend
 
-#### Users
+### Authentication
 
-* GET /users
-* GET /users/{id}
-* POST /users
-* DELETE /users/{id}
+- Bearer Token авторизация
+- Роли ADMIN / USER
+
+### Users API
+
+- GET /users
+- GET /users/{id}
+- POST /users
+- DELETE /users/{id}
 
 ### Database
 
@@ -67,44 +97,77 @@ users
 id
 email
 name
+password
 role
 created_at
 ```
 
 ---
 
-## Swagger
+# Frontend
 
-После запуска:
+Страницы:
 
+- Dashboard
+- Users
+- Playground
+
+Возможности:
+
+- авторизация
+- просмотр пользователей
+- создание пользователя
+- удаление пользователя
+
+---
+
+# QA Playground
+
+Реализовано:
+
+- Text Input
+- Password
+- Textarea
+- Checkbox
+- Radio Button
+- Select
+- Multi Select
+- File Upload
+- Modal Window
+- Alert
+- Tabs
+- Dynamic Table
+- Pagination
+
+---
+
+# Swagger
+
+```
 http://localhost:8080/swagger-ui.html
-
----
-
-## Frontend
-
-После запуска:
-
-http://localhost:5173
-
-Текущий функционал:
-
-* создание пользователя
-* просмотр пользователей
-
----
-
-## Запуск проекта
-
-Из корня проекта:
-
-```bash
-docker compose up --build
 ```
 
 ---
 
-## Остановка проекта
+# Frontend
+
+```
+http://localhost:5173
+```
+
+---
+
+# Запуск проекта
+
+Из корня проекта:
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+# Остановка
 
 ```bash
 docker compose down
@@ -112,9 +175,7 @@ docker compose down
 
 ---
 
-## PostgreSQL
-
-Параметры подключения:
+# PostgreSQL
 
 ```text
 Host: localhost
@@ -128,63 +189,63 @@ Password: qapass
 
 ---
 
-## Flyway
-
-Миграции находятся:
+# Структура проекта
 
 ```text
-backend/src/main/resources/db/migration
+qasandbox
+
+├── backend
+├── frontend
+├── tests
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
-## Цель проекта
+# Roadmap
 
-Подготовка и практика:
+## Backend
 
-* Selenide
-* REST Assured
-* JDBC
-* Allure
-* Docker
-* PostgreSQL
-* Spring Boot
+- BCrypt Password Encoder
+- Bean Validation
+- Global Exception Handler
+- Update User
+- Search Users
+- Pagination
+- DTO для всех API
 
----
+## Frontend
 
-## План развития
+- Frontend Validation
+- Edit User
+- Search
+- Sorting
+- Pagination
+- Responsive UI
 
-### UI Playground
-
-Добавить:
-
-* Input
-* Password
-* Textarea
-* Checkbox
-* Radio
-* Select
-* Multi Select
-* Modal
-* Alert
-* File Upload
-* Tabs
-* Pagination
-
-### API
+## QA Playground
 
 Добавить:
 
-* PUT /users/{id}
-* расширение CRUD
+- Date Picker
+- Drag & Drop
+- Infinite Scroll
+- Shadow DOM
+- iFrame
+- Download
+- Toast Notifications
+- Progress Bar
+- Slider
 
-### Automation
+## Automation
 
-* UI тесты
-* API тесты
-* DB проверки
-* UI → API → DB сценарии
-* Allure отчёты
-
-```
-```
+- UI тесты
+- API тесты
+- Database проверки
+- UI → API → DB сценарии
+- Test Data Builder
+- Testcontainers
+- Selenoid
+- Jenkins / GitHub Actions
+- Allure Reports

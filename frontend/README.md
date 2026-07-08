@@ -1,11 +1,27 @@
 # Frontend
 
-React frontend для QA Sandbox.
+React frontend для проекта QA Sandbox.
 
 ## Стек
 
-* React
-* Vite
+- React
+- React Router
+- Vite
+- Fetch API
+- Docker
+
+---
+
+## Возможности
+
+- Авторизация
+- Dashboard
+- Управление пользователями
+- QA Playground
+- Маршрутизация
+- Bearer Token авторизация
+
+---
 
 ## Запуск локально
 
@@ -14,11 +30,7 @@ npm install
 npm run dev
 ```
 
-Приложение:
-
-```text
-http://localhost:5173
-```
+---
 
 ## Сборка
 
@@ -26,40 +38,90 @@ http://localhost:5173
 npm run build
 ```
 
-## Структура
+---
+
+## Приложение
+
+```
+http://localhost:5173
+```
+
+---
+
+## Структура проекта
 
 ```text
 src
 
+├── components
+│   ├── layout
+│   ├── users
+│   └── ...
+│
+├── pages
+│   ├── Dashboard
+│   ├── Playground
+│   └── Users
+│
+├── router
+├── services
+├── hooks
+├── styles
+├── utils
+│
 ├── App.jsx
-├── assets
-└── ...
+└── main.jsx
 ```
 
-## Текущий функционал
+---
 
-### Users
+## Страницы
 
-* создание пользователя
-* просмотр пользователей
+- Dashboard
+- Users
+- Playground
 
-## Будущий Playground
+---
 
-Элементы для автоматизации:
+## Управление пользователями
 
-* Input
-* Password
-* Textarea
-* Checkbox
-* Radio
-* Select
-* Multi Select
-* Modal
-* Alert
-* File Upload
-* Tabs
-* Pagination
-* Dynamic Table
+Поддерживается:
 
-```
-```
+- просмотр пользователей
+- создание пользователя
+- удаление пользователя
+
+---
+
+## QA Playground
+
+Реализовано:
+
+- Text Input
+- Password
+- Textarea
+- Checkbox
+- Radio Button
+- Select
+- Multi Select
+- File Upload
+- Modal Window
+- Alert
+- Tabs
+- Dynamic Table
+- Pagination
+
+---
+
+## Roadmap
+
+Планируется добавить:
+
+- Frontend Validation
+- Toast Notifications
+- Edit User
+- Search
+- Pagination
+- Sorting
+- CSS Refactoring
+- Responsive Layout

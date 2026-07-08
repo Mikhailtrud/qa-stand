@@ -1,44 +1,26 @@
 package com.qasandbox.backend.controller;
 
-import com.qasandbox.backend.dto.AuthRequest;
-import com.qasandbox.backend.dto.AuthResponse;
-import com.qasandbox.backend.entity.User;
-import com.qasandbox.backend.repository.UserRepository;
-import org.springframework.http.HttpStatus;
+import com.qasandbox.backend.dto.auth.AuthRequest;
+import com.qasandbox.backend.dto.auth.AuthResponse;
+import com.qasandbox.backend.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserRepository userRepository;
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.UNAUTHORIZED,
-                                "Invalid credentials"
-                        )
-                );
-
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "Invalid credentials"
-            );
-        }
-
-        String token = user.getRole().toLowerCase() + "-token";
-
-        return new AuthResponse(token, user.getRole());
+    public AuthResponse login(
+            @Valid @RequestBody AuthRequest request
+    ) {
+        return authService.login(request);
     }
 
 }

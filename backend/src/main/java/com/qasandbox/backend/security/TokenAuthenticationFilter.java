@@ -25,13 +25,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-        System.out.println("AUTH HEADER = " + header);
-
         if (header != null && header.startsWith("Bearer ")) {
 
             String token = header.substring(7);
-
-            System.out.println("TOKEN = " + token);
 
             if ("admin-token".equals(token)) {
 
@@ -44,12 +40,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                System.out.println(
-                        "AUTHORITIES = "
-                                + SecurityContextHolder.getContext()
-                                .getAuthentication()
-                                .getAuthorities()
-                );
             }
 
             if ("user-token".equals(token)) {
@@ -63,12 +53,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                System.out.println(
-                        "AUTHORITIES = "
-                                + SecurityContextHolder.getContext()
-                                .getAuthentication()
-                                .getAuthorities()
-                );
             }
         }
 

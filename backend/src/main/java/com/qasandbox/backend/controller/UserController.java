@@ -1,58 +1,60 @@
 package com.qasandbox.backend.controller;
 
-import com.qasandbox.backend.dto.CreateUserRequest;
-import com.qasandbox.backend.entity.User;
-import com.qasandbox.backend.repository.UserRepository;
+import com.qasandbox.backend.dto.user.CreateUserRequest;
+import com.qasandbox.backend.dto.user.UpdateUserRequest;
+import com.qasandbox.backend.dto.user.UserResponse;
+import com.qasandbox.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public User getUser(@PathVariable Long id) {
-        return userRepository.findById(id)
-                .orElseThrow();
+    public UserResponse getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public User createUser(@Valid @RequestBody CreateUserRequest request) {
+    public UserResponse createUser(
+            @Valid @RequestBody CreateUserRequest request
+    ) {
+        return userService.createUser(request);
+    }
 
-        User user = new User();
-
-        user.setName(request.name());
-        user.setEmail(request.email());
-        user.setPassword(request.password());
-        user.setRole(request.role());
-        user.setCreatedAt(LocalDateTime.now());
-
-        return userRepository.save(user);
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserResponse updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateUserRequest request
+    ) {
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
+
 }

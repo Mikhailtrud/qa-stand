@@ -5,8 +5,13 @@
 .idea/
 *.iml
 out/
+
+# Allure
+**/allure-results/
+**/allure-report/
+
+# Reports
 reports/
-allure-results/
 
 # =========================
 # Java / Gradle

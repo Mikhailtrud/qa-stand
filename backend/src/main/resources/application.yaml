@@ -7,11 +7,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-
     show-sql: true
 
   flyway:
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
 
 springdoc:
   swagger-ui:

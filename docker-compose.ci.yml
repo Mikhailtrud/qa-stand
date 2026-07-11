@@ -1,0 +1,89 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: qa-postgres
+
+    environment:
+      POSTGRES_DB: qasandbox
+      POSTGRES_USER: qauser
+      POSTGRES_PASSWORD: qapass
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qauser -d qasandbox"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: qa-backend
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qasandbox
+      SPRING_DATASOURCE_USERNAME: qauser
+      SPRING_DATASOURCE_PASSWORD: qapass
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/actuator/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: qa-frontend
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    ports:
+      - "5173:5173"
+
+    stdin_open: true
+    tty: true
+
+  api-tests:
+    build:
+      context: ./qa-tests/api-tests
+
+    container_name: qa-api-tests
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    environment:
+      BASE_URL: http://backend:8080
+
+    working_dir: /app
+
+    volumes:
+      - ./reports/api:/reports/api
+
+    command: >
+      sh -c "
+      ./gradlew clean test &&
+      cp -r allure-results /reports/api/
+      "
+
+volumes:
+  postgres_data:

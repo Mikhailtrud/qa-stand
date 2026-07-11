@@ -1,0 +1,23 @@
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+.users-table th,
+.users-table td {
+    border: 1px solid #555;
+    padding: 12px;
+}
+
+.users-table th {
+    background: #252525;
+}
+
+.users-table tr:nth-child(even) {
+    background: #1d1d1d;
+}
+
+.users-table button {
+    padding: 6px 12px;
+}

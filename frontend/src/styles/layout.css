@@ -1,0 +1,17 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-body {
+    display: flex;
+    flex: 1;
+}
+
+.layout-content {
+    flex: 1;
+    padding: 24px;
+    background: var(--bg);
+    box-sizing: border-box;
+}

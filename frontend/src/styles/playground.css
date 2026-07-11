@@ -1,0 +1,239 @@
+.playground {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.playground-section {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--code-bg);
+}
+
+.playground-section h2 {
+    margin: 0 0 20px;
+}
+
+.playground-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.playground-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.playground-field label {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.playground-field input,
+.playground-field textarea,
+.playground-field select {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    box-sizing: border-box;
+
+}
+
+.playground-field textarea {
+    resize: vertical;
+}
+
+.playground-field select[multiple] {
+    height: 180px;
+}
+
+.playground-selection {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 24px;
+
+}
+
+.playground-selection label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.playground-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+}
+
+.playground-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+.playground-table th,
+.playground-table td {
+
+    padding: 12px;
+
+    border: 1px solid var(--border);
+
+}
+
+.playground-table th {
+
+    cursor: pointer;
+
+    user-select: none;
+
+    background: var(--accent-bg);
+
+    transition: .2s;
+
+}
+
+.playground-table th:hover {
+
+    background: var(--accent-border);
+
+}
+
+.playground-pagination {
+
+    margin-top: 16px;
+
+    font-weight: 600;
+
+}
+
+.playground-modal {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--bg);
+
+}
+
+.playground-tab-content {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    min-height: 60px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--bg);
+
+}
+
+.playground-toast {
+
+    margin-top: 20px;
+
+    padding: 12px 18px;
+
+    border-radius: 8px;
+
+    border: 1px solid #2e7d32;
+
+    background: #dff6dd;
+
+    color: #1b5e20;
+
+    font-weight: 600;
+
+}
+
+.playground-loader {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 24px 0;
+
+}
+
+.loader-spinner {
+
+    width: 20px;
+
+    height: 20px;
+
+    border: 3px solid var(--border);
+
+    border-top-color: var(--accent);
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+
+}
+
+.playground-hidden {
+
+    margin-top: 20px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background: var(--accent-bg);
+
+}
+
+@keyframes spin {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}

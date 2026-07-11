@@ -1,0 +1,24 @@
+.alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #1f5130;
+    border: 1px solid #2ecc71;
+    color: #d4ffd4;
+}
+
+.alert-error {
+    background: #5b2020;
+    border: 1px solid #e74c3c;
+    color: #ffd6d6;
+}
+
+.alert-info {
+    background: #1d3557;
+    border: 1px solid #3498db;
+    color: #d6ecff;
+}

@@ -1,0 +1,32 @@
+[versions]
+junit = "5.13.4"
+rest-assured = "5.5.6"
+jackson = "2.20.0"
+assertj = "3.27.6"
+lombok = "1.18.42"
+datafaker = "2.7.0"
+
+[plugins]
+
+[libraries]
+
+# JUnit
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+
+# REST Assured
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
+
+# Jackson
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+
+# AssertJ
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+
+# Lombok
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+# Datafaker
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+
+[bundles]

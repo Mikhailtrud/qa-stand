@@ -46,6 +46,8 @@ function AppRouter(props) {
 
                             users={props.users}
 
+                            message={props.message}
+
                             createUser={props.createUser}
                             deleteUser={props.deleteUser}
                         />

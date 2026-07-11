@@ -1,38 +1,37 @@
 import { Link } from "react-router-dom";
 
+import "../../styles/sidebar.css";
+
 function Sidebar() {
 
     return (
 
-        <aside
-            style={{
-                width: "220px",
-                borderRight: "1px solid #ccc",
-                padding: "20px"
-            }}
-        >
+        <aside className="sidebar">
 
-            <div>
-                <Link to="/dashboard">
+            <nav className="sidebar-nav">
+
+                <Link
+                    className="sidebar-link"
+                    to="/dashboard"
+                >
                     Dashboard
                 </Link>
-            </div>
 
-            <br />
-
-            <div>
-                <Link to="/users">
+                <Link
+                    className="sidebar-link"
+                    to="/users"
+                >
                     Users
                 </Link>
-            </div>
 
-            <br />
-
-            <div>
-                <Link to="/playground">
+                <Link
+                    className="sidebar-link"
+                    to="/playground"
+                >
                     Playground
                 </Link>
-            </div>
+
+            </nav>
 
         </aside>
 

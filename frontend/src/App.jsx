@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import AppRouter from "./router/AppRouter";
 
+import { getUsers, createUser as createUserRequest, deleteUser as deleteUserRequest } from "./services/userService";
+
 function App() {
 
     const [token, setToken] = useState(null);
@@ -11,6 +13,7 @@ function App() {
     const [role, setRole] = useState("USER");
 
     const [users, setUsers] = useState([]);
+    const [message, setMessage] = useState("");
 
     async function loadUsers() {
 
@@ -18,56 +21,69 @@ function App() {
             return;
         }
 
-        const response = await fetch("http://localhost:8080/users", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        try {
 
-        const data = await response.json();
+            setMessage("");
 
-        setUsers(data);
+            const data = await getUsers(token);
+
+            setUsers(data);
+
+        } catch (e) {
+
+            setMessage(e.message);
+
+        }
+
     }
 
     async function createUser() {
 
-        const response = await fetch("http://localhost:8080/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                name,
+        try {
+
+            setMessage("");
+
+            await createUserRequest(token, {
                 email,
+                name,
                 password,
                 role
-            })
-        });
+            });
 
-        const data = await response.json();
+            await loadUsers();
 
-        await loadUsers();
+            setEmail("");
+            setName("");
+            setPassword("");
+            setRole("USER");
 
-        setEmail("");
-        setName("");
-        setPassword("");
-        setRole("USER");
+            setMessage("User created successfully.");
 
-        alert("User created. ID = " + data.id);
+        } catch (e) {
+
+            setMessage(e.message);
+
+        }
 
     }
 
     async function deleteUser(id) {
 
-        await fetch("http://localhost:8080/users/" + id, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        try {
 
-        await loadUsers();
+            setMessage("");
+
+            await deleteUserRequest(token, id);
+
+            await loadUsers();
+
+            setMessage("User deleted successfully.");
+
+        } catch (e) {
+
+            setMessage(e.message);
+
+        }
 
     }
 
@@ -94,6 +110,7 @@ function App() {
             setRole={setRole}
 
             users={users}
+            message={message}
 
             createUser={createUser}
             deleteUser={deleteUser}

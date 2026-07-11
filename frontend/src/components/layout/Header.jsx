@@ -1,14 +1,23 @@
+import "../../styles/header.css";
+
 function Header() {
 
     return (
 
-        <header
-            style={{
-                padding: "20px",
-                borderBottom: "1px solid #ccc"
-            }}
-        >
-            <h2>QA Sandbox</h2>
+        <header className="header">
+
+            <div>
+
+                <h2 className="header-title">
+                    QA Sandbox
+                </h2>
+
+                <div className="header-subtitle">
+                    Java • Spring Boot • React • PostgreSQL
+                </div>
+
+            </div>
+
         </header>
 
     );

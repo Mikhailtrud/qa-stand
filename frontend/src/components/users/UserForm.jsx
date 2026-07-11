@@ -1,3 +1,5 @@
+import "../../styles/form.css";
+
 function UserForm({
     email,
     setEmail,
@@ -14,39 +16,40 @@ function UserForm({
     createUser
 }) {
 
+    const isValid =
+        email.trim() !== "" &&
+        name.trim() !== "" &&
+        password.trim() !== "";
+
     return (
         <>
 
             <h2>User Management</h2>
 
-            <div>
+            <div className="form-group">
                 <label>Email</label>
-                <br />
                 <input
+                    className="form-control"
                     data-testid="email-input"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
 
-            <br />
-
-            <div>
+            <div className="form-group">
                 <label>Name</label>
-                <br />
                 <input
+                    className="form-control"
                     data-testid="name-input"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
             </div>
 
-            <br />
-
-            <div>
+            <div className="form-group">
                 <label>Password</label>
-                <br />
                 <input
+                    className="form-control"
                     type="password"
                     data-testid="password-input"
                     value={password}
@@ -54,12 +57,10 @@ function UserForm({
                 />
             </div>
 
-            <br />
-
-            <div>
+            <div className="form-group">
                 <label>Role</label>
-                <br />
                 <select
+                    className="form-control"
                     data-testid="role-select"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
@@ -69,11 +70,11 @@ function UserForm({
                 </select>
             </div>
 
-            <br />
-
             <button
+                className="form-button"
                 data-testid="create-user-button"
                 onClick={createUser}
+                disabled={!isValid}
             >
                 Create User
             </button>

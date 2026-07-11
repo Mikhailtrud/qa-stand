@@ -1,3 +1,5 @@
+import "../../styles/table.css";
+
 function UsersTable({ users, deleteUser }) {
 
     return (
@@ -6,9 +8,13 @@ function UsersTable({ users, deleteUser }) {
 
             <h2>Users</h2>
 
-            <table border="1" data-testid="users-table">
+            <table
+                className="users-table"
+                data-testid="users-table"
+            >
 
                 <thead>
+
                 <tr>
                     <th>ID</th>
                     <th>Email</th>
@@ -16,36 +22,55 @@ function UsersTable({ users, deleteUser }) {
                     <th>Role</th>
                     <th>Actions</th>
                 </tr>
+
                 </thead>
 
                 <tbody>
 
-                {users.map((user) => (
+                {users.length === 0 ? (
 
-                    <tr
-                        key={user.id}
-                        data-testid={"user-row-" + user.id}
-                    >
+                    <tr>
 
-                        <td>{user.id}</td>
-                        <td>{user.email}</td>
-                        <td>{user.name}</td>
-                        <td>{user.role}</td>
-
-                        <td>
-
-                            <button
-                                data-testid={"delete-user-" + user.id}
-                                onClick={() => deleteUser(user.id)}
-                            >
-                                Delete
-                            </button>
-
+                        <td
+                            colSpan="5"
+                            style={{ textAlign: "center" }}
+                        >
+                            No users found
                         </td>
 
                     </tr>
 
-                ))}
+                ) : (
+
+                    users.map((user) => (
+
+                        <tr
+                            key={user.id}
+                            data-testid={"user-row-" + user.id}
+                        >
+
+                            <td>{user.id}</td>
+                            <td>{user.email}</td>
+                            <td>{user.name}</td>
+                            <td>{user.role}</td>
+
+                            <td>
+
+                                <button
+                                    className="form-button"
+                                    data-testid={"delete-user-" + user.id}
+                                    onClick={() => deleteUser(user.id)}
+                                >
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    ))
+
+                )}
 
                 </tbody>
 

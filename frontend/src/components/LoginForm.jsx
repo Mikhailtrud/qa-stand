@@ -1,38 +1,41 @@
 import { useState } from "react";
+import { login } from "../services/authService";
+import Alert from "./common/Alert";
 
 function LoginForm({ onLogin }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-    async function login() {
+    async function handleLogin() {
 
-        const response = await fetch("http://localhost:8080/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
+        try {
 
-        if (!response.ok) {
-            alert("Invalid credentials");
-            return;
+            setError("");
+
+            const data = await login(email, password);
+
+            onLogin(data.token);
+
+        } catch (e) {
+
+            setError(e.message);
+
         }
-
-        const data = await response.json();
-
-        onLogin(data.token);
 
     }
 
     return (
+
         <div>
 
             <h2>Login</h2>
+
+            <Alert
+                message={error}
+                type="error"
+            />
 
             <div>
                 <label>Email</label>
@@ -61,12 +64,13 @@ function LoginForm({ onLogin }) {
 
             <button
                 data-testid="login-button"
-                onClick={login}
+                onClick={handleLogin}
             >
                 Login
             </button>
 
         </div>
+
     );
 
 }

@@ -1,3 +1,5 @@
+import "./../../styles/layout.css";
+
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
@@ -5,24 +7,15 @@ function Layout({ children }) {
 
     return (
 
-        <div>
+        <div className="layout">
 
             <Header />
 
-            <div
-                style={{
-                    display: "flex"
-                }}
-            >
+            <div className="layout-body">
 
                 <Sidebar />
 
-                <main
-                    style={{
-                        flex: 1,
-                        padding: "20px"
-                    }}
-                >
+                <main className="layout-content">
                     {children}
                 </main>
 

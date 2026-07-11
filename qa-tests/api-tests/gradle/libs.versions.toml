@@ -5,8 +5,7 @@ jackson = "2.20.0"
 assertj = "3.27.6"
 lombok = "1.18.42"
 datafaker = "2.7.0"
-
-[plugins]
+allure = "2.29.1"
 
 [libraries]
 
@@ -29,5 +28,9 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 
 # Datafaker
 datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+
+# Allure
+allure-junit5 = { module = "io.qameta.allure:allure-junit5", version.ref = "allure" }
+allure-rest-assured = { module = "io.qameta.allure:allure-rest-assured", version.ref = "allure" }
 
 [bundles]

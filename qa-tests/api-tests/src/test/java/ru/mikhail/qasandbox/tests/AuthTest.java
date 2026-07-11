@@ -1,5 +1,6 @@
 package ru.mikhail.qasandbox.tests;
 
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.BaseTest;
 import ru.mikhail.qasandbox.config.Config;
@@ -12,6 +13,8 @@ class AuthTest extends BaseTest {
 
     @Test
     void shouldLoginSuccessfully() {
+
+        Allure.step("Login");
 
         LoginResponse response = authClient.login(TestUsers.admin());
 

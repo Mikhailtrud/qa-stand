@@ -1,5 +1,6 @@
 package ru.mikhail.qasandbox.client;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 
 public abstract class BaseApiClient {
@@ -9,6 +10,7 @@ public abstract class BaseApiClient {
                         Class<T> responseClass) {
 
         return RestAssured.given()
+                .filter(new AllureRestAssured())
                 .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
                 .when()
                 .get(endpoint)
@@ -24,6 +26,7 @@ public abstract class BaseApiClient {
                          Class<T> responseClass) {
 
         return RestAssured.given()
+                .filter(new AllureRestAssured())
                 .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
                 .body(requestBody)
                 .when()
@@ -38,6 +41,7 @@ public abstract class BaseApiClient {
                           int expectedStatusCode) {
 
         RestAssured.given()
+                .filter(new AllureRestAssured())
                 .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
                 .when()
                 .delete(endpoint)

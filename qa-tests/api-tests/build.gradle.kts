@@ -37,6 +37,10 @@ dependencies {
     // Lombok
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+    // Allure
+    testImplementation(libs.allure.junit5)
+    testImplementation(libs.allure.rest.assured)
 }
 
 tasks.test {

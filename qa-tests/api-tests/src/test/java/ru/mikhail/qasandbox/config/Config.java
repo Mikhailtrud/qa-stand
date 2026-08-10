@@ -21,6 +21,30 @@ public final class Config {
         return getProperty("admin.role", "ADMIN_ROLE", "ADMIN");
     }
 
+    public static String getDbUrl() {
+        return getProperty(
+                "db.url",
+                "DB_URL",
+                "jdbc:postgresql://localhost:5432/qasandbox"
+        );
+    }
+
+    public static String getDbUser() {
+        return getProperty(
+                "db.user",
+                "DB_USER",
+                "qauser"
+        );
+    }
+
+    public static String getDbPassword() {
+        return getProperty(
+                "db.password",
+                "DB_PASSWORD",
+                "qapass"
+        );
+    }
+
     private static String getProperty(String propertyName,
                                       String environmentVariable,
                                       String defaultValue) {

@@ -19,6 +19,23 @@ public abstract class BaseApiClient {
                 .as(responseClass);
     }
 
+    protected <T> T get(String endpoint,
+                        String token,
+                        int expectedStatusCode,
+                        Class<T> responseClass) {
+
+        return RestAssured.given()
+                .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get(endpoint)
+                .then()
+                .log().ifValidationFails()
+                .statusCode(expectedStatusCode)
+                .extract()
+                .as(responseClass);
+    }
+
     protected <T> T post(String endpoint,
                          Object requestBody,
                          int expectedStatusCode,

@@ -41,6 +41,9 @@ dependencies {
     // Allure
     testImplementation(libs.allure.junit5)
     testImplementation(libs.allure.rest.assured)
+
+    // DB driver
+    testImplementation("org.postgresql:postgresql:42.7.7")
 }
 
 tasks.test {
@@ -54,3 +57,4 @@ tasks.test {
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
+

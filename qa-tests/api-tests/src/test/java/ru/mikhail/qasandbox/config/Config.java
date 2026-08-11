@@ -5,6 +5,7 @@ public final class Config {
     private Config() {
     }
 
+    //Admin Data
     public static String getBaseUrl() {
         return getProperty("baseUrl", "BASE_URL", "http://localhost:8080");
     }
@@ -21,6 +22,39 @@ public final class Config {
         return getProperty("admin.role", "ADMIN_ROLE", "ADMIN");
     }
 
+    public static String adminName = "string";
+
+    //User Data
+    public static String getUserRole() {
+        return getProperty("user.role", "USER_ROLE", "USER");
+    }
+
+    public static String getUserEmail() {
+        return getProperty("user.email", "USER_EMAIL", "user@email.com");
+    }
+
+    public static String getUserPassword() {
+        return getProperty("user.password", "USER_PASSWORD", "user123");
+    }
+
+    public static String userName = "User";
+
+    //Edit User Data
+    public static String editUserRole() {
+        return getProperty("edit.user.role", "EDIT_USER_ROLE", "USER");
+    }
+
+    public static String editUserEmail() {
+        return getProperty("edit.user.email", "EDIT_USER_EMAIL", "edituser@email.com");
+    }
+
+    public static String editUserPassword() {
+        return getProperty("edit.user.password", "EDIT_USER_PASSWORD", "user123");
+    }
+
+    public static String editUserName = "EditUser";
+
+    //DB data
     public static String getDbUrl() {
         return getProperty(
                 "db.url",

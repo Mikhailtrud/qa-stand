@@ -31,7 +31,7 @@ public abstract class BaseApiClient {
                 .when()
                 .get(endpoint)
                 .then()
-                .log().ifValidationFails()
+                .log().all()
                 .statusCode(expectedStatusCode)
                 .extract()
                 .as(responseClass);
@@ -62,5 +62,21 @@ public abstract class BaseApiClient {
                 .then()
                 .log().ifValidationFails()
                 .statusCode(expectedStatusCode);
+    }
+
+    protected <T> T put(String endpoint,
+                         Object requestBody,
+                         int expectedStatusCode,
+                         Class<T> responseClass) {
+
+        return request()
+                .body(requestBody)
+                .when()
+                .put(endpoint)
+                .then()
+                .log().ifValidationFails()
+                .statusCode(expectedStatusCode)
+                .extract()
+                .as(responseClass);
     }
 }

@@ -1,9 +1,9 @@
 package ru.mikhail.qasandbox.dto.response;
 
-public record GetUsersResponse(
+public record EditUserResponse(
         Integer id,
-        String email,
         String name,
+        String email,
         String role
 ) {
 }

@@ -1,6 +1,6 @@
 package ru.mikhail.qasandbox.dto.response;
 
-public record GetUsersResponse(
+public record GetUserResponse(
         Integer id,
         String email,
         String name,

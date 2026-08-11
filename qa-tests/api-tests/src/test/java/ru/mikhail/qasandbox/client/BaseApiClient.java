@@ -1,32 +1,33 @@
 package ru.mikhail.qasandbox.client;
 
 import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
+import ru.mikhail.qasandbox.specifications.Specifications;
 
 public abstract class BaseApiClient {
 
-    protected <T> T get(String endpoint,
-                        int expectedStatusCode,
-                        Class<T> responseClass) {
+    private String token;
 
-        return RestAssured.given()
-                .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
-                .when()
-                .get(endpoint)
-                .then()
-                .log().ifValidationFails()
-                .statusCode(expectedStatusCode)
-                .extract()
-                .as(responseClass);
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    protected RequestSpecification request() {
+        RequestSpecification request = RestAssured.given()
+                .spec(Specifications.requestSpec());
+
+        if (token != null && !token.isBlank()) {
+            request.header("Authorization", "Bearer " + token);
+        }
+
+        return request;
     }
 
     protected <T> T get(String endpoint,
-                        String token,
                         int expectedStatusCode,
                         Class<T> responseClass) {
 
-        return RestAssured.given()
-                .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
-                .header("Authorization", "Bearer " + token)
+        return request()
                 .when()
                 .get(endpoint)
                 .then()
@@ -41,8 +42,7 @@ public abstract class BaseApiClient {
                          int expectedStatusCode,
                          Class<T> responseClass) {
 
-        return RestAssured.given()
-                .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
+        return request()
                 .body(requestBody)
                 .when()
                 .post(endpoint)
@@ -56,8 +56,7 @@ public abstract class BaseApiClient {
     protected void delete(String endpoint,
                           int expectedStatusCode) {
 
-        RestAssured.given()
-                .spec(ru.mikhail.qasandbox.specifications.Specifications.requestSpec())
+        request()
                 .when()
                 .delete(endpoint)
                 .then()

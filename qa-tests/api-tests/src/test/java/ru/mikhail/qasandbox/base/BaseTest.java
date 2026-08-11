@@ -26,5 +26,7 @@ public abstract class BaseTest {
         );
 
         token = authClient.login(TestUsers.admin()).token();
+
+        usersClient.setToken(token);
     }
 }

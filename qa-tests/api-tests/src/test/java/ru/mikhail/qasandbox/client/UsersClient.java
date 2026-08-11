@@ -6,10 +6,9 @@ public class UsersClient extends BaseApiClient {
 
     private static final String USERS_ENDPOINT = "/users";
 
-    public GetUsersResponse[] getUsersResponse(String token) {
+    public GetUsersResponse[] getUsersResponse() {
         return get(
                 USERS_ENDPOINT,
-                token,
                 200,
                 GetUsersResponse[].class
         );

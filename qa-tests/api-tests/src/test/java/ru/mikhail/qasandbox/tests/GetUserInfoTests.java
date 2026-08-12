@@ -5,11 +5,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.BaseTest;
-import ru.mikhail.qasandbox.config.Config;
+import ru.mikhail.qasandbox.config.UserDataConfig;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
-import ru.mikhail.qasandbox.dto.response.GetUsersResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,9 +34,9 @@ public class GetUserInfoTests extends BaseTest {
 
         assertThat(response).isNotNull();
         assertThat(response.id()).isNotNull().isPositive();
-        assertThat(response.email()).isEqualTo(Config.getUserEmail());
-        assertThat(response.name()).isEqualTo(Config.userName);
-        assertThat(response.role()).isEqualTo(Config.getUserRole());
+        assertThat(response.email()).isEqualTo(UserDataConfig.getUserEmail());
+        assertThat(response.name()).isEqualTo(UserDataConfig.USER_NAME);
+        assertThat(response.role()).isEqualTo(UserDataConfig.getUserRole());
     }
 
     @AfterEach

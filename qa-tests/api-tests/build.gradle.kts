@@ -20,6 +20,7 @@ dependencies {
     // JUnit
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
+    testImplementation("org.junit.platform:junit-platform-suite")
     testRuntimeOnly(libs.junit.launcher)
 
     // REST Assured

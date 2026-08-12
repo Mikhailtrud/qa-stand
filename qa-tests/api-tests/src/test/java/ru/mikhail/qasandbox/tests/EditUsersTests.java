@@ -5,13 +5,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.BaseTest;
-import ru.mikhail.qasandbox.config.Config;
+import ru.mikhail.qasandbox.config.UserDataConfig;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
 
 public class EditUsersTests extends BaseTest {
     private Integer idToRemove;
@@ -38,9 +37,10 @@ public class EditUsersTests extends BaseTest {
 
         assertThat(response.id()).isEqualTo(idToRemove);
         assertThat(response.id()).isNotNull().isPositive();
-        assertThat(response.name()).isEqualTo(Config.editUserName);
-        assertThat(response.email()).isEqualTo(Config.editUserEmail());
-        assertThat(response.role()).isEqualTo(Config.editUserRole());
+
+        assertThat(response.email()).isEqualTo(UserDataConfig.getEditUserEmail());
+        assertThat(response.role()).isEqualTo(UserDataConfig.getEditUserRole());
+        assertThat(response.name()).isEqualTo(UserDataConfig.EDIT_USER_NAME);
     }
 
     @AfterEach

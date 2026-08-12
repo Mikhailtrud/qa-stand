@@ -3,7 +3,7 @@ package ru.mikhail.qasandbox.base;
 import org.junit.jupiter.api.BeforeEach;
 import ru.mikhail.qasandbox.client.AuthClient;
 import ru.mikhail.qasandbox.client.UsersClient;
-import ru.mikhail.qasandbox.config.Config;
+import ru.mikhail.qasandbox.config.DbConfig;
 import ru.mikhail.qasandbox.db.DbClient;
 
 public abstract class BaseTest {
@@ -18,9 +18,9 @@ public abstract class BaseTest {
         usersClient = new UsersClient();
 
         dbClient = new DbClient(
-                Config.getDbUrl(),
-                Config.getDbUser(),
-                Config.getDbPassword()
+                DbConfig.getUrl(),
+                DbConfig.getUser(),
+                DbConfig.getPassword()
         );
     }
 }

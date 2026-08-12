@@ -4,7 +4,7 @@ import io.qameta.allure.Allure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.BaseTest;
-import ru.mikhail.qasandbox.config.Config;
+import ru.mikhail.qasandbox.config.UserDataConfig;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.GetUsersResponse;
 
@@ -32,9 +32,10 @@ public class GetUsersInfoTests extends BaseTest {
         assertThat(response)
                 .anySatisfy(user -> {
                     assertThat(user.id()).isNotNull().isPositive();
-                    assertThat(user.email()).isEqualTo(Config.getAdminEmail());
-                    assertThat(user.name()).isEqualTo(Config.adminName);
-                    assertThat(user.role()).isEqualTo(Config.getAdminRole());
+                    assertThat(user.email()).isEqualTo(UserDataConfig.getAdminEmail());
+                    assertThat(user.name()).isEqualTo(UserDataConfig.ADMIN_NAME);
+                    assertThat(user.role()).isEqualTo(UserDataConfig.getAdminRole());
+
                 });
     }
 }

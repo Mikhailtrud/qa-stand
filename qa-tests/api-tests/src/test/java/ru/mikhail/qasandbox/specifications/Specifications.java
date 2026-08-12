@@ -5,7 +5,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import ru.mikhail.qasandbox.config.Config;
+import ru.mikhail.qasandbox.config.ApiConfig;
 
 public final class Specifications {
 
@@ -15,7 +15,7 @@ public final class Specifications {
     public static RequestSpecification requestSpec() {
 
         return new RequestSpecBuilder()
-                .setBaseUri(Config.getBaseUrl())
+                .setBaseUri(ApiConfig.getBaseUrl())
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
                 .log(LogDetail.ALL)

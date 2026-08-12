@@ -2,6 +2,7 @@ package ru.mikhail.qasandbox.tests.authTests;
 
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
+import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.client.AuthClient;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.LoginResponse;
@@ -16,9 +17,10 @@ public class AuthTest {
     void shouldLoginSuccessfully() {
         Allure.step("Login as admin");
 
-        LoginResponse response = authClient.login(TestUsers.admin());
+        ApiResponse<LoginResponse> response =
+                authClient.login(TestUsers.admin());
 
-        assertThat(response).isNotNull();
-        assertThat(response.token()).isNotBlank();
+        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.body().token()).isNotBlank();
     }
 }

@@ -1,6 +1,7 @@
 package ru.mikhail.qasandbox.client;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import ru.mikhail.qasandbox.specifications.Specifications;
 
@@ -23,60 +24,76 @@ public abstract class BaseApiClient {
         return request;
     }
 
-    protected <T> T get(String endpoint,
-                        int expectedStatusCode,
-                        Class<T> responseClass) {
-
-        return request()
+    protected <T> ApiResponse<T> get(
+            String endpoint,
+            Class<T> responseClass
+    ) {
+        Response response = request()
                 .when()
                 .get(endpoint)
                 .then()
                 .log().all()
-                .statusCode(expectedStatusCode)
                 .extract()
-                .as(responseClass);
+                .response();
+
+        return new ApiResponse<>(
+                response.statusCode(),
+                response.as(responseClass)
+        );
     }
 
-    protected <T> T post(String endpoint,
-                         Object requestBody,
-                         int expectedStatusCode,
-                         Class<T> responseClass) {
-
-        return request()
+    protected <T> ApiResponse<T> post(
+            String endpoint,
+            Object requestBody,
+            Class<T> responseClass
+    ) {
+        Response response = request()
                 .body(requestBody)
                 .when()
                 .post(endpoint)
                 .then()
                 .log().ifValidationFails()
-                .statusCode(expectedStatusCode)
                 .extract()
-                .as(responseClass);
+                .response();
+
+        return new ApiResponse<>(
+                response.statusCode(),
+                response.as(responseClass)
+        );
     }
 
-    protected void delete(String endpoint,
-                          int expectedStatusCode) {
-
-        request()
+    protected ApiResponse<Void> delete(String endpoint) {
+        Response response = request()
                 .when()
                 .delete(endpoint)
                 .then()
                 .log().ifValidationFails()
-                .statusCode(expectedStatusCode);
+                .extract()
+                .response();
+
+        return new ApiResponse<>(
+                response.statusCode(),
+                null
+        );
     }
 
-    protected <T> T put(String endpoint,
-                         Object requestBody,
-                         int expectedStatusCode,
-                         Class<T> responseClass) {
-
-        return request()
+    protected <T> ApiResponse<T> put(
+            String endpoint,
+            Object requestBody,
+            Class<T> responseClass
+    ) {
+        Response response = request()
                 .body(requestBody)
                 .when()
                 .put(endpoint)
                 .then()
                 .log().ifValidationFails()
-                .statusCode(expectedStatusCode)
                 .extract()
-                .as(responseClass);
+                .response();
+
+        return new ApiResponse<>(
+                response.statusCode(),
+                response.as(responseClass)
+        );
     }
 }

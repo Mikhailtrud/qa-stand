@@ -7,11 +7,10 @@ public class AuthClient extends BaseApiClient {
 
     private static final String LOGIN_ENDPOINT = "/auth/login";
 
-    public LoginResponse login(LoginRequest request) {
+    public ApiResponse<LoginResponse> login(LoginRequest request) {
         return post(
                 LOGIN_ENDPOINT,
                 request,
-                200,
                 LoginResponse.class
         );
     }

@@ -11,45 +11,42 @@ public class UsersClient extends BaseApiClient {
 
     private static final String USERS_ENDPOINT = "/users";
 
-    public GetUsersResponse[] getUsersResponse() {
+    public ApiResponse<GetUsersResponse[]> getUsersResponse() {
         return get(
                 USERS_ENDPOINT,
-                200,
                 GetUsersResponse[].class
         );
     }
 
-    public CreateUsersResponse createUser(CreateUsersRequest request) {
+    public ApiResponse<CreateUsersResponse> createUser(CreateUsersRequest request) {
         return post(
                 USERS_ENDPOINT,
                 request,
-                201,
                 CreateUsersResponse.class
         );
     }
 
-    public void deleteUser(Integer id) {
-        delete(
-                USERS_ENDPOINT + "/" + id,
-                200
+    public ApiResponse<Void> deleteUser(Integer id) {
+        return delete(
+                USERS_ENDPOINT + "/" + id
         );
     }
 
-    public EditUserResponse editUser(Integer id, EditUserRequest request) {
+    public ApiResponse<EditUserResponse> editUser(
+            Integer id,
+            EditUserRequest request
+    ) {
         return put(
                 USERS_ENDPOINT + "/" + id,
                 request,
-                200,
                 EditUserResponse.class
         );
     }
 
-    public GetUserResponse getUserById(Integer id) {
+    public ApiResponse<GetUserResponse> getUserById(Integer id) {
         return get(
                 USERS_ENDPOINT + "/" + id,
-                200,
                 GetUserResponse.class
         );
     }
-
 }

@@ -4,43 +4,36 @@ import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.mikhail.qasandbox.base.BaseTest;
-import ru.mikhail.qasandbox.config.UserDataConfig;
+import ru.mikhail.qasandbox.base.AuthenticatedTest;
+import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EditUsersTests extends BaseTest {
+public class EditUsersTests extends AuthenticatedTest {
     private Integer idToRemove;
 
     @BeforeEach
     void setUpTest() {
-        String token = authClient.login(TestUsers.admin()).token();
-        usersClient.setToken(token);
-
-        CreateUsersResponse response = usersClient.createUser(TestUsers.user());
-        idToRemove = response.id();
-        System.out.println(idToRemove);
-        System.out.println(token);
+        ApiResponse<CreateUsersResponse> response = usersClient.createUser(TestUsers.user());
+        idToRemove = response.body().id();
     }
 
     @Test
     void userShouldBeEdited() {
         Allure.step("Edit user success");
-        EditUserResponse response =
+
+        ApiResponse<EditUserResponse> response =
                 usersClient.editUser(idToRemove, TestUsers.userEdit());
 
-        assertThat(response)
-                .isNotNull();
+        assertThat(response.statusCode()).isEqualTo(200);
 
-        assertThat(response.id()).isEqualTo(idToRemove);
-        assertThat(response.id()).isNotNull().isPositive();
-
-        assertThat(response.email()).isEqualTo(UserDataConfig.getEditUserEmail());
-        assertThat(response.role()).isEqualTo(UserDataConfig.getEditUserRole());
-        assertThat(response.name()).isEqualTo(UserDataConfig.EDIT_USER_NAME);
+        assertThat(response.body().id()).isEqualTo(idToRemove);
+        assertThat(response.body().name()).isEqualTo(TestUsers.userEdit().name());
+        assertThat(response.body().email()).isEqualTo(TestUsers.userEdit().email());
+        assertThat(response.body().role()).isEqualTo(TestUsers.userEdit().role());
     }
 
     @AfterEach

@@ -4,21 +4,18 @@ import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.mikhail.qasandbox.base.BaseTest;
-import ru.mikhail.qasandbox.config.UserDataConfig;
+import ru.mikhail.qasandbox.base.AuthenticatedTest;
+import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.data.TestUsers;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CreateUsersTests extends BaseTest {
+public class CreateUsersTests extends AuthenticatedTest {
     private Integer idToRemove;
 
     @BeforeEach
     void setUpTest() {
-        String token = authClient.login(TestUsers.admin()).token();
-        usersClient.setToken(token);
-
         idToRemove = null;
     }
 
@@ -26,18 +23,17 @@ public class CreateUsersTests extends BaseTest {
     void userShouldBeCreated() {
         Allure.step("Create user success");
 
-        CreateUsersResponse response =
+        ApiResponse<CreateUsersResponse> response =
                 usersClient.createUser(TestUsers.user());
 
-        assertThat(response)
-                .isNotNull();
+        assertThat(response.statusCode()).isEqualTo(201);
 
-        assertThat(response.id()).isNotNull().isPositive();
-        assertThat(response.email()).isEqualTo(UserDataConfig.getUserEmail());
-        assertThat(response.name()).isEqualTo(UserDataConfig.USER_NAME);
-        assertThat(response.role()).isEqualTo(UserDataConfig.getUserRole());
+        assertThat(response.body().id()).isNotNull().isPositive();
+        assertThat(response.body().email()).isEqualTo(TestUsers.user().email());
+        assertThat(response.body().name()).isEqualTo(TestUsers.user().name());
+        assertThat(response.body().role()).isEqualTo(TestUsers.user().role());
 
-        idToRemove = response.id();
+        idToRemove = response.body().id();
     }
 
     @AfterEach

@@ -1,4 +1,4 @@
-package ru.mikhail.qasandbox.tests;
+package ru.mikhail.qasandbox.tests.usersTests;
 
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;

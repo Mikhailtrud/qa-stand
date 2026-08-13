@@ -6,12 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
-import ru.mikhail.qasandbox.data.TestUsers;
+import ru.mikhail.qasandbox.data.builder.UserBuilder;
+import ru.mikhail.qasandbox.data.testData.UserTestData;
+import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateUsersTests extends AuthenticatedTest {
+
     private Integer idToRemove;
 
     @BeforeEach
@@ -23,23 +26,74 @@ public class CreateUsersTests extends AuthenticatedTest {
     void userShouldBeCreated() {
         Allure.step("Create user success");
 
+        CreateUsersRequest request = UserBuilder.validUser().build();
+
         ApiResponse<CreateUsersResponse> response =
-                usersClient.createUser(TestUsers.user());
+                usersClient.createUser(request);
 
         assertThat(response.statusCode()).isEqualTo(201);
 
-        assertThat(response.body().id()).isNotNull().isPositive();
-        assertThat(response.body().email()).isEqualTo(TestUsers.user().email());
-        assertThat(response.body().name()).isEqualTo(TestUsers.user().name());
-        assertThat(response.body().role()).isEqualTo(TestUsers.user().role());
-
         idToRemove = response.body().id();
+
+        assertThat(response.body().id()).isNotNull().isPositive();
+        assertThat(response.body().email()).isEqualTo(request.email());
+        assertThat(response.body().name()).isEqualTo(request.name());
+        assertThat(response.body().role()).isEqualTo(request.role());
+    }
+
+    @Test
+    void userShouldNotBeCreatedWithInvalidEmail() {
+        Allure.step("Create user with invalid email");
+
+        ApiResponse<CreateUsersResponse> response =
+                usersClient.createUser(
+                        UserBuilder.validUser()
+                                .withEmail(UserTestData.INVALID_EMAIL)
+                                .build()
+                );
+
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+    }
+
+    @Test
+    void userShouldNotBeCreatedWithInvalidPassword() {
+        Allure.step("Create user with invalid password");
+
+        ApiResponse<CreateUsersResponse> response =
+                usersClient.createUser(
+                        UserBuilder.validUser()
+                                .withPassword(UserTestData.INVALID_PASSWORD)
+                                .build()
+                );
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+    }
+
+    @Test
+    void userShouldNotBeCreatedWithEmptyData() {
+        Allure.step("Create user with empty data");
+
+        CreateUsersRequest request = UserBuilder.validUser()
+                .withName(UserTestData.EMPTY)
+                .build();
+
+        ApiResponse<CreateUsersResponse> response =
+                usersClient.createUser(request);
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
     }
 
     @AfterEach
     void cleanUp() {
         if (idToRemove != null) {
-            usersClient.deleteUser(idToRemove);
+            ApiResponse<Void> response =
+                    usersClient.deleteUser(idToRemove);
+
+            assertThat(response.statusCode()).isIn(200);
         }
     }
 }

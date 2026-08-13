@@ -32,14 +32,11 @@ public abstract class BaseApiClient {
                 .when()
                 .get(endpoint)
                 .then()
-                .log().all()
+                .log().ifValidationFails()
                 .extract()
                 .response();
 
-        return new ApiResponse<>(
-                response.statusCode(),
-                response.as(responseClass)
-        );
+        return new ApiResponse<>(response, responseClass);
     }
 
     protected <T> ApiResponse<T> post(
@@ -56,10 +53,7 @@ public abstract class BaseApiClient {
                 .extract()
                 .response();
 
-        return new ApiResponse<>(
-                response.statusCode(),
-                response.as(responseClass)
-        );
+        return new ApiResponse<>(response, responseClass);
     }
 
     protected ApiResponse<Void> delete(String endpoint) {
@@ -71,10 +65,7 @@ public abstract class BaseApiClient {
                 .extract()
                 .response();
 
-        return new ApiResponse<>(
-                response.statusCode(),
-                null
-        );
+        return new ApiResponse<>(response, Void.class);
     }
 
     protected <T> ApiResponse<T> put(
@@ -91,9 +82,6 @@ public abstract class BaseApiClient {
                 .extract()
                 .response();
 
-        return new ApiResponse<>(
-                response.statusCode(),
-                response.as(responseClass)
-        );
+        return new ApiResponse<>(response, responseClass);
     }
 }

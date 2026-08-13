@@ -6,7 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
-import ru.mikhail.qasandbox.data.TestUsers;
+import ru.mikhail.qasandbox.data.builder.EditUserBuilder;
+import ru.mikhail.qasandbox.data.testData.EditUserTestData;
+import ru.mikhail.qasandbox.data.builder.UserBuilder;
+import ru.mikhail.qasandbox.dto.request.EditUserRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 
@@ -17,7 +20,9 @@ public class EditUsersTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUpTest() {
-        ApiResponse<CreateUsersResponse> response = usersClient.createUser(TestUsers.user());
+        ApiResponse<CreateUsersResponse> response =
+                usersClient.createUser(UserBuilder.validUser().build());
+        assertThat(response.statusCode()).isEqualTo(201);
         idToRemove = response.body().id();
     }
 
@@ -25,21 +30,71 @@ public class EditUsersTests extends AuthenticatedTest {
     void userShouldBeEdited() {
         Allure.step("Edit user success");
 
+        EditUserRequest request = EditUserBuilder.validUser().build();
+
         ApiResponse<EditUserResponse> response =
-                usersClient.editUser(idToRemove, TestUsers.userEdit());
+                usersClient.editUser(idToRemove, request);
 
         assertThat(response.statusCode()).isEqualTo(200);
 
         assertThat(response.body().id()).isEqualTo(idToRemove);
-        assertThat(response.body().name()).isEqualTo(TestUsers.userEdit().name());
-        assertThat(response.body().email()).isEqualTo(TestUsers.userEdit().email());
-        assertThat(response.body().role()).isEqualTo(TestUsers.userEdit().role());
+        assertThat(response.body().name()).isEqualTo(request.name());
+        assertThat(response.body().email()).isEqualTo(request.email());
+        assertThat(response.body().role()).isEqualTo(request.role());
+    }
+
+    @Test
+    void userShouldNotBeEditedWithEmptyName() {
+        Allure.step("Edit user with empty name");
+
+        EditUserRequest request = EditUserBuilder.validUser()
+                .withName(EditUserTestData.EMPTY)
+                .build();
+
+        ApiResponse<EditUserResponse> response =
+                usersClient.editUser(idToRemove, request);
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+    }
+
+    @Test
+    void userShouldNotBeEditedWithInvalidEmail() {
+        Allure.step("Edit user with invalid email format");
+
+        EditUserRequest request = EditUserBuilder.validUser()
+                .withEmail(EditUserTestData.INVALID_EMAIL)
+                .build();
+
+        ApiResponse<EditUserResponse> response =
+                usersClient.editUser(idToRemove, request);
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+    }
+
+    @Test
+    void userShouldNotBeEditedWithInvalidRole() {
+        Allure.step("Edit user with invalid role");
+
+        EditUserRequest request = EditUserBuilder.validUser()
+                .withRole(EditUserTestData.INVALID_ROLE)
+                .build();
+
+        ApiResponse<EditUserResponse> response =
+                usersClient.editUser(idToRemove, request);
+
+        assertThat(response.statusCode()).isEqualTo(422);
+        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
     }
 
     @AfterEach
     void cleanUp() {
         if (idToRemove != null) {
-            usersClient.deleteUser(idToRemove);
+            ApiResponse<Void> response =
+                    usersClient.deleteUser(idToRemove);
+
+            assertThat(response.statusCode()).isIn(200);
         }
     }
 

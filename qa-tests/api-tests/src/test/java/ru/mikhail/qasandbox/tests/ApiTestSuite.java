@@ -3,6 +3,7 @@ package ru.mikhail.qasandbox.tests;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import ru.mikhail.qasandbox.tests.authTests.AuthTest;
+import ru.mikhail.qasandbox.tests.authTests.NotAuthApiTest;
 import ru.mikhail.qasandbox.tests.usersTests.*;
 
 @Suite
@@ -12,7 +13,8 @@ import ru.mikhail.qasandbox.tests.usersTests.*;
         DeleteUsersTests.class,
         EditUsersTests.class,
         GetUserInfoTests.class,
-        GetUsersInfoTests.class
+        GetUsersInfoTests.class,
+        NotAuthApiTest.class
 })
 public class ApiTestSuite {
 }

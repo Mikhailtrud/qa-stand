@@ -16,54 +16,53 @@ public class NotAuthApiTest extends BaseTest {
 
     @Test
     void shouldNotBeLoggedCreateUser() {
-        Allure.step("Not authorized create user test");
-
         CreateUsersRequest request = UserBuilder.validUser().build();
-        ApiResponse<CreateUsersResponse> response =
-                usersClient.createUser(request);
+        ApiResponse<CreateUsersResponse> response = Allure.step(
+                "Not authorized create user test",
+                () -> usersClient.createUser(request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(401);
     }
 
     @Test
     void shouldNotBeLoggedEditUser() {
-        Allure.step("Not authorized edit user test");
-
         EditUserRequest request = EditUserBuilder.validUser().build();
 
-        ApiResponse<EditUserResponse> response =
-                usersClient.editUser(1, request);
+        ApiResponse<EditUserResponse> response = Allure.step(
+                "Not authorized edit user test",
+                () -> usersClient.editUser(1, request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(401);
     }
 
     @Test
     void shouldNotBeLoggedDeleteUser() {
-        Allure.step("Not authorized delete user test");
-
-
-        ApiResponse<Void> response =
-                usersClient.deleteUser(1);
+        ApiResponse<Void> response = Allure.step(
+                "Not authorized delete user test",
+                () -> usersClient.deleteUser(1)
+        );
 
         assertThat(response.statusCode()).isEqualTo(401);
     }
 
     @Test
     void shouldNotBeLoggedGetUserInfo() {
-        Allure.step("Not authorized get user test");
-
-        ApiResponse<GetUserResponse> response =
-                usersClient.getUserById(1);
+        ApiResponse<GetUserResponse> response = Allure.step(
+                "Not authorized get user test",
+                () -> usersClient.getUserById(1)
+        );
 
         assertThat(response.statusCode()).isEqualTo(401);
     }
 
     @Test
     void shouldNotBeLoggedGetUsersInfo() {
-        Allure.step("Not authorized get users info test");
-
-        ApiResponse<GetUsersResponse[]> response =
-                usersClient.getUsersResponse();
+        ApiResponse<GetUsersResponse[]> response = Allure.step(
+                "Not authorized get users info test",
+                () -> usersClient.getUsersResponse()
+        );
 
         assertThat(response.statusCode()).isEqualTo(401);
     }

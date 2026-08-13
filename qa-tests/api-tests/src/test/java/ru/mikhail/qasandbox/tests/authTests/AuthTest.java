@@ -16,10 +16,10 @@ public class AuthTest {
 
     @Test
     void shouldLoginSuccessfully() {
-        Allure.step("Login as admin");
-
-        ApiResponse<LoginResponse> response =
-                authClient.login(AdminTestData.admin());
+        ApiResponse<LoginResponse> response = Allure.step(
+                "Login as admin",
+                () -> authClient.login(AdminTestData.admin())
+        );
 
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body().token()).isNotBlank();

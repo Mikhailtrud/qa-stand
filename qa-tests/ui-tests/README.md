@@ -1,116 +1,51 @@
-# UI Tests
+# UI tests
 
-UI автоматизация проекта QA Sandbox.
+JUnit 5 and Selenide UI tests for QA Sandbox.
 
-## Стек
+## Current scope
 
-- Java 21
-- JUnit 5
-- Selenide
-- Gradle
-- Allure
-- Docker
-- Selenoid (планируется)
+The current `LoginTest` opens the users page and verifies that the users table
+is visible. The project uses page objects, step classes, and shared assertions.
 
----
+## Run
 
-## Запуск тестов
+The frontend must be available at `http://localhost:5173` by default. From this
+directory on Windows:
 
-Все тесты:
-
-```bash
-./gradlew test
+```powershell
+.\gradlew.bat test
 ```
 
-Конкретный класс:
+Runtime system properties:
 
-```bash
-./gradlew test --tests UserTests
+| Property | Default | Use |
+|---|---|---|
+| `baseUrl` | `http://localhost:5173` | frontend URL |
+| `browser` | `chrome` | Selenide browser |
+| `remote` | `false` | stored by `TestConfig`; not currently applied by `DriverConfig` |
+| `remoteUrl` | `http://localhost:4444/wd/hub` | stored by `TestConfig`; not currently applied by `DriverConfig` |
+
+Example override:
+
+```powershell
+.\gradlew.bat test -DbaseUrl=http://localhost:5173 -Dbrowser=chrome
 ```
 
----
+`DriverConfig` currently applies the base URL, browser, `1920x1080` window,
+eager page-load strategy, and a 10-second timeout.
 
-## Allure
-
-Генерация отчета:
-
-```bash
-allure serve build/allure-results
-```
-
----
-
-## Структура проекта
+## Structure
 
 ```text
-src
-
-├── test
-│   ├── java
-│   │   ├── pages
-│   │   ├── tests
-│   │   ├── api
-│   │   ├── db
-│   │   ├── utils
-│   │   └── base
-│   │
-│   └── resources
-│
-└── build.gradle
+src/test/java/
+├── assertions/  # shared UI assertions
+├── config/      # Selenide and runtime configuration
+├── elements/    # base element abstraction
+├── pages/       # page objects
+├── steps/       # user-facing UI actions
+└── tests/       # JUnit scenarios
 ```
 
----
-
-## Текущее покрытие
-
-Пока реализовано:
-
-- настройка проекта
-
----
-
-## Планируемые UI тесты
-
-### Авторизация
-
-- успешный вход
-- неверный пароль
-- пустые поля
-
-### Пользователи
-
-- создание пользователя
-- удаление пользователя
-- валидация полей
-- отображение списка
-
-### Playground
-
-- Input
-- Password
-- Textarea
-- Checkbox
-- Radio
-- Select
-- Multi Select
-- Upload
-- Modal
-- Alert
-- Tabs
-- Dynamic Table
-- Pagination
-
----
-
-## Roadmap
-
-Планируется добавить:
-
-- REST Assured
-- Database проверки
-- Test Data Builder
-- Page Object
-- Allure Steps
-- Selenoid
-- Docker Compose
-- GitHub Actions
+UI Allure raw results are configured under `build/allure-results`. The retained
+static-report workflow documented at the qa-tests root currently applies to
+the API project only.

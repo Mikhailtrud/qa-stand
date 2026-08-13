@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
-import ru.mikhail.qasandbox.config.UserDataConfig;
 import ru.mikhail.qasandbox.data.builder.UserBuilder;
 import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
@@ -28,10 +27,10 @@ public class GetUserInfoTests extends AuthenticatedTest {
 
     @Test
     void shouldGetUserInfo() {
-        Allure.step("Get user info");
-
-        ApiResponse<GetUserResponse> response =
-                usersClient.getUserById(idToRemove);
+        ApiResponse<GetUserResponse> response = Allure.step(
+                "Get user info",
+                () -> usersClient.getUserById(idToRemove)
+        );
 
         assertThat(response.statusCode()).isEqualTo(200);
 
@@ -43,8 +42,6 @@ public class GetUserInfoTests extends AuthenticatedTest {
 
     @Test
     void shouldNotGetUserInfoWithInvalidId() {
-        Allure.step("User info not get with invalid id");
-
         Integer deletedUserId = idToRemove;
 
         ApiResponse<Void> deleteResponse =
@@ -52,20 +49,22 @@ public class GetUserInfoTests extends AuthenticatedTest {
 
         assertThat(deleteResponse.statusCode()).isEqualTo(200);
 
-        ApiResponse<GetUserResponse> response =
-                usersClient.getUserById(deletedUserId);
+        ApiResponse<GetUserResponse> response = Allure.step(
+                "User info not get with invalid id",
+                () -> usersClient.getUserById(deletedUserId)
+        );
 
         assertThat(response.statusCode()).isEqualTo(404);
     }
 
     @Test
     void shouldNotGetUserInfoWithStringId() {
-        Allure.step("User info not get with string id");
+        ApiResponse<Void> response = Allure.step(
+                "User info not get with string id",
+                () -> usersClient.getUserByRawId("abc")
+        );
 
-        ApiResponse<Void> response =
-                usersClient.getUserByRawId("abc");
-
-        assertThat(response.statusCode()).isEqualTo(403);
+        assertThat(response.statusCode()).isEqualTo(400);
     }
 
     @AfterEach

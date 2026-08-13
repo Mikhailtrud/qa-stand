@@ -32,10 +32,10 @@ public class GetUsersInfoTests extends AuthenticatedTest {
 
     @Test
     void shouldGetUsersInfo() {
-        Allure.step("Get users info");
-
-        ApiResponse<GetUsersResponse[]> response =
-                usersClient.getUsersResponse();
+        ApiResponse<GetUsersResponse[]> response = Allure.step(
+                "Get users info",
+                () -> usersClient.getUsersResponse()
+        );
 
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();

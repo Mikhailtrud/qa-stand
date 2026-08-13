@@ -1,5 +1,6 @@
 plugins {
     java
+    id("io.qameta.allure") version "4.1.0"
 }
 
 group = "io.github.<your-github>"
@@ -13,6 +14,12 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+allure {
+    adapter {
+        resultsDir.set(layout.buildDirectory.dir("allure-results"))
+    }
 }
 
 dependencies {
@@ -50,12 +57,17 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 
+    maxHeapSize = "2g"
+
     testLogging {
         events("passed", "skipped", "failed")
     }
 }
 
+tasks.named<io.qameta.allure.gradle.report.tasks.AllureReport>("allureReport") {
+    reportDir.set(layout.projectDirectory.dir("../reports/api/allure-report"))
+}
+
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
-

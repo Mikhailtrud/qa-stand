@@ -28,12 +28,12 @@ public class EditUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldBeEdited() {
-        Allure.step("Edit user success");
-
         EditUserRequest request = EditUserBuilder.validUser().build();
 
-        ApiResponse<EditUserResponse> response =
-                usersClient.editUser(idToRemove, request);
+        ApiResponse<EditUserResponse> response = Allure.step(
+                "Edit user success",
+                () -> usersClient.editUser(idToRemove, request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(200);
 
@@ -45,14 +45,14 @@ public class EditUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeEditedWithEmptyName() {
-        Allure.step("Edit user with empty name");
-
         EditUserRequest request = EditUserBuilder.validUser()
                 .withName(EditUserTestData.EMPTY)
                 .build();
 
-        ApiResponse<EditUserResponse> response =
-                usersClient.editUser(idToRemove, request);
+        ApiResponse<EditUserResponse> response = Allure.step(
+                "Edit user with empty name",
+                () -> usersClient.editUser(idToRemove, request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(422);
         assertThat(response.errorBody().message()).isEqualTo("Validation failed");
@@ -60,14 +60,14 @@ public class EditUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeEditedWithInvalidEmail() {
-        Allure.step("Edit user with invalid email format");
-
         EditUserRequest request = EditUserBuilder.validUser()
                 .withEmail(EditUserTestData.INVALID_EMAIL)
                 .build();
 
-        ApiResponse<EditUserResponse> response =
-                usersClient.editUser(idToRemove, request);
+        ApiResponse<EditUserResponse> response = Allure.step(
+                "Edit user with invalid email format",
+                () -> usersClient.editUser(idToRemove, request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(422);
         assertThat(response.errorBody().message()).isEqualTo("Validation failed");
@@ -75,14 +75,14 @@ public class EditUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeEditedWithInvalidRole() {
-        Allure.step("Edit user with invalid role");
-
         EditUserRequest request = EditUserBuilder.validUser()
                 .withRole(EditUserTestData.INVALID_ROLE)
                 .build();
 
-        ApiResponse<EditUserResponse> response =
-                usersClient.editUser(idToRemove, request);
+        ApiResponse<EditUserResponse> response = Allure.step(
+                "Edit user with invalid role",
+                () -> usersClient.editUser(idToRemove, request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(422);
         assertThat(response.errorBody().message()).isEqualTo("Validation failed");

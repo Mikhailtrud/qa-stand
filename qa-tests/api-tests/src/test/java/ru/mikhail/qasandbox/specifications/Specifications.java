@@ -18,7 +18,7 @@ public final class Specifications {
                 .setBaseUri(ApiConfig.getBaseUrl())
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .log(LogDetail.ALL)
+                .log(LogDetail.METHOD)
                 .addFilter(new AllureRestAssured())
                 .build();
     }

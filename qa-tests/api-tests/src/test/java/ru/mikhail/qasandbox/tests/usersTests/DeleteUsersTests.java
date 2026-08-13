@@ -8,7 +8,6 @@ import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.data.builder.UserBuilder;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
-import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,11 +25,12 @@ public class DeleteUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldBeDeleted() {
-        Allure.step("Delete user success");
         Integer deletedUserId = idToRemove;
 
-        ApiResponse<Void> response =
-                usersClient.deleteUser(idToRemove);
+        ApiResponse<Void> response = Allure.step(
+                "Delete user success",
+                () -> usersClient.deleteUser(idToRemove)
+        );
         assertThat(response.statusCode()).isEqualTo(200);
 
         ApiResponse<GetUserResponse> getResponse =
@@ -41,27 +41,27 @@ public class DeleteUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeDeletedWithNotExistingId() {
-        Allure.step("Delete user with not existing id");
-
         Integer deletedUserId = idToRemove;
 
         ApiResponse<Void> responseDelete =
                 usersClient.deleteUser(idToRemove);
         assertThat(responseDelete.statusCode()).isEqualTo(200);
 
-        ApiResponse<Void> response =
-                usersClient.deleteUser(deletedUserId);
+        ApiResponse<Void> response = Allure.step(
+                "Delete user with not existing id",
+                () -> usersClient.deleteUser(deletedUserId)
+        );
         assertThat(response.statusCode()).isEqualTo(404);
     }
 
     @Test
     void userShouldNotBeDeletedWithStringId() {
-        Allure.step("Delete user with string id");
+        ApiResponse<Void> response = Allure.step(
+                "Delete user with string id",
+                () -> usersClient.deleteUserByRawId("abc")
+        );
 
-        ApiResponse<Void> response =
-                usersClient.deleteUserByRawId("abc");
-
-        assertThat(response.statusCode()).isEqualTo(403);
+        assertThat(response.statusCode()).isEqualTo(400);
     }
 
     @AfterEach

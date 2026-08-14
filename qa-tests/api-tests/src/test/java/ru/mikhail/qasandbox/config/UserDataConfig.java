@@ -5,7 +5,7 @@ public final class UserDataConfig {
     private UserDataConfig() {
     }
 
-    // Admin Data
+    // Admin data
 
     public static String getAdminEmail() {
         return getProperty(
@@ -33,7 +33,7 @@ public final class UserDataConfig {
 
     public static final String ADMIN_NAME = "string";
 
-    // User Data
+    // User data
 
     public static final String USER_NAME = "User";
 
@@ -61,7 +61,7 @@ public final class UserDataConfig {
         );
     }
 
-    // Edit User Data
+    // Edit user data
 
     public static final String EDIT_USER_NAME = "EditUser";
 
@@ -88,7 +88,6 @@ public final class UserDataConfig {
                 "USER"
         );
     }
-
 
     private static String getProperty(String propertyName,
                                       String environmentVariable,

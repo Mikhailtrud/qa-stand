@@ -34,7 +34,7 @@ public class UsersClient extends BaseApiClient {
 
     public ApiResponse<Void> deleteUserByRawId(String id) {
         return delete(
-                USERS_ENDPOINT  + "/" + id
+                USERS_ENDPOINT + "/" + id
         );
     }
 
@@ -58,7 +58,7 @@ public class UsersClient extends BaseApiClient {
 
     public ApiResponse<Void> getUserByRawId(String id) {
         return get(
-                USERS_ENDPOINT  + "/" + id,
+                USERS_ENDPOINT + "/" + id,
                 Void.class
         );
     }

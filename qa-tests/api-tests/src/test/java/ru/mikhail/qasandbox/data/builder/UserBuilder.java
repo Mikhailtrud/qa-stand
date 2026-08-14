@@ -1,8 +1,9 @@
 package ru.mikhail.qasandbox.data.builder;
 
+import java.util.UUID;
+
 import ru.mikhail.qasandbox.data.testData.UserTestData;
 import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
-import java.util.UUID;
 
 public final class UserBuilder {
 

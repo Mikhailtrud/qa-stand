@@ -1,8 +1,9 @@
 package ru.mikhail.qasandbox.data.builder;
 
+import java.util.UUID;
+
 import ru.mikhail.qasandbox.data.testData.EditUserTestData;
 import ru.mikhail.qasandbox.dto.request.EditUserRequest;
-import java.util.UUID;
 
 public final class EditUserBuilder {
 

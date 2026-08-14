@@ -28,14 +28,13 @@ current source tree does not contain `ApiTestSuite`, so tests are not also
 selected through a suite.
 
 Tests may fail and still produce valid Allure results. The two raw string ID
-scenarios currently expect the legacy `403`, while the backend returns `400`:
+scenarios are intentionally retained as known failing examples:
 
 - `DeleteUsersTests.userShouldNotBeDeletedWithStringId`;
 - `GetUserInfoTests.shouldNotGetUserInfoWithStringId`.
 
-They are intentionally left failing in the current test code and make FAILED
-results visible in Allure. Their assertions are not adjusted by the report
-configuration.
+Their assertions are intentionally left unchanged and make FAILED results
+visible in Allure. The report configuration does not alter their outcome.
 
 ## Allure report
 

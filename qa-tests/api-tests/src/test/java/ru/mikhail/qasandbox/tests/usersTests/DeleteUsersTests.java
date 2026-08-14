@@ -7,19 +7,23 @@ import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.data.builder.UserBuilder;
+import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeleteUsersTests extends AuthenticatedTest {
+
     private Integer idToRemove;
 
     @BeforeEach
     void setUpTest() {
-        ApiResponse<CreateUsersResponse> response =
-                usersClient.createUser(UserBuilder.validUser().build());
+        CreateUsersRequest request = UserBuilder.validUser().build();
+        ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
+
         assertThat(response.statusCode()).isEqualTo(201);
+
         idToRemove = response.body().id();
     }
 
@@ -28,9 +32,10 @@ public class DeleteUsersTests extends AuthenticatedTest {
         Integer deletedUserId = idToRemove;
 
         ApiResponse<Void> response = Allure.step(
-                "Delete user success",
-                () -> usersClient.deleteUser(idToRemove)
+                "Delete a user",
+                () -> usersClient.deleteUser(deletedUserId)
         );
+
         assertThat(response.statusCode()).isEqualTo(200);
 
         ApiResponse<GetUserResponse> getResponse =
@@ -43,21 +48,22 @@ public class DeleteUsersTests extends AuthenticatedTest {
     void userShouldNotBeDeletedWithNotExistingId() {
         Integer deletedUserId = idToRemove;
 
-        ApiResponse<Void> responseDelete =
-                usersClient.deleteUser(idToRemove);
+        ApiResponse<Void> responseDelete = usersClient.deleteUser(deletedUserId);
+
         assertThat(responseDelete.statusCode()).isEqualTo(200);
 
         ApiResponse<Void> response = Allure.step(
-                "Delete user with not existing id",
+                "Delete a user with a non-existing id",
                 () -> usersClient.deleteUser(deletedUserId)
         );
+
         assertThat(response.statusCode()).isEqualTo(404);
     }
 
     @Test
     void userShouldNotBeDeletedWithStringId() {
         ApiResponse<Void> response = Allure.step(
-                "Delete user with string id",
+                "Delete a user with a string id",
                 () -> usersClient.deleteUserByRawId("abc")
         );
 

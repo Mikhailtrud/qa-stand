@@ -14,5 +14,4 @@ public final class AdminTestData {
                 UserDataConfig.getAdminPassword()
         );
     }
-
 }

@@ -27,7 +27,7 @@ public class CreateUsersTests extends AuthenticatedTest {
         CreateUsersRequest request = UserBuilder.validUser().build();
 
         ApiResponse<CreateUsersResponse> response = Allure.step(
-                "Create user success",
+                "Create a user successfully",
                 () -> usersClient.createUser(request)
         );
 
@@ -43,15 +43,14 @@ public class CreateUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeCreatedWithInvalidEmail() {
-        ApiResponse<CreateUsersResponse> response = Allure.step(
-                "Create user with invalid email",
-                () -> usersClient.createUser(
-                        UserBuilder.validUser()
-                                .withEmail(UserTestData.INVALID_EMAIL)
-                                .build()
-                )
-        );
+        CreateUsersRequest request = UserBuilder.validUser()
+                .withEmail(UserTestData.INVALID_EMAIL)
+                .build();
 
+        ApiResponse<CreateUsersResponse> response = Allure.step(
+                "Create a user with an invalid email",
+                () -> usersClient.createUser(request)
+        );
 
         assertThat(response.statusCode()).isEqualTo(422);
         assertThat(response.errorBody().message()).isEqualTo("Validation failed");
@@ -59,13 +58,13 @@ public class CreateUsersTests extends AuthenticatedTest {
 
     @Test
     void userShouldNotBeCreatedWithInvalidPassword() {
+        CreateUsersRequest request = UserBuilder.validUser()
+                .withPassword(UserTestData.INVALID_PASSWORD)
+                .build();
+
         ApiResponse<CreateUsersResponse> response = Allure.step(
-                "Create user with invalid password",
-                () -> usersClient.createUser(
-                        UserBuilder.validUser()
-                                .withPassword(UserTestData.INVALID_PASSWORD)
-                                .build()
-                )
+                "Create a user with an invalid password",
+                () -> usersClient.createUser(request)
         );
 
         assertThat(response.statusCode()).isEqualTo(422);
@@ -79,7 +78,7 @@ public class CreateUsersTests extends AuthenticatedTest {
                 .build();
 
         ApiResponse<CreateUsersResponse> response = Allure.step(
-                "Create user with empty data",
+                "Create a user with empty data",
                 () -> usersClient.createUser(request)
         );
 

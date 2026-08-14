@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
 import ru.mikhail.qasandbox.data.builder.EditUserBuilder;
-import ru.mikhail.qasandbox.data.testData.EditUserTestData;
 import ru.mikhail.qasandbox.data.builder.UserBuilder;
+import ru.mikhail.qasandbox.data.testData.EditUserTestData;
+import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.request.EditUserRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
@@ -16,13 +17,16 @@ import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EditUsersTests extends AuthenticatedTest {
+
     private Integer idToRemove;
 
     @BeforeEach
     void setUpTest() {
-        ApiResponse<CreateUsersResponse> response =
-                usersClient.createUser(UserBuilder.validUser().build());
+        CreateUsersRequest request = UserBuilder.validUser().build();
+        ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
+
         assertThat(response.statusCode()).isEqualTo(201);
+
         idToRemove = response.body().id();
     }
 
@@ -31,7 +35,7 @@ public class EditUsersTests extends AuthenticatedTest {
         EditUserRequest request = EditUserBuilder.validUser().build();
 
         ApiResponse<EditUserResponse> response = Allure.step(
-                "Edit user success",
+                "Edit a user successfully",
                 () -> usersClient.editUser(idToRemove, request)
         );
 
@@ -50,7 +54,7 @@ public class EditUsersTests extends AuthenticatedTest {
                 .build();
 
         ApiResponse<EditUserResponse> response = Allure.step(
-                "Edit user with empty name",
+                "Edit a user with an empty name",
                 () -> usersClient.editUser(idToRemove, request)
         );
 
@@ -65,7 +69,7 @@ public class EditUsersTests extends AuthenticatedTest {
                 .build();
 
         ApiResponse<EditUserResponse> response = Allure.step(
-                "Edit user with invalid email format",
+                "Edit a user with an invalid email format",
                 () -> usersClient.editUser(idToRemove, request)
         );
 
@@ -80,7 +84,7 @@ public class EditUsersTests extends AuthenticatedTest {
                 .build();
 
         ApiResponse<EditUserResponse> response = Allure.step(
-                "Edit user with invalid role",
+                "Edit a user with an invalid role",
                 () -> usersClient.editUser(idToRemove, request)
         );
 
@@ -97,5 +101,4 @@ public class EditUsersTests extends AuthenticatedTest {
             assertThat(response.statusCode()).isIn(200);
         }
     }
-
 }

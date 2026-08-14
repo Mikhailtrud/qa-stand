@@ -21,9 +21,7 @@ public class GetUsersInfoTests extends AuthenticatedTest {
     @BeforeEach
     void setUpTest() {
         request = UserBuilder.validUser().build();
-
-        ApiResponse<CreateUsersResponse> response =
-                usersClient.createUser(request);
+        ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
 
         assertThat(response.statusCode()).isEqualTo(201);
 
@@ -33,7 +31,7 @@ public class GetUsersInfoTests extends AuthenticatedTest {
     @Test
     void shouldGetUsersInfo() {
         ApiResponse<GetUsersResponse[]> response = Allure.step(
-                "Get users info",
+                "Get users",
                 () -> usersClient.getUsersResponse()
         );
 

@@ -14,6 +14,7 @@ import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetUserInfoTests extends AuthenticatedTest {
+
     private Integer idToRemove;
     private CreateUsersRequest request;
 
@@ -21,14 +22,16 @@ public class GetUserInfoTests extends AuthenticatedTest {
     void setUpTest() {
         request = UserBuilder.validUser().build();
         ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
+
         assertThat(response.statusCode()).isEqualTo(201);
+
         idToRemove = response.body().id();
     }
 
     @Test
     void shouldGetUserInfo() {
         ApiResponse<GetUserResponse> response = Allure.step(
-                "Get user info",
+                "Get a user",
                 () -> usersClient.getUserById(idToRemove)
         );
 
@@ -50,7 +53,7 @@ public class GetUserInfoTests extends AuthenticatedTest {
         assertThat(deleteResponse.statusCode()).isEqualTo(200);
 
         ApiResponse<GetUserResponse> response = Allure.step(
-                "User info not get with invalid id",
+                "Get a user with an invalid id",
                 () -> usersClient.getUserById(deletedUserId)
         );
 
@@ -60,7 +63,7 @@ public class GetUserInfoTests extends AuthenticatedTest {
     @Test
     void shouldNotGetUserInfoWithStringId() {
         ApiResponse<Void> response = Allure.step(
-                "User info not get with string id",
+                "Get a user with a string id",
                 () -> usersClient.getUserByRawId("abc")
         );
 

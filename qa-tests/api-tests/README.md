@@ -3,7 +3,7 @@
 JUnit 5 API tests for QA Sandbox, using REST Assured, AssertJ, Jackson, and
 Allure.
 
-## Run
+## Local workflow
 
 Requirements:
 
@@ -11,30 +11,34 @@ Requirements:
 - backend available at `http://localhost:8080` by default;
 - PostgreSQL available at `localhost:5432` with the defaults below.
 
-From the repository root, the required services can be started with:
+1. From the repository root, start the required services:
 
 ```powershell
 docker compose up -d postgres backend
 ```
 
-Run from this directory:
+2. From `qa-tests/api-tests`, run the tests:
 
 ```powershell
 .\gradlew.bat test
 ```
 
+3. Generate a fresh static Allure report:
+
+```powershell
+.\gradlew.bat allureReport --clean
+```
+
+4. Open the report:
+
+```powershell
+.\build\allure\commandline\bin\allure.bat open ..\reports\api\allure-report
+```
+
 `test` uses JUnit Platform discovery for classes under `src/test/java`. The
 current source tree does not contain `ApiTestSuite`, so tests are not also
-selected through a suite.
-
-Tests may fail and still produce valid Allure results. The two raw string ID
-scenarios are intentionally retained as known failing examples:
-
-- `DeleteUsersTests.userShouldNotBeDeletedWithStringId`;
-- `GetUserInfoTests.shouldNotGetUserInfoWithStringId`.
-
-Their assertions are intentionally left unchanged and make FAILED results
-visible in Allure. The report configuration does not alter their outcome.
+selected through a suite. The verified run executes 21 tests: 21 passed and 0
+failed, including both raw string ID scenarios.
 
 ## Allure report
 
@@ -44,8 +48,7 @@ The Java adapter writes raw data to:
 build/allure-results
 ```
 
-FAILED tests are written there as result JSON just like passed tests. Generate
-the static report after a test run with:
+Generate the static report after a test run with:
 
 ```powershell
 .\gradlew.bat allureReport --clean
@@ -58,10 +61,14 @@ finished report to:
 ../reports/api/allure-report
 ```
 
-The entry point is `../reports/api/allure-report/index.html`. Serve this
-directory with a local HTTP server before opening it in a browser. The
-`--clean` option removes the previous finished report before generation; it
-does not move or remove raw results. No manual result copying is required.
+Open the finished report with:
+
+```powershell
+.\build\allure\commandline\bin\allure.bat open ..\reports\api\allure-report
+```
+
+The `--clean` option removes the previous finished report before generation;
+it does not move or remove raw results. No manual result copying is required.
 
 `allureServe` is not the primary workflow because the retained report belongs
 under `qa-tests/reports`, outside `api-tests/build`.
@@ -70,6 +77,7 @@ under `qa-tests/reports`, outside `api-tests/build`.
 
 ```text
 src/test/java/ru/mikhail/qasandbox/
+├── assertions/      # custom assertions for API responses
 ├── base/            # common JUnit setup and authentication
 ├── client/          # HTTP client layer
 ├── config/          # runtime and environment configuration
@@ -160,8 +168,21 @@ setting; it does not replace it.
 
 ## Docker
 
-`Dockerfile` runs `./gradlew clean test --no-daemon`. In
-`docker-compose.ci.yml`, the API test container receives
-`BASE_URL=http://backend:8080` and waits for the backend health check. The
-compose file's report-copy command still targets the former root
-`allure-results` layout, so it is not the documented static-report workflow.
+From the repository root, run the end-to-end Docker workflow with:
+
+```powershell
+docker compose -f docker-compose.ci.yml up --build --abort-on-container-exit
+```
+
+Compose starts PostgreSQL and waits for its health check, starts the backend
+and waits for its health check, then starts the frontend and the API tests in
+a dedicated container with `BASE_URL=http://backend:8080`.
+
+The API test container runs `./gradlew clean test` and, after a successful
+test run, copies `build/allure-results` to the mounted
+`/reports/api/allure-results` directory. On the host, the raw results are
+available at:
+
+```text
+qa-tests/reports/api/allure-results
+```

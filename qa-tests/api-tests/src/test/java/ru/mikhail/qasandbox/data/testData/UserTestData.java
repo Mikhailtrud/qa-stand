@@ -13,5 +13,4 @@ public final class UserTestData {
 
     public static final String INVALID_EMAIL = "invalid-email";
     public static final String INVALID_PASSWORD = EMPTY;
-    public static final String INVALID_ROLE = "INVALID_ROLE";
 }

@@ -2,7 +2,6 @@ package ru.mikhail.qasandbox.tests.usersTests;
 
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mikhail.qasandbox.base.AuthenticatedTest;
 import ru.mikhail.qasandbox.client.ApiResponse;
@@ -12,15 +11,11 @@ import ru.mikhail.qasandbox.dto.request.CreateUsersRequest;
 import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class CreateUsersTests extends AuthenticatedTest {
 
     private Integer idToRemove;
-
-    @BeforeEach
-    void setUpTest() {
-        idToRemove = null;
-    }
 
     @Test
     void userShouldBeCreated() {
@@ -31,14 +26,17 @@ public class CreateUsersTests extends AuthenticatedTest {
                 () -> usersClient.createUser(request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response)
+                .hasStatusCode(201);
 
-        idToRemove = response.body().id();
+        CreateUsersResponse body = response.body();
 
-        assertThat(response.body().id()).isNotNull().isPositive();
-        assertThat(response.body().email()).isEqualTo(request.email());
-        assertThat(response.body().name()).isEqualTo(request.name());
-        assertThat(response.body().role()).isEqualTo(request.role());
+        idToRemove = body.id();
+
+        assertThat(body.id()).isNotNull().isPositive();
+        assertThat(body.email()).isEqualTo(request.email());
+        assertThat(body.name()).isEqualTo(request.name());
+        assertThat(body.role()).isEqualTo(request.role());
     }
 
     @Test
@@ -52,8 +50,9 @@ public class CreateUsersTests extends AuthenticatedTest {
                 () -> usersClient.createUser(request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @Test
@@ -67,8 +66,9 @@ public class CreateUsersTests extends AuthenticatedTest {
                 () -> usersClient.createUser(request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @Test
@@ -82,8 +82,9 @@ public class CreateUsersTests extends AuthenticatedTest {
                 () -> usersClient.createUser(request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @AfterEach
@@ -92,7 +93,8 @@ public class CreateUsersTests extends AuthenticatedTest {
             ApiResponse<Void> response =
                     usersClient.deleteUser(idToRemove);
 
-            assertThat(response.statusCode()).isIn(200);
+            assertThat(response)
+                    .hasStatusCode(200);
         }
     }
 }

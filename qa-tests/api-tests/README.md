@@ -124,9 +124,6 @@ environment variable, then the code default.
 | Admin password | `admin.password` | `ADMIN_PASSWORD` | `admin123` |
 | Admin role | `admin.role` | `ADMIN_ROLE` | `ADMIN` |
 
-`UserDataConfig` also supports `USER_*` and `EDIT_USER_*` values, although the
-current request builders use their own scenario constants and UUID emails.
-
 ## Logging
 
 The shared request specification logs the HTTP method for every request.

@@ -7,6 +7,10 @@ public class ApiResponse<T> {
 
     private final Response response;
     private final Class<T> responseClass;
+    private T body;
+    private ErrorResponse errorBody;
+    private boolean bodyDeserialized;
+    private boolean errorBodyDeserialized;
 
     public ApiResponse(Response response, Class<T> responseClass) {
         this.response = response;
@@ -18,10 +22,20 @@ public class ApiResponse<T> {
     }
 
     public T body() {
-        return response.as(responseClass);
+        if (!bodyDeserialized) {
+            body = response.as(responseClass);
+            bodyDeserialized = true;
+        }
+
+        return body;
     }
 
     public ErrorResponse errorBody() {
-        return response.as(ErrorResponse.class);
+        if (!errorBodyDeserialized) {
+            errorBody = response.as(ErrorResponse.class);
+            errorBodyDeserialized = true;
+        }
+
+        return errorBody;
     }
 }

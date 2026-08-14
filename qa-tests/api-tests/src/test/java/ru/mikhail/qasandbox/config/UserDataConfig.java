@@ -5,8 +5,6 @@ public final class UserDataConfig {
     private UserDataConfig() {
     }
 
-    // Admin data
-
     public static String getAdminEmail() {
         return getProperty(
                 "admin.email",
@@ -28,64 +26,6 @@ public final class UserDataConfig {
                 "admin.role",
                 "ADMIN_ROLE",
                 "ADMIN"
-        );
-    }
-
-    public static final String ADMIN_NAME = "string";
-
-    // User data
-
-    public static final String USER_NAME = "User";
-
-    public static String getUserEmail() {
-        return getProperty(
-                "user.email",
-                "USER_EMAIL",
-                "user@email.com"
-        );
-    }
-
-    public static String getUserPassword() {
-        return getProperty(
-                "user.password",
-                "USER_PASSWORD",
-                "user123"
-        );
-    }
-
-    public static String getUserRole() {
-        return getProperty(
-                "user.role",
-                "USER_ROLE",
-                "USER"
-        );
-    }
-
-    // Edit user data
-
-    public static final String EDIT_USER_NAME = "EditUser";
-
-    public static String getEditUserEmail() {
-        return getProperty(
-                "edit.user.email",
-                "EDIT_USER_EMAIL",
-                "edituser@email.com"
-        );
-    }
-
-    public static String getEditUserPassword() {
-        return getProperty(
-                "edit.user.password",
-                "EDIT_USER_PASSWORD",
-                "user123"
-        );
-    }
-
-    public static String getEditUserRole() {
-        return getProperty(
-                "edit.user.role",
-                "EDIT_USER_ROLE",
-                "USER"
         );
     }
 

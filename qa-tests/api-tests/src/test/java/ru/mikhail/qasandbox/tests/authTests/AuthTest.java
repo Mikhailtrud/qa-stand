@@ -9,6 +9,7 @@ import ru.mikhail.qasandbox.data.testData.AdminTestData;
 import ru.mikhail.qasandbox.dto.response.LoginResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class AuthTest {
 
@@ -21,8 +22,12 @@ public class AuthTest {
                 () -> authClient.login(AdminTestData.admin())
         );
 
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body().token()).isNotBlank();
-        assertThat(response.body().role()).isEqualTo(UserDataConfig.getAdminRole());
+        assertThat(response)
+                .hasStatusCode(200);
+
+        LoginResponse body = response.body();
+
+        assertThat(body.token()).isNotBlank();
+        assertThat(body.role()).isEqualTo(UserDataConfig.getAdminRole());
     }
 }

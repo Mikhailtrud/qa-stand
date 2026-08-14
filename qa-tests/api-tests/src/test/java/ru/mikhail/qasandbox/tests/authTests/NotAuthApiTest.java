@@ -13,7 +13,7 @@ import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 import ru.mikhail.qasandbox.dto.response.GetUsersResponse;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class NotAuthApiTest extends BaseTest {
 
@@ -26,7 +26,8 @@ public class NotAuthApiTest extends BaseTest {
                 () -> usersClient.createUser(request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response)
+                .hasStatusCode(401);
     }
 
     @Test
@@ -38,7 +39,8 @@ public class NotAuthApiTest extends BaseTest {
                 () -> usersClient.editUser(1, request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response)
+                .hasStatusCode(401);
     }
 
     @Test
@@ -48,7 +50,8 @@ public class NotAuthApiTest extends BaseTest {
                 () -> usersClient.deleteUser(1)
         );
 
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response)
+                .hasStatusCode(401);
     }
 
     @Test
@@ -58,7 +61,8 @@ public class NotAuthApiTest extends BaseTest {
                 () -> usersClient.getUserById(1)
         );
 
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response)
+                .hasStatusCode(401);
     }
 
     @Test
@@ -68,6 +72,7 @@ public class NotAuthApiTest extends BaseTest {
                 () -> usersClient.getUsersResponse()
         );
 
-        assertThat(response.statusCode()).isEqualTo(401);
+        assertThat(response)
+                .hasStatusCode(401);
     }
 }

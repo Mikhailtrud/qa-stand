@@ -12,6 +12,7 @@ import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.GetUsersResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class GetUsersInfoTests extends AuthenticatedTest {
 
@@ -23,7 +24,8 @@ public class GetUsersInfoTests extends AuthenticatedTest {
         request = UserBuilder.validUser().build();
         ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
 
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response)
+                .hasStatusCode(201);
 
         idToRemove = response.body().id();
     }
@@ -35,10 +37,13 @@ public class GetUsersInfoTests extends AuthenticatedTest {
                 () -> usersClient.getUsersResponse()
         );
 
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotEmpty();
+        assertThat(response)
+                .hasStatusCode(200);
 
-        assertThat(response.body())
+        GetUsersResponse[] body = response.body();
+
+        assertThat(body).isNotEmpty();
+        assertThat(body)
                 .anySatisfy(user -> {
                     assertThat(user.id()).isEqualTo(idToRemove);
                     assertThat(user.email()).isEqualTo(request.email());
@@ -53,7 +58,8 @@ public class GetUsersInfoTests extends AuthenticatedTest {
             ApiResponse<Void> response =
                     usersClient.deleteUser(idToRemove);
 
-            assertThat(response.statusCode()).isIn(200);
+            assertThat(response)
+                    .hasStatusCode(200);
         }
     }
 }

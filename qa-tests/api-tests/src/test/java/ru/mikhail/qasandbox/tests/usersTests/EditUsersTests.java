@@ -15,6 +15,7 @@ import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class EditUsersTests extends AuthenticatedTest {
 
@@ -25,7 +26,8 @@ public class EditUsersTests extends AuthenticatedTest {
         CreateUsersRequest request = UserBuilder.validUser().build();
         ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
 
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response)
+                .hasStatusCode(201);
 
         idToRemove = response.body().id();
     }
@@ -39,12 +41,15 @@ public class EditUsersTests extends AuthenticatedTest {
                 () -> usersClient.editUser(idToRemove, request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response)
+                .hasStatusCode(200);
 
-        assertThat(response.body().id()).isEqualTo(idToRemove);
-        assertThat(response.body().name()).isEqualTo(request.name());
-        assertThat(response.body().email()).isEqualTo(request.email());
-        assertThat(response.body().role()).isEqualTo(request.role());
+        EditUserResponse body = response.body();
+
+        assertThat(body.id()).isEqualTo(idToRemove);
+        assertThat(body.name()).isEqualTo(request.name());
+        assertThat(body.email()).isEqualTo(request.email());
+        assertThat(body.role()).isEqualTo(request.role());
     }
 
     @Test
@@ -58,8 +63,9 @@ public class EditUsersTests extends AuthenticatedTest {
                 () -> usersClient.editUser(idToRemove, request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @Test
@@ -73,8 +79,9 @@ public class EditUsersTests extends AuthenticatedTest {
                 () -> usersClient.editUser(idToRemove, request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @Test
@@ -88,8 +95,9 @@ public class EditUsersTests extends AuthenticatedTest {
                 () -> usersClient.editUser(idToRemove, request)
         );
 
-        assertThat(response.statusCode()).isEqualTo(422);
-        assertThat(response.errorBody().message()).isEqualTo("Validation failed");
+        assertThat(response)
+                .hasStatusCode(422)
+                .hasErrorMessage("Validation failed");
     }
 
     @AfterEach
@@ -98,7 +106,8 @@ public class EditUsersTests extends AuthenticatedTest {
             ApiResponse<Void> response =
                     usersClient.deleteUser(idToRemove);
 
-            assertThat(response.statusCode()).isIn(200);
+            assertThat(response)
+                    .hasStatusCode(200);
         }
     }
 }

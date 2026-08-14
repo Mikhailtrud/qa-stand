@@ -12,6 +12,7 @@ import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class GetUserInfoTests extends AuthenticatedTest {
 
@@ -23,7 +24,8 @@ public class GetUserInfoTests extends AuthenticatedTest {
         request = UserBuilder.validUser().build();
         ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
 
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response)
+                .hasStatusCode(201);
 
         idToRemove = response.body().id();
     }
@@ -35,12 +37,15 @@ public class GetUserInfoTests extends AuthenticatedTest {
                 () -> usersClient.getUserById(idToRemove)
         );
 
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response)
+                .hasStatusCode(200);
 
-        assertThat(response.body().id()).isEqualTo(idToRemove);
-        assertThat(response.body().name()).isEqualTo(request.name());
-        assertThat(response.body().email()).isEqualTo(request.email());
-        assertThat(response.body().role()).isEqualTo(request.role());
+        GetUserResponse body = response.body();
+
+        assertThat(body.id()).isEqualTo(idToRemove);
+        assertThat(body.name()).isEqualTo(request.name());
+        assertThat(body.email()).isEqualTo(request.email());
+        assertThat(body.role()).isEqualTo(request.role());
     }
 
     @Test
@@ -50,14 +55,16 @@ public class GetUserInfoTests extends AuthenticatedTest {
         ApiResponse<Void> deleteResponse =
                 usersClient.deleteUser(deletedUserId);
 
-        assertThat(deleteResponse.statusCode()).isEqualTo(200);
+        assertThat(deleteResponse)
+                .hasStatusCode(200);
 
         ApiResponse<GetUserResponse> response = Allure.step(
                 "Get a user with an invalid id",
                 () -> usersClient.getUserById(deletedUserId)
         );
 
-        assertThat(response.statusCode()).isEqualTo(404);
+        assertThat(response)
+                .hasStatusCode(404);
     }
 
     @Test
@@ -67,7 +74,8 @@ public class GetUserInfoTests extends AuthenticatedTest {
                 () -> usersClient.getUserByRawId("abc")
         );
 
-        assertThat(response.statusCode()).isEqualTo(400);
+        assertThat(response)
+                .hasStatusCode(400);
     }
 
     @AfterEach

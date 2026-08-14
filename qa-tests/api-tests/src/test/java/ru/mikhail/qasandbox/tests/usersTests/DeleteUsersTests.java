@@ -12,6 +12,7 @@ import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.mikhail.qasandbox.assertions.ApiResponseAssert.assertThat;
 
 public class DeleteUsersTests extends AuthenticatedTest {
 
@@ -22,7 +23,8 @@ public class DeleteUsersTests extends AuthenticatedTest {
         CreateUsersRequest request = UserBuilder.validUser().build();
         ApiResponse<CreateUsersResponse> response = usersClient.createUser(request);
 
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response)
+                .hasStatusCode(201);
 
         idToRemove = response.body().id();
     }
@@ -36,12 +38,14 @@ public class DeleteUsersTests extends AuthenticatedTest {
                 () -> usersClient.deleteUser(deletedUserId)
         );
 
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response)
+                .hasStatusCode(200);
 
         ApiResponse<GetUserResponse> getResponse =
                 usersClient.getUserById(deletedUserId);
 
-        assertThat(getResponse.statusCode()).isEqualTo(404);
+        assertThat(getResponse)
+                .hasStatusCode(404);
     }
 
     @Test
@@ -50,14 +54,16 @@ public class DeleteUsersTests extends AuthenticatedTest {
 
         ApiResponse<Void> responseDelete = usersClient.deleteUser(deletedUserId);
 
-        assertThat(responseDelete.statusCode()).isEqualTo(200);
+        assertThat(responseDelete)
+                .hasStatusCode(200);
 
         ApiResponse<Void> response = Allure.step(
                 "Delete a user with a non-existing id",
                 () -> usersClient.deleteUser(deletedUserId)
         );
 
-        assertThat(response.statusCode()).isEqualTo(404);
+        assertThat(response)
+                .hasStatusCode(404);
     }
 
     @Test
@@ -67,7 +73,8 @@ public class DeleteUsersTests extends AuthenticatedTest {
                 () -> usersClient.deleteUserByRawId("abc")
         );
 
-        assertThat(response.statusCode()).isEqualTo(400);
+        assertThat(response)
+                .hasStatusCode(400);
     }
 
     @AfterEach

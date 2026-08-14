@@ -77,12 +77,12 @@ services:
     working_dir: /app
 
     volumes:
-      - ./reports/api:/reports/api
+      - ./qa-tests/reports/api:/reports/api
 
     command: >
       sh -c "
       ./gradlew clean test &&
-      cp -r allure-results /reports/api/
+      cp -r build/allure-results /reports/api/
       "
 
 volumes:

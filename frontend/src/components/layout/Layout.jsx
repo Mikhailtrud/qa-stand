@@ -3,13 +3,13 @@ import "./../../styles/layout.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-function Layout({ children }) {
+function Layout({ children, onLogout }) {
 
     return (
 
         <div className="layout">
 
-            <Header />
+            <Header onLogout={onLogout} />
 
             <div className="layout-body">
 

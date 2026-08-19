@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import AppRouter from "./router/AppRouter";
+import { getStoredToken, logout } from "./services/authService";
 
 import { getUsers, createUser as createUserRequest, deleteUser as deleteUserRequest } from "./services/userService";
 
 function App() {
 
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(getStoredToken);
 
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
@@ -91,11 +92,19 @@ function App() {
         loadUsers();
     }, [token]);
 
+    function handleLogout() {
+        logout();
+        setToken(null);
+        setUsers([]);
+        setMessage("");
+    }
+
     return (
 
         <AppRouter
             token={token}
             setToken={setToken}
+            onLogout={handleLogout}
 
             email={email}
             setEmail={setEmail}

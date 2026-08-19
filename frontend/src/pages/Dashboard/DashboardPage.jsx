@@ -2,11 +2,11 @@ import Layout from "../../components/layout/Layout";
 
 import "../../styles/dashboard.css";
 
-function DashboardPage() {
+function DashboardPage({ onLogout }) {
 
     return (
 
-        <Layout>
+        <Layout onLogout={onLogout}>
 
             <div className="dashboard">
 

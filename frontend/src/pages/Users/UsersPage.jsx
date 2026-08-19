@@ -9,6 +9,8 @@ import "../../styles/users.css";
 
 function UsersPage({
 
+    onLogout,
+
     email,
     setEmail,
 
@@ -32,7 +34,7 @@ function UsersPage({
 
     return (
 
-        <Layout>
+        <Layout onLogout={onLogout}>
 
             <Alert
                 message={message}

@@ -25,13 +25,14 @@ function AppRouter(props) {
 
                 <Route
                     path="/dashboard"
-                    element={<DashboardPage />}
+                    element={<DashboardPage onLogout={props.onLogout} />}
                 />
 
                 <Route
                     path="/users"
                     element={
                         <UsersPage
+                            onLogout={props.onLogout}
                             email={props.email}
                             setEmail={props.setEmail}
 
@@ -56,7 +57,7 @@ function AppRouter(props) {
 
                 <Route
                     path="/playground"
-                    element={<PlaygroundPage />}
+                    element={<PlaygroundPage onLogout={props.onLogout} />}
                 />
 
             </Routes>

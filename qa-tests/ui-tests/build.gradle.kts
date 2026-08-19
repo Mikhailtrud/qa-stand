@@ -16,6 +16,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation("com.codeborne:selenide:7.9.3")
+    testImplementation("io.rest-assured:rest-assured:5.5.6")
 
     testImplementation(platform("io.qameta.allure:allure-bom:2.35.1"))
 

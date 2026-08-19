@@ -1,6 +1,6 @@
 import "../../styles/header.css";
 
-function Header() {
+function Header({ onLogout }) {
 
     return (
 
@@ -17,6 +17,14 @@ function Header() {
                 </div>
 
             </div>
+
+            <button
+                className="header-logout"
+                data-testid="logout-button"
+                onClick={onLogout}
+            >
+                Logout
+            </button>
 
         </header>
 

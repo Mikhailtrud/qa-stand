@@ -1,11 +1,11 @@
 import Layout from "../../components/layout/Layout";
 import QAPlayground from "../../components/QAPlayground";
 
-function PlaygroundPage() {
+function PlaygroundPage({ onLogout }) {
 
     return (
 
-        <Layout>
+        <Layout onLogout={onLogout}>
 
             <QAPlayground />
 

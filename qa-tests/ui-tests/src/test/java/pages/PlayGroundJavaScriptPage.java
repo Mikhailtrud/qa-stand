@@ -22,7 +22,7 @@ public class PlayGroundJavaScriptPage extends BasePage{
     }
 
     private final SelenideElement formsBlock =
-            $(".playground-section:nth-child(1)");
+            $(".playground-section:nth-child(2)");
 
     //JavaScript
     private final SelenideElement alertButton =

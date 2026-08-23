@@ -1,28 +1,42 @@
 package pages;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.SelenideElement;
 
-import java.nio.file.Path;
-
-import static com.codeborne.selenide.Condition.selected;
-import static com.codeborne.selenide.Condition.value;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 public class PlayGroundTabsPage extends BasePage{
 
+    public PlayGroundTabsPage open() {
+        openPage("/playground");
+        return this;
+    }
+
+    public SelenideElement tabsBlock() {
+        return tabsBlock;
+    }
+
+    private final SelenideElement tabsBlock =
+            $(".playground-section:nth-child(3)");
+
     //Tabs*
-    private final SelenideElement tabButton1 =
-            $("[data-testid='tab1-button']");
 
-    private final SelenideElement tabButton2 =
-            $("[data-testid='tab2-button']");
+    public SelenideElement tabButton(int number) {
+        return $("[data-testid='tab" + number + "-button']");
+    }
 
-    private final SelenideElement tabButton3 =
-            $("[data-testid='tab3-button']");
+    public SelenideElement tabContent() {
+        return $("[data-testid='tab-content']");
+    }
 
-    private final SelenideElement tabWindowContent =
-            $("[data-testid='tab-content'] p");
+    public PlayGroundTabsPage clickTab(int number) {
+        tabButton(number).click();
+        return this;
+    }
+
+    public PlayGroundTabsPage verifyTabContent(String expectedText) {
+        tabContent().shouldHave(text(expectedText));
+        return this;
+    }
 
 }

@@ -8,47 +8,64 @@ public class JavaScriptTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        playGroundJavaScriptSteps.openPlayGroundPage().verifyPlaygroundTabsVisible();
+        playGroundJavaScriptSteps
+                .openPlayGroundPage()
+                .verifyPlaygroundTabsVisible();
     }
 
     @Test
     void checkAlertTest(){
-        playGroundJavaScriptSteps.clickOnAlertButtonStep("Test Alert");
+        playGroundJavaScriptSteps
+                .clickOnAlertButtonStep("Test Alert");
     }
 
     @Test
     void checkAcceptConfirmTest(){
-        playGroundJavaScriptSteps.clickOnAcceptConfirmButtonStep("Are you sure?");
+        playGroundJavaScriptSteps
+                .clickOnAcceptConfirmButtonStep("Are you sure?");
     }
 
     @Test
     void checkCancelConfirmTest(){
-        playGroundJavaScriptSteps.clickOnCancelConfirmButtonStep("Are you sure?");
+        playGroundJavaScriptSteps
+                .clickOnCancelConfirmButtonStep("Are you sure?");
     }
 
     @Test
     void checkAcceptPromptTest(){
-        playGroundJavaScriptSteps.clickOnAcceptPromptButtonStep("Enter your name", "Test");
+        playGroundJavaScriptSteps
+                .clickOnAcceptPromptButtonStep("Enter your name", "Test");
     }
 
     @Test
     void checkCancelPromptTest(){
-        playGroundJavaScriptSteps.clickOnCancelPromptButtonStep("Enter your name", "Test");
+        playGroundJavaScriptSteps
+                .clickOnCancelPromptButtonStep("Enter your name", "Test");
     }
 
     @Test
     void checkToastTest(){
-        playGroundJavaScriptSteps.clickOnToastButtonStep().verifyPlaygroundToastBlockVisible().verifyToastTextValue("Operation completed successfully");
+        playGroundJavaScriptSteps
+                .clickOnToastButtonStep()
+                .verifyPlaygroundToastBlockVisible()
+                .verifyToastTextValue("Operation completed successfully");
     }
 
     @Test
     void checkModalTest(){
-        playGroundJavaScriptSteps.clickOnModalButtonStep().verifyModalWindowTitle("Modal Window").verifyModalWindowDescription("This modal is used for UI automation testing.");
+        playGroundJavaScriptSteps
+                .clickOnModalButtonStep()
+                .verifyModalWindowTitle("Modal Window")
+                .verifyModalWindowDescription("This modal is used for UI automation testing.");
     }
 
     @Test
     void checkCloseModalTest() {
-        playGroundJavaScriptSteps.clickOnModalButtonStep().verifyModalWindowVisible().closeModalWindowStep().verifyModalWindowNotVisible();
+        playGroundJavaScriptSteps
+                .clickOnModalButtonStep()
+                .verifyModalWindowVisible()
+                .closeModalWindowStep()
+                .verifyModalWindowNotVisible();
     }
 }
 

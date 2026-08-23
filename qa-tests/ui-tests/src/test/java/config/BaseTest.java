@@ -1,10 +1,7 @@
 package config;
 
 import org.junit.jupiter.api.BeforeAll;
-import steps.LoginSteps;
-import steps.PlayGroundFormsSteps;
-import steps.PlayGroundJavaScriptSteps;
-import steps.UserSteps;
+import steps.*;
 
 public class BaseTest {
 
@@ -12,6 +9,7 @@ public class BaseTest {
     protected final UserSteps userSteps = new UserSteps();
     protected final PlayGroundFormsSteps playGroundFormsSteps = new PlayGroundFormsSteps();
     protected final PlayGroundJavaScriptSteps playGroundJavaScriptSteps = new PlayGroundJavaScriptSteps();
+    protected final PlayGroundTabsSteps playGroundTabsSteps = new PlayGroundTabsSteps();
 
     @BeforeAll
     static void setup() {

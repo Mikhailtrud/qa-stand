@@ -1,10 +1,7 @@
 package steps;
 
 import io.qameta.allure.Allure;
-import pages.LoginPage;
-import pages.PlayGroundFormsPage;
-import pages.PlayGroundJavaScriptPage;
-import pages.UsersPage;
+import pages.*;
 
 public class BaseSteps {
 
@@ -12,6 +9,7 @@ public class BaseSteps {
     protected final UsersPage usersPage = new UsersPage();
     protected final PlayGroundFormsPage playGroundFormsPage = new PlayGroundFormsPage();
     protected final PlayGroundJavaScriptPage playGroundJavaScriptPage = new PlayGroundJavaScriptPage();
+    protected final PlayGroundTabsPage playGroundTabsPage = new PlayGroundTabsPage();
 
     protected void step(String message) {
         Allure.step(message);

@@ -1,0 +1,43 @@
+package steps;
+
+import com.codeborne.selenide.Condition;
+
+public class PlayGroundMouseActionsSteps extends BaseSteps {
+
+    public PlayGroundMouseActionsSteps openPlayGroundPage() {
+        step("Открыть страницу PlayGround");
+        playGroundMousePage.open();
+        return this;
+    }
+
+    public PlayGroundMouseActionsSteps verifyPlaygroundMouseActionsVisible() {
+        step("Проверить видимость блока с таблицей");
+        playGroundMousePage.mouseActionsBlock().shouldBe(Condition.visible);
+        return this;
+    }
+
+    public PlayGroundMouseActionsSteps hoverElement() {
+        step("Навести курсор на элемент");
+        playGroundMousePage.hoverElement();
+        return this;
+    }
+
+    public PlayGroundMouseActionsSteps doubleClickElement() {
+        step("Выполнить двойной клик");
+        playGroundMousePage.doubleClickElement();
+        return this;
+    }
+
+    public PlayGroundMouseActionsSteps rightClickElement() {
+        step("Выполнить клик правой кнопкой мыши");
+        playGroundMousePage.rightClickElement();
+        return this;
+    }
+
+    public PlayGroundMouseActionsSteps verifyMouseActionResult(String text) {
+        step("Выполнить клик правой кнопкой мыши");
+        playGroundMousePage.verifyMouseActionResult(text);
+        return this;
+    }
+
+}

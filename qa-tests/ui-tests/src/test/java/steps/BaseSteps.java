@@ -12,6 +12,7 @@ public class BaseSteps {
     protected final PlayGroundTabsPage playGroundTabsPage = new PlayGroundTabsPage();
     protected final PlayGroundTablesPage playGroundTablesPage = new PlayGroundTablesPage();
     protected final PlayGroundDynamicMousePage playGroundDynamicMousePage = new PlayGroundDynamicMousePage();
+    protected final PlayGroundMousePage playGroundMousePage = new PlayGroundMousePage();
 
     protected void step(String message) {
         Allure.step(message);

@@ -3,7 +3,6 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PlayGroundDynamicMousePage extends BasePage{
@@ -38,24 +37,8 @@ public class PlayGroundDynamicMousePage extends BasePage{
     private final SelenideElement dynamicElementsHidden =
             $("[data-testid='hidden-element']");
 
-    //Mouse Actions
-    private final SelenideElement hoverButton =
-            $("[data-testid='hover-button']");
 
-    private final SelenideElement doubleClickButton =
-            $("[data-testid='double-click-button']");
-
-    private final SelenideElement rightClickButton =
-            $("[data-testid='right-click-button']");
-
-    private final SelenideElement actionResult =
-            $("[data-testid='mouse-action-result']");
-
-    private final SelenideElement t =
-            $("[]");
-
-
-
+    //Dynamic Elements Functions
     public SelenideElement startLoaderButton() {
         return startLoaderButton;
     }
@@ -85,8 +68,5 @@ public class PlayGroundDynamicMousePage extends BasePage{
                 .shouldHave(text(text));
         return this;
     }
-
-
-
 
 }

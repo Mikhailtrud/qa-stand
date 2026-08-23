@@ -10,6 +10,7 @@ public class BaseSteps {
     protected final PlayGroundFormsPage playGroundFormsPage = new PlayGroundFormsPage();
     protected final PlayGroundJavaScriptPage playGroundJavaScriptPage = new PlayGroundJavaScriptPage();
     protected final PlayGroundTabsPage playGroundTabsPage = new PlayGroundTabsPage();
+    protected final PlayGroundTablesPage playGroundTablesPage = new PlayGroundTablesPage();
 
     protected void step(String message) {
         Allure.step(message);

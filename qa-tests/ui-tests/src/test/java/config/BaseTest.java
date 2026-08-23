@@ -10,6 +10,7 @@ public class BaseTest {
     protected final PlayGroundFormsSteps playGroundFormsSteps = new PlayGroundFormsSteps();
     protected final PlayGroundJavaScriptSteps playGroundJavaScriptSteps = new PlayGroundJavaScriptSteps();
     protected final PlayGroundTabsSteps playGroundTabsSteps = new PlayGroundTabsSteps();
+    protected final PlayGroundTablesSteps playGroundTablesSteps = new PlayGroundTablesSteps();
 
     @BeforeAll
     static void setup() {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 
-public class FormsTest extends AuthenticatedTest {
+public class FormsTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {

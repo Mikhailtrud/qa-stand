@@ -15,7 +15,7 @@ public class PlayGroundTabsSteps extends BaseSteps {
     }
 
     public PlayGroundTabsSteps verifyPlaygroundTabsVisible() {
-        step("Выбрать опцию");
+        step("Проверить видимость блока с вкладками");
         playGroundTabsPage.tabsBlock().shouldBe(Condition.visible);
         return this;
     }

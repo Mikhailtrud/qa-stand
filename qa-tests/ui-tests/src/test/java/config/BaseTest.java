@@ -11,6 +11,7 @@ public class BaseTest {
     protected final PlayGroundJavaScriptSteps playGroundJavaScriptSteps = new PlayGroundJavaScriptSteps();
     protected final PlayGroundTabsSteps playGroundTabsSteps = new PlayGroundTabsSteps();
     protected final PlayGroundTablesSteps playGroundTablesSteps = new PlayGroundTablesSteps();
+    protected final PlayGroundDynamicMouseSteps playGroundDynamicMouseSteps = new PlayGroundDynamicMouseSteps();
 
     @BeforeAll
     static void setup() {

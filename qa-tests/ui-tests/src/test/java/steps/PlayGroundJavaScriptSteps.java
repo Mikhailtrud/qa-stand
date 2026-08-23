@@ -11,7 +11,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
     }
 
     public PlayGroundJavaScriptSteps verifyPlaygroundTabsVisible() {
-        step("Выбрать опцию");
+        step("Проверить видимость блока с JavaScript");
         playGroundJavaScriptPage.formsBlock().shouldBe(Condition.visible);
         return this;
     }

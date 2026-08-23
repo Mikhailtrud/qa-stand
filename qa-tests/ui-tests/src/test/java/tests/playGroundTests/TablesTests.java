@@ -9,7 +9,7 @@ public class TablesTests extends AuthenticatedTest {
     void searchByNameTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .enterSearchValue("John")
                 .verifyTableContainsText("John");
     }
@@ -18,7 +18,7 @@ public class TablesTests extends AuthenticatedTest {
     void filterByRoleTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .selectRoleFilter("ADMIN")
                 .verifyAllRowsContainRole("ADMIN");
     }
@@ -27,7 +27,7 @@ public class TablesTests extends AuthenticatedTest {
     void sortByIdDescendingTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .sortById()
                 .verifyIdsSortedDescending();
     }
@@ -36,7 +36,7 @@ public class TablesTests extends AuthenticatedTest {
     void sortByIdAscendingTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .sortById()
                 .sortById()
                 .verifyIdsSortedAscending();
@@ -46,7 +46,7 @@ public class TablesTests extends AuthenticatedTest {
     void sortByNameTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .sortByName()
                 .verifyNamesSortedAscending();
     }
@@ -55,7 +55,7 @@ public class TablesTests extends AuthenticatedTest {
     void paginationNextPageTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .goToNextPage()
                 .verifyCurrentPage("2");
     }
@@ -64,7 +64,7 @@ public class TablesTests extends AuthenticatedTest {
     void paginationPreviousPageTest() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible()
+                .verifyPlaygroundTablesVisible()
                 .goToNextPage()
                 .verifyCurrentPage("2")
                 .goToPreviousPage()

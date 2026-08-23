@@ -1,23 +1,32 @@
 package pages;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.SelenideElement;
 
-import java.nio.file.Path;
-
-import static com.codeborne.selenide.Condition.selected;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 public class PlayGroundDynamicMousePage extends BasePage{
 
+
+    //PlayGround Page
+    public PlayGroundDynamicMousePage open() {
+        openPage("/playground");
+        return this;
+    }
+
+    public SelenideElement dynamicElementsBlock() {
+        return dynamicElementsBlock;
+    }
+
+    private final SelenideElement dynamicElementsBlock =
+            $(".playground-section:nth-child(5)");
 
     //Dynamic Elements*
     private final SelenideElement startLoaderButton =
             $("[data-testid='start-loader-button']");
 
-    private final SelenideElement loaderElement =
+    private final SelenideElement loaderElementText =
             $("[data-testid='loader']");
 
     private final SelenideElement showDelayedButton =
@@ -47,11 +56,37 @@ public class PlayGroundDynamicMousePage extends BasePage{
 
 
 
-    //PlayGround Page
-    public PlayGroundDynamicMousePage open() {
-        openPage("/playground");
+    public SelenideElement startLoaderButton() {
+        return startLoaderButton;
+    }
+
+    public PlayGroundDynamicMousePage verifyLoaderText(String text) {
+        $(loaderElementText)
+                .shouldHave(text(text));
         return this;
     }
+
+    public SelenideElement showDelayedButton() {
+        return showDelayedButton;
+    }
+
+    public SelenideElement delayedButton() {
+        return delayedButton;
+    }
+
+    public PlayGroundDynamicMousePage verifyDelayedButtonText(String text) {
+        $(delayedButton)
+                .shouldHave(text(text));
+        return this;
+    }
+
+    public PlayGroundDynamicMousePage verifyDynamicsElementsBlockText(String text) {
+        $(dynamicElementsHidden)
+                .shouldHave(text(text));
+        return this;
+    }
+
+
 
 
 }

@@ -10,8 +10,8 @@ public class PlayGroundTablesSteps extends BaseSteps {
         return this;
     }
 
-    public PlayGroundTablesSteps verifyPlaygroundTabsVisible() {
-        step("Выбрать опцию");
+    public PlayGroundTablesSteps verifyPlaygroundTablesVisible() {
+        step("Проверить видимость блока с таблицей");
         playGroundTablesPage.tablesBlock().shouldBe(Condition.visible);
         return this;
     }

@@ -1,0 +1,138 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: qasandbox
+      POSTGRES_USER: qauser
+      POSTGRES_PASSWORD: qapass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qauser -d qasandbox"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - mobile_postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qasandbox
+      SPRING_DATASOURCE_USERNAME: qauser
+      SPRING_DATASOURCE_PASSWORD: qapass
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/actuator/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  apk-builder:
+    build:
+      context: ./android-app
+      dockerfile: Dockerfile.ci
+      args:
+        # 10.0.2.2 reaches the emulator container's network namespace. The
+        # backend-proxy service below forwards that port to Docker's backend service.
+        BACKEND_URL: http://10.0.2.2:8080/
+    volumes:
+      - mobile_apk:/apk
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/apk-ready && test -s /apk/app-debug.apk"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  android-emulator:
+    image: us-docker.pkg.dev/android-emulator-268719/images/30-google-x64-no-metrics:30.1.2
+    devices:
+      - /dev/kvm:/dev/kvm
+    environment:
+      ADBKEY: ${ANDROID_ADB_PRIVATE_KEY:?Set ANDROID_ADB_PRIVATE_KEY to the contents of the matching adb private key}
+      EMULATOR_PARAMS: -no-window -no-audio -no-boot-anim
+    expose:
+      - "5555"
+    tmpfs:
+      - /data
+
+  backend-proxy:
+    image: alpine/socat:1.8.0.3
+    network_mode: service:android-emulator
+    command: ["TCP-LISTEN:8080,fork,reuseaddr,bind=0.0.0.0", "TCP:backend:8080"]
+    depends_on:
+      backend:
+        condition: service_healthy
+      android-emulator:
+        condition: service_started
+
+  apk-installer:
+    build:
+      context: ./mobile-ci/appium
+    entrypoint: ["mobile-entrypoint"]
+    command: ["sh", "/opt/mobile/prepare-emulator.sh"]
+    environment:
+      ANDROID_ADB_PRIVATE_KEY: ${ANDROID_ADB_PRIVATE_KEY:?Set ANDROID_ADB_PRIVATE_KEY to the contents of the matching adb private key}
+      ANDROID_SERIAL: android-emulator:5555
+    volumes:
+      - mobile_apk:/apk:ro
+      - ./mobile-ci/appium/prepare-emulator.sh:/opt/mobile/prepare-emulator.sh:ro
+    depends_on:
+      apk-builder:
+        condition: service_healthy
+      android-emulator:
+        condition: service_started
+      backend-proxy:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/apk-installed && adb -s android-emulator:5555 shell pm path com.qastand.android | grep -q '^package:'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  appium:
+    build:
+      context: ./mobile-ci/appium
+    environment:
+      ANDROID_ADB_PRIVATE_KEY: ${ANDROID_ADB_PRIVATE_KEY:?Set ANDROID_ADB_PRIVATE_KEY to the contents of the matching adb private key}
+      ANDROID_SERIAL: android-emulator:5555
+      CONNECT_ADB_ON_START: "true"
+    volumes:
+      - mobile_apk:/apk:ro
+    depends_on:
+      apk-installer:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:4723/status >/dev/null"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  mobile-tests:
+    profiles: ["tests"]
+    build:
+      context: ./qa-tests/mobile-tests
+    environment:
+      APPIUM_URL: http://appium:4723
+      BACKEND_URL: http://backend:8080
+      DEVICE_NAME: Android Emulator
+      APP_PATH: /apk/app-debug.apk
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+      apk-installer:
+        condition: service_healthy
+      appium:
+        condition: service_healthy
+    volumes:
+      - ./qa-tests/reports/mobile:/reports/mobile
+    command: ["sh", "-c", "./gradlew --no-daemon test; code=$$?; if [ -d build/allure-results ]; then cp -r build/allure-results /reports/mobile/; fi; exit $$code"]
+
+volumes:
+  mobile_postgres_data:
+  mobile_apk:

@@ -50,6 +50,10 @@ function AppRouter(props) {
                             message={props.message}
 
                             createUser={props.createUser}
+                            updateUser={props.updateUser}
+                            editUser={props.editUser}
+                            cancelEdit={props.cancelEdit}
+                            editingUserId={props.editingUserId}
                             deleteUser={props.deleteUser}
                         />
                     }

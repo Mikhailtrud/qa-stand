@@ -1,0 +1,24 @@
+server:
+  port: ${SERVER_PORT:8090}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/auditdb}
+    username: ${SPRING_DATASOURCE_USERNAME:audituser}
+    password: ${SPRING_DATASOURCE_PASSWORD:auditpass}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+qa:
+  events:
+    exchange: ${USER_EVENTS_EXCHANGE:qa.user.events}
+    queue: ${USER_EVENTS_QUEUE:qa.audit.user-events}
+    routing-key: ${USER_EVENTS_ROUTING_KEY:user.changed}

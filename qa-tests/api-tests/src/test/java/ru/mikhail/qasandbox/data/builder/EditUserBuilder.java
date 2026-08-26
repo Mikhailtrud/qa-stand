@@ -10,6 +10,7 @@ public final class EditUserBuilder {
     private String name;
     private String email;
     private String role;
+    private String password;
 
     private EditUserBuilder() {
     }
@@ -36,7 +37,12 @@ public final class EditUserBuilder {
         return this;
     }
 
+    public EditUserBuilder withPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     public EditUserRequest build() {
-        return new EditUserRequest(name, email, role);
+        return new EditUserRequest(name, email, role, password);
     }
 }

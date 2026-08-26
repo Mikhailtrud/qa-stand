@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import AppRouter from "./router/AppRouter";
 import { getStoredToken, logout } from "./services/authService";
 
-import { getUsers, createUser as createUserRequest, deleteUser as deleteUserRequest } from "./services/userService";
+import {
+    getUsers,
+    createUser as createUserRequest,
+    updateUser as updateUserRequest,
+    deleteUser as deleteUserRequest
+} from "./services/userService";
 
 function App() {
 
@@ -12,6 +17,7 @@ function App() {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("USER");
+    const [editingUserId, setEditingUserId] = useState(null);
 
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState("");
@@ -68,6 +74,40 @@ function App() {
 
     }
 
+    function editUser(user) {
+        setEditingUserId(user.id);
+        setEmail(user.email);
+        setName(user.name);
+        setPassword("");
+        setRole(user.role);
+        setMessage("");
+    }
+
+    function cancelEdit() {
+        setEditingUserId(null);
+        setEmail("");
+        setName("");
+        setPassword("");
+        setRole("USER");
+    }
+
+    async function updateUser() {
+        try {
+            setMessage("");
+            await updateUserRequest(token, editingUserId, {
+                email,
+                name,
+                role,
+                password
+            });
+            await loadUsers();
+            cancelEdit();
+            setMessage("User updated successfully.");
+        } catch (e) {
+            setMessage(e.message);
+        }
+    }
+
     async function deleteUser(id) {
 
         try {
@@ -89,7 +129,26 @@ function App() {
     }
 
     useEffect(() => {
-        loadUsers();
+        if (!token) {
+            return undefined;
+        }
+
+        let active = true;
+        getUsers(token)
+            .then((data) => {
+                if (active) {
+                    setUsers(data);
+                }
+            })
+            .catch((error) => {
+                if (active) {
+                    setMessage(error.message);
+                }
+            });
+
+        return () => {
+            active = false;
+        };
     }, [token]);
 
     function handleLogout() {
@@ -122,6 +181,10 @@ function App() {
             message={message}
 
             createUser={createUser}
+            updateUser={updateUser}
+            editUser={editUser}
+            cancelEdit={cancelEdit}
+            editingUserId={editingUserId}
             deleteUser={deleteUser}
         />
 

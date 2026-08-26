@@ -24,6 +24,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")
@@ -37,6 +39,7 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.amqp:spring-rabbit-test")
 
 	testCompileOnly("org.projectlombok:lombok")
 

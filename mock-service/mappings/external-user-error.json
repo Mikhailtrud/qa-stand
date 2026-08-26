@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/external/users/500"
+  },
+  "response": {
+    "status": 500,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": { "message": "External service error" }
+  }
+}

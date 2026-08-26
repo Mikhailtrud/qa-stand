@@ -1,0 +1,10 @@
+FROM ghcr.io/cirruslabs/android-sdk:35
+
+WORKDIR /workspace
+COPY . .
+RUN chmod +x gradlew
+
+ARG BACKEND_URL=http://10.0.2.2:8080/
+RUN ./gradlew --no-daemon :app:assembleDebug -PbackendUrl="$BACKEND_URL"
+
+CMD ["sh", "-c", "cp app/build/outputs/apk/debug/app-debug.apk /apk/app-debug.apk && touch /tmp/apk-ready && exec tail -f /dev/null"]

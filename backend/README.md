@@ -1,128 +1,127 @@
 # Backend
 
-Spring Boot backend для проекта QA Sandbox.
+Java 21 / Spring Boot 3.5 backend for QA Stand.
 
-## Стек
+## Responsibilities
 
-- Java 21
-- Spring Boot 3
-- Spring Security
-- Spring Data JPA
-- PostgreSQL
-- Flyway
-- Swagger / OpenAPI
-- Docker
+- bearer-token authentication with ADMIN and USER roles;
+- BCrypt password storage and request validation;
+- PostgreSQL users as the source of truth, managed by Flyway;
+- optional Redis caching for `GET /users/{id}`;
+- optional RabbitMQ `USER_CREATED` and `USER_UPDATED` publishing;
+- configured HTTP client for external user profiles;
+- OpenAPI/Swagger and Actuator health endpoints.
 
----
+Redis and RabbitMQ integrations default to disabled when the backend is run by
+itself. `docker-compose.yaml` enables both and supplies Docker service hostnames.
+Their Actuator health contributors follow the same flags, which keeps isolated
+API and mobile environments usable without those services.
 
-## Возможности
+## Run and build
 
-- Bearer Token авторизация
-- Ролевая модель (ADMIN / USER)
-- CRUD пользователей
-- Bean Validation
-- Flyway миграции
-- Swagger UI
-
----
-
-## Запуск локально
+With PostgreSQL available at the defaults in `application.yaml`:
 
 ```bash
 ./gradlew bootRun
-```
-
----
-
-## Сборка
-
-```bash
+./gradlew test
 ./gradlew build
 ```
 
----
+For the fully integrated runtime, run from the repository root:
 
-## Swagger
-
-```
-http://localhost:8080/swagger-ui.html
+```bash
+docker compose -f docker-compose.yaml up --build -d
 ```
 
----
+Swagger UI: <http://localhost:8080/swagger-ui.html>
 
-## Структура проекта
+## API
 
-```text
-src/main/java/com/qasandbox/backend
-
-├── controller
-├── dto
-├── entity
-├── repository
-├── security
-├── config
-└── BackendApplication
-```
-
----
-
-## REST API
-
-### Authentication
+Authentication:
 
 ```http
 POST /auth/login
 ```
 
----
-
-### Users
+Users:
 
 ```http
 GET    /users
 GET    /users/{id}
 POST   /users
+PUT    /users/{id}
 DELETE /users/{id}
+GET    /users/{id}/external-profile
 ```
 
----
+All user endpoints require a bearer token. Reads allow ADMIN or USER; POST,
+PUT, and DELETE require ADMIN.
 
-## Авторизация
+Create passwords are required and must be at least eight characters with one
+letter and one digit. PUT edits `name`, `email`, and `role`; `password` is
+optional. Null, omitted, empty, or whitespace-only update passwords preserve
+the stored BCrypt hash. Invalid fields return HTTP 400 with a field-level
+`errors` map. Duplicate emails return HTTP 409 and missing users return 404.
 
-Все запросы (кроме `/auth/login` и Swagger) требуют Bearer Token.
+The seeded QA administrator is `test@email.com` / `admin123` with role ADMIN.
 
-Пример:
+## Redis
 
-```
-Authorization: Bearer admin-token
-```
+Set `USER_CACHE_ENABLED=true` to cache password-free `UserResponse` values.
+Keys use `users:{id}`. `USER_CACHE_TTL` defaults to `5m`; PUT and DELETE evict
+the corresponding key. Redis failures fall back to PostgreSQL for reads, and
+PostgreSQL remains authoritative. Passwords, tokens, and authentication
+requests are not cached.
 
----
+## RabbitMQ
 
-## Миграции
-
-Расположение:
+Set `USER_EVENTS_ENABLED=true` to publish JSON events after successful creates
+and updates.
 
 ```text
-src/main/resources/db/migration
+exchange:    qa.user.events
+routing key: user.changed
+event types: USER_CREATED, USER_UPDATED
 ```
 
-Пример:
+Payload fields are `eventType`, `userId`, `email`, `role`, and `timestamp`.
+The separate audit service owns queue `qa.audit.user-events` and persistence;
+the backend has no direct dependency on audit-service internals or its database.
+
+## External profiles
+
+`EXTERNAL_PROFILE_BASE_URL` defaults to `http://localhost:8089`; Compose sets it
+to `http://mock-service:8080`. `EXTERNAL_PROFILE_TIMEOUT` defaults to `2s`.
+The client maps external 404 to backend 404, external 5xx to 502, and connection
+or read timeout to 504.
+
+## Database migrations
+
+Backend migrations are under `src/main/resources/db/migration`:
 
 ```text
 V1__create_users_table.sql
-V2__insert_default_users.sql
+V2__add_password_to_users.sql
+V3__seed_default_admin.sql
 ```
 
----
+Audit database migrations belong to `services/audit-service`; the backend does
+not access that database.
 
-## Roadmap
+## Source structure
 
-Планируется добавить:
-
-- BCrypt Password Encoder
-- Global Exception Handler
-- DTO для всех запросов и ответов
-- API Validation Errors
-- Integration Tests
-- Testcontainers
+```text
+src/main/java/com/qasandbox/backend/
+|-- cache/       # Redis/no-op user cache adapters
+|-- client/      # external-profile HTTP client
+|-- config/      # HTTP, Redis, RabbitMQ, CORS, OpenAPI
+|-- controller/
+|-- dto/
+|-- entity/
+|-- event/       # user event contract and publisher
+|-- exception/
+|-- mapper/
+|-- repository/
+|-- security/
+`-- service/
+```

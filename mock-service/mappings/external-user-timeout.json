@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/external/users/999"
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 5000,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "userId": 999,
+      "status": "PENDING",
+      "score": 0
+    }
+  }
+}

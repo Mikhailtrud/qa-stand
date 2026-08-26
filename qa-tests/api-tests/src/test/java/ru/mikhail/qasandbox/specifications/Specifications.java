@@ -14,8 +14,13 @@ public final class Specifications {
 
     public static RequestSpecification requestSpec() {
 
+        return requestSpec(ApiConfig.getBaseUrl());
+    }
+
+    public static RequestSpecification requestSpec(String baseUri) {
+
         return new RequestSpecBuilder()
-                .setBaseUri(ApiConfig.getBaseUrl())
+                .setBaseUri(baseUri)
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
                 .log(LogDetail.METHOD)

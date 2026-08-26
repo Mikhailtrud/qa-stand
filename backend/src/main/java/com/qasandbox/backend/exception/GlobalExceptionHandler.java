@@ -56,15 +56,15 @@ public class GlobalExceptionHandler {
 
         ValidationErrorResponse response = new ValidationErrorResponse(
                 LocalDateTime.now(),
-                422,
-                "Unprocessable Entity",
+                400,
+                "Bad Request",
                 "Validation failed",
                 request.getRequestURI(),
                 errors
         );
 
         return ResponseEntity
-                .unprocessableEntity()
+                .badRequest()
                 .body(response);
     }
 
@@ -91,15 +91,15 @@ public class GlobalExceptionHandler {
 
         ValidationErrorResponse response = new ValidationErrorResponse(
                 LocalDateTime.now(),
-                422,
-                "Unprocessable Entity",
+                400,
+                "Bad Request",
                 "Validation failed",
                 request.getRequestURI(),
                 errors
         );
 
         return ResponseEntity
-                .unprocessableEntity()
+                .badRequest()
                 .body(response);
     }
 

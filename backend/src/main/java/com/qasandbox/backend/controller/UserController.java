@@ -3,6 +3,7 @@ package com.qasandbox.backend.controller;
 import com.qasandbox.backend.dto.user.CreateUserRequest;
 import com.qasandbox.backend.dto.user.UpdateUserRequest;
 import com.qasandbox.backend.dto.user.UserResponse;
+import com.qasandbox.backend.dto.external.ExternalProfileResponse;
 import com.qasandbox.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public UserResponse getUser(@PathVariable Long id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/{id}/external-profile")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ExternalProfileResponse getExternalProfile(@PathVariable Long id) {
+        return userService.getExternalProfile(id);
     }
 
     @PostMapping

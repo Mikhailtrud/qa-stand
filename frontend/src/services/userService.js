@@ -33,3 +33,16 @@ export async function deleteUser(token, id) {
     });
 
 }
+
+export async function updateUser(token, id, user) {
+
+    return await request(`/users/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(user)
+    });
+
+}

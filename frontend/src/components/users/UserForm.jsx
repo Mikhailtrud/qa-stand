@@ -13,18 +13,21 @@ function UserForm({
     role,
     setRole,
 
-    createUser
+    createUser,
+    updateUser,
+    cancelEdit,
+    editing
 }) {
 
     const isValid =
         email.trim() !== "" &&
         name.trim() !== "" &&
-        password.trim() !== "";
+        (editing || password.trim() !== "");
 
     return (
         <>
 
-            <h2>User Management</h2>
+            <h2>{editing ? "Edit User" : "User Management"}</h2>
 
             <div className="form-group">
                 <label>Email</label>
@@ -47,7 +50,7 @@ function UserForm({
             </div>
 
             <div className="form-group">
-                <label>Password</label>
+                <label>Password{editing ? " (optional)" : ""}</label>
                 <input
                     className="form-control"
                     type="password"
@@ -73,11 +76,21 @@ function UserForm({
             <button
                 className="form-button"
                 data-testid="create-user-button"
-                onClick={createUser}
+                onClick={editing ? updateUser : createUser}
                 disabled={!isValid}
             >
-                Create User
+                {editing ? "Save Changes" : "Create User"}
             </button>
+
+            {editing && (
+                <button
+                    className="form-button secondary-button"
+                    data-testid="cancel-edit-user"
+                    onClick={cancelEdit}
+                >
+                    Cancel
+                </button>
+            )}
 
             <hr />
 

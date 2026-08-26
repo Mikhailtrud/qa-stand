@@ -4,7 +4,7 @@ async function request(url, options = {}) {
 
     const response = await fetch(BASE_URL + url, options);
 
-    let data = null;
+    let data;
 
     try {
         data = await response.json();
@@ -13,7 +13,10 @@ async function request(url, options = {}) {
     }
 
     if (!response.ok) {
-        throw new Error(data?.message || "Request failed");
+        const validationDetails = data?.errors
+            ? Object.values(data.errors).join("; ")
+            : null;
+        throw new Error(validationDetails || data?.message || "Request failed");
     }
 
     return data;

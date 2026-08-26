@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/external/users/404"
+  },
+  "response": {
+    "status": 404,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": { "message": "External user not found" }
+  }
+}

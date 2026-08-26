@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/external/users/1"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "userId": 1,
+      "status": "ACTIVE",
+      "score": 85
+    }
+  }
+}

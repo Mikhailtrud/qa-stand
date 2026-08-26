@@ -19,6 +19,7 @@ reports/
 # =========================
 
 .gradle/
+.gradle-ci/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 

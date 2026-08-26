@@ -6,6 +6,7 @@ import ru.mikhail.qasandbox.dto.response.CreateUsersResponse;
 import ru.mikhail.qasandbox.dto.response.EditUserResponse;
 import ru.mikhail.qasandbox.dto.response.GetUserResponse;
 import ru.mikhail.qasandbox.dto.response.GetUsersResponse;
+import ru.mikhail.qasandbox.dto.response.ExternalProfileResponse;
 
 public class UsersClient extends BaseApiClient {
 
@@ -60,6 +61,13 @@ public class UsersClient extends BaseApiClient {
         return get(
                 USERS_ENDPOINT + "/" + id,
                 Void.class
+        );
+    }
+
+    public ApiResponse<ExternalProfileResponse> getExternalProfile(Integer id) {
+        return get(
+                USERS_ENDPOINT + "/" + id + "/external-profile",
+                ExternalProfileResponse.class
         );
     }
 }

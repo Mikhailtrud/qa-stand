@@ -1,6 +1,6 @@
 import "../../styles/table.css";
 
-function UsersTable({ users, deleteUser }) {
+function UsersTable({ users, editUser, deleteUser }) {
 
     return (
 
@@ -55,6 +55,14 @@ function UsersTable({ users, deleteUser }) {
                             <td>{user.role}</td>
 
                             <td>
+
+                                <button
+                                    className="form-button"
+                                    data-testid={"edit-user-" + user.id}
+                                    onClick={() => editUser(user)}
+                                >
+                                    Edit
+                                </button>
 
                                 <button
                                     className="form-button"

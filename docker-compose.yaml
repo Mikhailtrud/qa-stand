@@ -15,6 +15,60 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qauser -d qasandbox"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  audit-postgres:
+    image: postgres:17
+    container_name: qa-audit-postgres
+    environment:
+      POSTGRES_DB: auditdb
+      POSTGRES_USER: audituser
+      POSTGRES_PASSWORD: auditpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - audit_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U audituser -d auditdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  rabbitmq:
+    image: rabbitmq:4.1-management
+    container_name: qa-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:8-alpine
+    container_name: qa-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  mock-service:
+    image: wiremock/wiremock:3.13.1
+    container_name: qa-mock-service
+    ports:
+      - "8089:8080"
+    volumes:
+      - ./mock-service:/home/wiremock:ro
+
   backend:
     build:
       context: ./backend
@@ -22,7 +76,14 @@ services:
     container_name: qa-backend
 
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mock-service:
+        condition: service_started
 
     ports:
       - "8080:8080"
@@ -31,6 +92,29 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/qasandbox
       SPRING_DATASOURCE_USERNAME: qauser
       SPRING_DATASOURCE_PASSWORD: qapass
+      RABBITMQ_HOST: rabbitmq
+      REDIS_HOST: redis
+      USER_EVENTS_ENABLED: "true"
+      USER_CACHE_ENABLED: "true"
+      USER_CACHE_TTL: 5m
+      EXTERNAL_PROFILE_BASE_URL: http://mock-service:8080
+
+  audit-service:
+    build:
+      context: ./services/audit-service
+    container_name: qa-audit-service
+    depends_on:
+      audit-postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://audit-postgres:5432/auditdb
+      SPRING_DATASOURCE_USERNAME: audituser
+      SPRING_DATASOURCE_PASSWORD: auditpass
+      RABBITMQ_HOST: rabbitmq
 
   frontend:
     build:
@@ -49,3 +133,4 @@ services:
 
 volumes:
   postgres_data:
+  audit_postgres_data:

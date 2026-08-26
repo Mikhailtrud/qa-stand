@@ -12,7 +12,35 @@ spring:
   flyway:
     enabled: true
 
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+qa:
+  events:
+    enabled: ${USER_EVENTS_ENABLED:false}
+    exchange: ${USER_EVENTS_EXCHANGE:qa.user.events}
+    routing-key: ${USER_EVENTS_ROUTING_KEY:user.changed}
+  cache:
+    enabled: ${USER_CACHE_ENABLED:false}
+    ttl: ${USER_CACHE_TTL:5m}
+  external-profile:
+    base-url: ${EXTERNAL_PROFILE_BASE_URL:http://localhost:8089}
+    timeout: ${EXTERNAL_PROFILE_TIMEOUT:2s}
+
 management:
+  health:
+    rabbit:
+      enabled: ${USER_EVENTS_ENABLED:false}
+    redis:
+      enabled: ${USER_CACHE_ENABLED:false}
   endpoints:
     web:
       exposure:

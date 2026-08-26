@@ -44,6 +44,10 @@ dependencies {
 
     // DB driver
     testImplementation("org.postgresql:postgresql:42.7.7")
+
+    // Extended stand integration helpers
+    testImplementation("org.awaitility:awaitility:4.2.2")
+    testImplementation("redis.clients:jedis:5.2.0")
 }
 
 tasks.test {

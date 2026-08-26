@@ -12,7 +12,6 @@ public class TabsTests extends AuthenticatedTest {
         playGroundTabsSteps.openPlayGroundPage().verifyPlaygroundTabsVisible();
     }
 
-/*    @Test*/
     @ParameterizedTest(name = "Tab {0} -> {1}")
     @CsvSource({
             "1, Content Tab 1",

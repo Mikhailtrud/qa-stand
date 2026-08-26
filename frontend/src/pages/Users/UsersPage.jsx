@@ -28,6 +28,10 @@ function UsersPage({
     message,
 
     createUser,
+    updateUser,
+    editUser,
+    cancelEdit,
+    editingUserId,
     deleteUser
 
 }) {
@@ -59,6 +63,9 @@ function UsersPage({
                         setRole={setRole}
 
                         createUser={createUser}
+                        updateUser={updateUser}
+                        cancelEdit={cancelEdit}
+                        editing={editingUserId !== null}
                     />
 
                 </section>
@@ -67,6 +74,7 @@ function UsersPage({
 
                     <UsersTable
                         users={users}
+                        editUser={editUser}
                         deleteUser={deleteUser}
                     />
 

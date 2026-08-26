@@ -64,7 +64,7 @@ public class EditUsersTests extends AuthenticatedTest {
         );
 
         assertThat(response)
-                .hasStatusCode(422)
+                .hasStatusCode(400)
                 .hasErrorMessage("Validation failed");
     }
 
@@ -80,7 +80,7 @@ public class EditUsersTests extends AuthenticatedTest {
         );
 
         assertThat(response)
-                .hasStatusCode(422)
+                .hasStatusCode(400)
                 .hasErrorMessage("Validation failed");
     }
 
@@ -96,7 +96,7 @@ public class EditUsersTests extends AuthenticatedTest {
         );
 
         assertThat(response)
-                .hasStatusCode(422)
+                .hasStatusCode(400)
                 .hasErrorMessage("Validation failed");
     }
 

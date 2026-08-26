@@ -186,3 +186,51 @@ available at:
 ```text
 qa-tests/reports/api/allure-results
 ```
+
+## Extended stand examples
+
+The example tests for password rules, optional-password user updates, Redis,
+RabbitMQ/audit delivery, external profiles, and the cross-service user lifecycle
+require the extended local stand. Start it from the repository root:
+
+```bash
+docker compose -f docker-compose.yaml up --build -d
+```
+
+Alternatively, run the destructive clean smoke validation first:
+
+```bash
+bash scripts/verify-extended-stand.sh
+```
+
+Then run all API tests from `qa-tests/api-tests`:
+
+```bash
+./gradlew test
+```
+
+Run only the new examples:
+
+```bash
+./gradlew test \
+  --tests '*UserPasswordValidationTest' \
+  --tests '*UpdateUserTest' \
+  --tests '*UserCacheIntegrationTest' \
+  --tests '*UserAuditIntegrationTest' \
+  --tests '*ExternalProfileTest' \
+  --tests '*UserLifecycleIntegrationTest'
+```
+
+Integration configuration follows the existing system-property, environment,
+default precedence:
+
+| Purpose | System property | Environment variable | Default |
+|---|---|---|---|
+| Audit API | `audit.service.url` | `AUDIT_SERVICE_URL` | `http://localhost:8090` |
+| Redis host | `redis.host` | `REDIS_HOST` | `localhost` |
+| Redis port | `redis.port` | `REDIS_PORT` | `6379` |
+
+The audit examples poll `GET /audit/events` with Awaitility. Redis examples use
+the public Redis protocol and the implemented `users:{id}` key, not Spring
+internals. External-profile examples call only the backend endpoint and use the
+deterministic IDs defined by the repository's WireMock mappings.

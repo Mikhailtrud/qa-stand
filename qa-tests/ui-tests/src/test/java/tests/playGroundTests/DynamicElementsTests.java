@@ -8,7 +8,10 @@ public class DynamicElementsTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        playGroundDynamicMouseSteps.openPlayGroundPage().verifyPlaygroundDynamicElementsVisible().verifyDynamicsElementsBlockText("Hidden element appeared.");
+        playGroundDynamicMouseSteps
+                .openPlayGroundPage()
+                .verifyPlaygroundDynamicElementsVisible()
+                .verifyDynamicsElementsBlockText("Hidden element appeared.");
     }
 
     @Test

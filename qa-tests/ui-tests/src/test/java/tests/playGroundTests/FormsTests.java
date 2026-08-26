@@ -10,7 +10,9 @@ public class FormsTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        playGroundFormsSteps.openPlayGroundPage().verifyPlaygroundTabsVisible();
+        playGroundFormsSteps
+                .openPlayGroundPage()
+                .verifyPlaygroundTabsVisible();
     }
 
     @Test

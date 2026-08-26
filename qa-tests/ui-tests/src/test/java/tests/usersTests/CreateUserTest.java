@@ -16,14 +16,18 @@ public class CreateUserTest extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        userSteps.openUsersTab().verifyUsersTableVisible();
+        userSteps
+                .openUsersTab()
+                .verifyUsersTableVisible();
     }
 
     @Test
     void createUserSuccess() {
         user = user().build();
 
-        userSteps.createUser(user).verifyUserExists(user.email());
+        userSteps
+                .createUser(user)
+                .verifyUserExists(user.email());
 
         createdViaUi = true;
     }
@@ -32,28 +36,36 @@ public class CreateUserTest extends AuthenticatedTest {
     void createUserWithInvalidData() {
         user = user().withEmail(UserTestData.INVALID_EMAIL).build();
 
-        userSteps.createUser(user).loginErrorMessageVisible();
+        userSteps
+                .createUser(user)
+                .loginErrorMessageVisible();
     }
 
     @Test
     void createUserWithEmptyEmail() {
         user = user().withEmail(UserTestData.EMPTY).build();
 
-        userSteps.createUserWithEmptyField(user).verifyCreateButtonShouldNotBeClickable();
+        userSteps
+                .createUserWithEmptyField(user)
+                .verifyCreateButtonShouldNotBeClickable();
     }
 
     @Test
     void createUserWithEmptyName() {
         user = user().withName(UserTestData.EMPTY).build();
 
-        userSteps.createUserWithEmptyField(user).verifyCreateButtonShouldNotBeClickable();
+        userSteps
+                .createUserWithEmptyField(user)
+                .verifyCreateButtonShouldNotBeClickable();
     }
 
     @Test
     void createUserWithEmptyPassword() {
         user = user().withPassword(UserTestData.EMPTY).build();
 
-        userSteps.createUserWithEmptyField(user).verifyCreateButtonShouldNotBeClickable();
+        userSteps
+                .createUserWithEmptyField(user)
+                .verifyCreateButtonShouldNotBeClickable();
     }
 
     @AfterEach

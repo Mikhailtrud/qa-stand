@@ -8,26 +8,34 @@ public class MouseActionsTests  extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        playGroundMouseActionsSteps.openPlayGroundPage().verifyPlaygroundMouseActionsVisible();
+        playGroundMouseActionsSteps
+                .openPlayGroundPage()
+                .verifyPlaygroundMouseActionsVisible();
     }
 
     @Test
     void hoverTest() {
-        playGroundMouseActionsSteps.hoverElement().verifyMouseActionResult("Hover");
+        playGroundMouseActionsSteps
+                .hoverElement()
+                .verifyMouseActionResult("Hover");
 
         // проверка результата hover
     }
 
     @Test
     void doubleClickTest() {
-        playGroundMouseActionsSteps.doubleClickElement().verifyMouseActionResult("Double Click");
+        playGroundMouseActionsSteps
+                .doubleClickElement()
+                .verifyMouseActionResult("Double Click");
 
         // проверка результата double click
     }
 
     @Test
     void rightClickTest() {
-        playGroundMouseActionsSteps.rightClickElement().verifyMouseActionResult("Right Click ");
+        playGroundMouseActionsSteps
+                .rightClickElement()
+                .verifyMouseActionResult("Right Click ");
 
         // проверка результата right click
     }

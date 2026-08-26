@@ -88,12 +88,6 @@ public class UserSteps extends BaseSteps {
         return this;
     }
 
-    public UserSteps verifyUserCreatedTableVisible() {
-        step("Проверить отображение в таблице созданного пользователей");
-        usersPage.createdUsersTable().shouldBe(Condition.visible);
-        return this;
-    }
-
     public UserSteps verifyUserExists(String email) {
         step("Проверить пользователя с Email: " + email);
         usersPage.userRowByEmail(email).shouldBe(Condition.visible);

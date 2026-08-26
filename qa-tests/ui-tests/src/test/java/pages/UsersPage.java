@@ -28,9 +28,6 @@ public class UsersPage extends BasePage {
     private final SelenideElement usersTab =
             $(".layout-body a[href='/users']");
 
-    private final SelenideElement CheckUserTable =
-            $(".users-table tr:nth-child(2)");
-
     private final SelenideElement createUserValidationErrorMessage =
             $(".alert.alert-error");
 
@@ -77,10 +74,6 @@ public class UsersPage extends BasePage {
 
     public SelenideElement usersTable() {
         return usersTable;
-    }
-
-    public SelenideElement createdUsersTable() {
-        return CheckUserTable;
     }
 
     public SelenideElement createUserValidationErrorMessage() {

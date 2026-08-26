@@ -10,7 +10,8 @@ public class LogoutTest extends AuthenticatedTest {
 
     @Test
     void logoutClearsAuthentication() {
-        loginSteps.logout()
+        loginSteps
+                .logout()
                 .verifyLoginLabelVisible();
 
         String storedToken = executeJavaScript(

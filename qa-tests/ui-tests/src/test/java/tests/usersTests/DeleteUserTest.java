@@ -15,12 +15,20 @@ public class DeleteUserTest extends AuthenticatedTest {
     @BeforeEach
     void createUserViaApi() {
         createdUser = user().withName("User delete test").build();
+
         createdUserId = apiHelper.createUser(authToken, createdUser);
-        userSteps.openUsersPage().verifyUsersTableVisible().verifyUserExists(createdUser.email());
+
+        userSteps
+                .openUsersPage()
+                .verifyUsersTableVisible()
+                .verifyUserExists(createdUser.email());
     }
 
     @Test
     void deleteUserTest() {
-        userSteps.deleteUser(createdUserId).verifyUserNotExists(createdUser.email()).deleteUserSuccessMessage();
+        userSteps
+                .deleteUser(createdUserId)
+                .verifyUserNotExists(createdUser.email())
+                .deleteUserSuccessMessage();
     }
 }

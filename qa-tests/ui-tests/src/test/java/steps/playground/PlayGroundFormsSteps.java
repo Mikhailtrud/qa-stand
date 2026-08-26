@@ -96,6 +96,7 @@ public class PlayGroundFormsSteps extends BaseSteps {
     }
 
     public PlayGroundFormsSteps selectCheckbox() {
+        step("Выбрать checkbox");
         playGroundFormsPage.checkbox().click();
         return this;
     }
@@ -107,6 +108,7 @@ public class PlayGroundFormsSteps extends BaseSteps {
     }
 
     public PlayGroundFormsSteps getRadioMale() {
+        step("Выбрать радио кнопку Male");
         playGroundFormsPage.getRadioMale().click();
         return this;
     }
@@ -118,6 +120,7 @@ public class PlayGroundFormsSteps extends BaseSteps {
     }
 
     public PlayGroundFormsSteps getRadioFemale() {
+        step("Выбрать радио кнопку Female");
         playGroundFormsPage.getRadioFemale().click();
         return this;
     }

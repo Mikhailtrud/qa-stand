@@ -18,7 +18,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
     }
 
     public PlayGroundJavaScriptSteps clickOnAlertButtonStep(String expectedText) {
-        step("Нажать на кнопку вызова Alert");
+        step("Проверить появление алерат, его текст и закрыть алерт");
         playGroundJavaScriptPage.alertButton().click();
         playGroundJavaScriptPage.verifyAlertText(expectedText);
         playGroundJavaScriptPage.verifyAlertClosed();
@@ -26,7 +26,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
     }
 
     public PlayGroundJavaScriptSteps clickOnAcceptConfirmButtonStep(String expectedText) {
-        step("Нажать на кнопку вызова Confirm");
+        step("Проверить появление Confirm, его текст и нажать на кнопку Accept");
         playGroundJavaScriptPage.confirmButton().click();
         playGroundJavaScriptPage.confirmAccept(expectedText);
         playGroundJavaScriptPage.verifyAlertClosed();
@@ -34,7 +34,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
     }
 
     public PlayGroundJavaScriptSteps clickOnCancelConfirmButtonStep(String expectedText) {
-        step("Нажать на кнопку вызова Confirm");
+        step("Проверить появление Confirm, его текст и нажать на кнопку Cancel");
         playGroundJavaScriptPage.confirmButton().click();
         playGroundJavaScriptPage.confirmDismiss(expectedText);
         playGroundJavaScriptPage.verifyAlertClosed();
@@ -43,7 +43,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
 
 
     public PlayGroundJavaScriptSteps clickOnAcceptPromptButtonStep(String expectedText, String inputText) {
-        step("Нажать на кнопку вызова Prompt");
+        step("Проверить появление Prompt, его текст и нажать на кнопку Accept");
         playGroundJavaScriptPage.promptButton().click();
         playGroundJavaScriptPage.promptAccept(expectedText, inputText);
         playGroundJavaScriptPage.verifyAlertClosed();
@@ -51,7 +51,7 @@ public class PlayGroundJavaScriptSteps extends BaseSteps {
     }
 
     public PlayGroundJavaScriptSteps clickOnCancelPromptButtonStep(String expectedText, String inputText) {
-        step("Нажать на кнопку вызова Prompt");
+        step("Проверить появление Prompt, его текст и нажать на кнопку Cancel");
         playGroundJavaScriptPage.promptButton().click();
         playGroundJavaScriptPage.promptAccept(expectedText, inputText);
         playGroundJavaScriptPage.verifyAlertClosed();

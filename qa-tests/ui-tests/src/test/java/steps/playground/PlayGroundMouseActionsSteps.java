@@ -36,7 +36,7 @@ public class PlayGroundMouseActionsSteps extends BaseSteps {
     }
 
     public PlayGroundMouseActionsSteps verifyMouseActionResult(String text) {
-        step("Выполнить клик правой кнопкой мыши");
+        step("Проверить результат в блоке Mouse Actions");
         playGroundMousePage.verifyMouseActionResult(text);
         return this;
     }

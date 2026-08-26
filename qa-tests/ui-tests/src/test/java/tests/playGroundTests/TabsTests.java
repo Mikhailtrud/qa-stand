@@ -9,7 +9,9 @@ public class TabsTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
-        playGroundTabsSteps.openPlayGroundPage().verifyPlaygroundTabsVisible();
+        playGroundTabsSteps
+                .openPlayGroundPage()
+                .verifyPlaygroundTabsVisible();
     }
 
     @ParameterizedTest(name = "Tab {0} -> {1}")

@@ -13,6 +13,8 @@ public class DriverConfig {
 
         Configuration.browser = TestConfig.BROWSER;
 
+        Configuration.remote = TestConfig.REMOTE ? TestConfig.REMOTE_URL : null;
+
         Configuration.browserSize = "1920x1080";
 
         Configuration.pageLoadStrategy = "eager";

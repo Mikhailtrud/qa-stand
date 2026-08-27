@@ -2,131 +2,134 @@ package steps.playground;
 
 import com.codeborne.selenide.Condition;
 import steps.BaseSteps;
+import io.qameta.allure.Step;
 
 import java.nio.file.Path;
 
-import static com.codeborne.selenide.Condition.visible;
-
 public class PlayGroundFormsSteps extends BaseSteps {
 
+    @Step("Open the Playground page")
     public PlayGroundFormsSteps openPlayGroundPage() {
-        step("Открыть страницу PlayGround");
         playGroundPage.open();
         return this;
     }
 
-    public PlayGroundFormsSteps verifyPlaygroundTabsVisible() {
-        step("Проверить видимость блока с формами");
+    @Step("Verify that the Forms section is visible")
+    public PlayGroundFormsSteps verifyPlaygroundFormsVisible() {
         playGroundPage.formsBlock().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Enter text: {text}")
     public PlayGroundFormsSteps enterText(String text) {
-        step("Заполнить текст в поле");
         playGroundFormsPage.enterText(text);
         return this;
     }
 
+    @Step("Verify text input value: {expectedText}")
     public PlayGroundFormsSteps verifyTextInputValue(String expectedText) {
-        step("Проверить текст в input: " + expectedText);
         playGroundFormsPage.verifyTextInputValue(expectedText);
         return this;
     }
 
+    @Step("Enter textarea value: {text}")
     public PlayGroundFormsSteps enterTextarea(String text) {
-        step("Заполнить ткст в поле textarea");
         playGroundFormsPage.enterTextarea(text);
         return this;
     }
 
+    @Step("Verify textarea value: {expectedText}")
     public PlayGroundFormsSteps verifyTextareaValue(String expectedText) {
-        step("Проверить текст в textarea: " + expectedText);
         playGroundFormsPage.verifyTextareaValue(expectedText);
         return this;
     }
 
+    @Step("Enter date: {text}")
     public PlayGroundFormsSteps enterDate(String text) {
-        step("Заполнить дату");
         playGroundFormsPage.enterDate(text);
         return this;
     }
 
+    @Step("Verify date value: {date}")
     public PlayGroundFormsSteps verifyDateValue(String date) {
-        step("Проверить дату в Date: " + date);
         playGroundFormsPage.verifyDateValue(date);
         return this;
     }
 
-    public PlayGroundFormsSteps selectOption(long option) {
-        step("Выбрать опцию");
-        playGroundFormsPage.select().click();
-        playGroundFormsPage.enterOption(option).should(visible);
-        playGroundFormsPage.enterOption(option).click();
+    @Step("Select option with index {option}")
+    public PlayGroundFormsSteps selectOption(int option) {
+        playGroundFormsPage.selectOption(option);
         return this;
     }
 
+    @Step("Verify that option with index {option} is visible")
+    public PlayGroundFormsSteps verifyOptionVisible(int option) {
+        playGroundFormsPage.verifyOptionVisible(option);
+        return this;
+    }
+
+    @Step("Verify selected option: {option}")
     public PlayGroundFormsSteps verifyOptionValue(String option) {
-        step("Проверить опцию в Select: " + option);
         playGroundFormsPage.verifyOptionValue(option);
         return this;
     }
 
+    @Step("Select multiple options")
     public PlayGroundFormsSteps selectMultiOption(int... index) {
-        step("Выбрать опцию");
         playGroundFormsPage.selectMultiSelectOptions(index);
         return this;
     }
 
+    @Step("Verify selected options")
     public PlayGroundFormsSteps verifySelectedOptions(String... expectedOptions) {
-        step("Проверить выбранные опции");
         playGroundFormsPage.verifySelectedOptions(expectedOptions);
         return this;
     }
 
+    @Step("Upload file: {path}")
     public PlayGroundFormsSteps uploadFile(Path path) {
-        step("Загрузить файл");
         playGroundFormsPage.uploadFile(path);
         return this;
     }
 
+    @Step("Verify uploaded file name: {fileName}")
     public PlayGroundFormsSteps verifyFileUploaded(String fileName) {
-        step("Проверить опцию в Select: " + fileName);
         playGroundFormsPage.verifyFileUploaded(fileName);
         return this;
     }
 
+    @Step("Select the checkbox")
     public PlayGroundFormsSteps selectCheckbox() {
-        step("Выбрать checkbox");
         playGroundFormsPage.checkbox().click();
         return this;
     }
 
+    @Step("Verify that the checkbox is selected")
     public PlayGroundFormsSteps verifyCheckboxSelected() {
-        step("Проверить, что checkbox выбран");
         playGroundFormsPage.verifyCheckboxSelected();
         return this;
     }
 
-    public PlayGroundFormsSteps getRadioMale() {
-        step("Выбрать радио кнопку Male");
-        playGroundFormsPage.getRadioMale().click();
+    @Step("Select the Male radio button")
+    public PlayGroundFormsSteps selectMaleRadio() {
+        playGroundFormsPage.selectMaleRadio();
         return this;
     }
 
+    @Step("Verify that the Male radio button is selected")
     public PlayGroundFormsSteps verifyMaleRadioButtonSelected() {
-        step("Проверить, что male radio выбран");
         playGroundFormsPage.verifyMaleRadioButtonSelected();
         return this;
     }
 
-    public PlayGroundFormsSteps getRadioFemale() {
-        step("Выбрать радио кнопку Female");
-        playGroundFormsPage.getRadioFemale().click();
+    @Step("Select the Female radio button")
+    public PlayGroundFormsSteps selectFemaleRadio() {
+        playGroundFormsPage.selectFemaleRadio();
         return this;
     }
 
+    @Step("Verify that the Female radio button is selected")
     public PlayGroundFormsSteps verifyFemaleRadioButtonSelected() {
-        step("Проверить, что female radio выбран");
         playGroundFormsPage.verifyFemaleRadioButtonSelected();
         return this;
     }

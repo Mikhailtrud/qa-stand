@@ -1,10 +1,16 @@
 package tests.playGroundTests;
 
 import config.AuthenticatedTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@Epic("QA Stand")
+@Feature("Playground: Tabs")
+@Story("Tab navigation")
 public class TabsTests extends AuthenticatedTest {
 
     @BeforeEach

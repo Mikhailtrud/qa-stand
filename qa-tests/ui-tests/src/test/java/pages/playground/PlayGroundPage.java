@@ -8,22 +8,22 @@ import static com.codeborne.selenide.Selenide.$;
 public class PlayGroundPage extends BasePage {
     //Elements
     private final SelenideElement formsBlock =
-            $(".playground-section:nth-child(1)");
+            $("[data-testid='playground-forms-section']");
 
     private final SelenideElement javaScript =
-            $(".playground-section:nth-child(2)");
+            $("[data-testid='playground-javascript-section']");
 
     private final SelenideElement tabsBlock =
-            $(".playground-section:nth-child(3)");
+            $("[data-testid='playground-tabs-section']");
 
     private final SelenideElement tablesBlock =
-            $(".playground-section:nth-child(4)");
+            $("[data-testid='playground-tables-section']");
 
     private final SelenideElement dynamicElementsBlock =
-            $(".playground-section:nth-child(5)");
+            $("[data-testid='playground-dynamic-section']");
 
     private final SelenideElement mouseActions =
-            $(".playground-section:nth-child(6)");
+            $("[data-testid='playground-mouse-section']");
 
     //Functions
     public PlayGroundPage open() {

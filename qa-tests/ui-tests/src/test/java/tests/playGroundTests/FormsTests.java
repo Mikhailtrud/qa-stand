@@ -1,21 +1,27 @@
 package tests.playGroundTests;
 
 import config.AuthenticatedTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 
+@Epic("QA Stand")
+@Feature("Playground: Forms")
 public class FormsTests extends AuthenticatedTest {
 
     @BeforeEach
     void setUp() {
         playGroundFormsSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTabsVisible();
+                .verifyPlaygroundFormsVisible();
     }
 
     @Test
+    @Story("Text input")
     void fillTextInputTest() {
         playGroundFormsSteps
                 .enterText("My text")
@@ -23,6 +29,7 @@ public class FormsTests extends AuthenticatedTest {
     }
 
     @Test
+    @Story("Textarea")
     void fillTextareaTest() {
         playGroundFormsSteps
                 .enterTextarea("My textarea")
@@ -30,6 +37,7 @@ public class FormsTests extends AuthenticatedTest {
     }
 
     @Test
+    @Story("Date input")
     void fillDateTest() {
         playGroundFormsSteps
                 .enterDate("20.02.1988")
@@ -37,20 +45,24 @@ public class FormsTests extends AuthenticatedTest {
     }
 
     @Test
+    @Story("Single select")
     void selectOptionTest() {
         playGroundFormsSteps
+                .verifyOptionVisible(2)
                 .selectOption(2)
                 .verifyOptionValue("Option 2");
     }
 
     @Test
-    void selectMultioptionTest() {
+    @Story("Multiple select")
+    void selectMultipleOptionsTest() {
         playGroundFormsSteps
                 .selectMultiOption(1, 2, 3)
                 .verifySelectedOptions("Kotlin", "Scala", "Groovy");
     }
 
     @Test
+    @Story("File upload")
     void uploadFileTest() {
         Path file = Path.of("src/test/resources/files/test.png");
 
@@ -60,6 +72,7 @@ public class FormsTests extends AuthenticatedTest {
     }
 
     @Test
+    @Story("Checkbox")
     void selectCheckbox() {
         playGroundFormsSteps
                 .selectCheckbox()
@@ -67,16 +80,18 @@ public class FormsTests extends AuthenticatedTest {
     }
 
     @Test
-    void selectCMaleRadioButton() {
+    @Story("Radio buttons")
+    void selectMaleRadioButton() {
         playGroundFormsSteps
-                .getRadioMale()
+                .selectMaleRadio()
                 .verifyMaleRadioButtonSelected();
     }
 
     @Test
-    void selectCFemaleRadioButton() {
+    @Story("Radio buttons")
+    void selectFemaleRadioButton() {
         playGroundFormsSteps
-                .getRadioFemale()
+                .selectFemaleRadio()
                 .verifyFemaleRadioButtonSelected();
     }
 

@@ -6,17 +6,20 @@ function PlaygroundJavaScript() {
 
     const [showModal, setShowModal] = useState(false);
     const [toast, setToast] = useState("");
+    const [dialogResult, setDialogResult] = useState("");
 
     function showAlert() {
         alert("Test Alert");
     }
 
     function showConfirm() {
-        confirm("Are you sure?");
+        const accepted = confirm("Are you sure?");
+        setDialogResult(accepted ? "Confirm accepted" : "Confirm dismissed");
     }
 
     function showPrompt() {
-        prompt("Enter your name");
+        const value = prompt("Enter your name");
+        setDialogResult(value === null ? "Prompt dismissed" : `Prompt accepted: ${value}`);
     }
 
     function showToast() {
@@ -39,7 +42,7 @@ function PlaygroundJavaScript() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-javascript-section">
 
             <h2>JavaScript</h2>
 
@@ -81,6 +84,14 @@ function PlaygroundJavaScript() {
                 </button>
 
             </div>
+
+            {dialogResult && (
+
+                <div data-testid="dialog-result">
+                    {dialogResult}
+                </div>
+
+            )}
 
             {toast && (
 

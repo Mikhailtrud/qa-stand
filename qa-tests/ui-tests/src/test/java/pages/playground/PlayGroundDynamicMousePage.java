@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import pages.BasePage;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PlayGroundDynamicMousePage extends BasePage {
@@ -32,8 +33,12 @@ public class PlayGroundDynamicMousePage extends BasePage {
     }
 
     public PlayGroundDynamicMousePage verifyLoaderText(String text) {
-        $(loaderElementText)
-                .shouldHave(text(text));
+        loaderElementText.shouldHave(text(text));
+        return this;
+    }
+
+    public PlayGroundDynamicMousePage verifyLoaderVisible() {
+        loaderElementText.shouldBe(visible);
         return this;
     }
 
@@ -46,14 +51,17 @@ public class PlayGroundDynamicMousePage extends BasePage {
     }
 
     public PlayGroundDynamicMousePage verifyDelayedButtonText(String text) {
-        $(delayedButton)
-                .shouldHave(text(text));
+        delayedButton.shouldHave(text(text));
         return this;
     }
 
     public PlayGroundDynamicMousePage verifyDynamicsElementsBlockText(String text) {
-        $(dynamicElementsHidden)
-                .shouldHave(text(text));
+        dynamicElementsHidden.shouldHave(text(text));
+        return this;
+    }
+
+    public PlayGroundDynamicMousePage verifyHiddenElementVisible() {
+        dynamicElementsHidden.shouldBe(visible);
         return this;
     }
 

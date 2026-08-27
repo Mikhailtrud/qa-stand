@@ -16,14 +16,38 @@ directory on Windows:
 .\gradlew.bat test
 ```
 
+Raw Allure results are written to:
+
+```text
+../reports/ui/allure-results
+```
+
+Generate a fresh retained report after the test run:
+
+```powershell
+.\gradlew.bat allureReport --clean
+```
+
+The generated report is written to:
+
+```text
+../reports/ui/allure-report
+```
+
+Open it with the Allure command line downloaded by the Gradle plugin:
+
+```powershell
+.\build\allure\commandline\bin\allure.bat open ..\reports\ui\allure-report
+```
+
 Runtime system properties:
 
 | Property | Default | Use |
 |---|---|---|
 | `baseUrl` | `http://localhost:5173` | frontend URL |
 | `browser` | `chrome` | Selenide browser |
-| `remote` | `false` | stored by `TestConfig`; not currently applied by `DriverConfig` |
-| `remoteUrl` | `http://localhost:4444/wd/hub` | stored by `TestConfig`; not currently applied by `DriverConfig` |
+| `remote` | `false` | enables remote WebDriver execution |
+| `remoteUrl` | `http://localhost:4444/wd/hub` | Selenium Grid/Selenoid URL used when `remote=true` |
 
 Example override:
 
@@ -31,8 +55,9 @@ Example override:
 .\gradlew.bat test -DbaseUrl=http://localhost:5173 -Dbrowser=chrome
 ```
 
-`DriverConfig` currently applies the base URL, browser, `1920x1080` window,
-eager page-load strategy, and a 10-second timeout.
+`DriverConfig` applies the base URL, browser, optional remote URL, `1920x1080`
+window, eager page-load strategy, and a 10-second timeout. The Gradle build uses
+a Java 21 toolchain.
 
 ## Structure
 
@@ -46,6 +71,5 @@ src/test/java/
 └── tests/       # JUnit scenarios
 ```
 
-UI Allure raw results are configured under `build/allure-results`. The retained
-static-report workflow documented at the qa-tests root currently applies to
-the API project only.
+UI Allure raw results and the retained static report are stored under
+`qa-tests/reports/ui`, outside the Gradle build directory.

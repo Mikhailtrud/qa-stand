@@ -6,7 +6,7 @@ public final class UserTestData {
     }
 
     public static final String VALID_NAME = "User";
-    public static final String VALID_PASSWORD = "user123";
+    public static final String VALID_PASSWORD = "userTest123";
     public static final String VALID_ROLE = "USER";
 
     public static final String EMPTY = "";

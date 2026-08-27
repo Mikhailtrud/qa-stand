@@ -1,6 +1,5 @@
 package steps;
 
-import io.qameta.allure.Allure;
 import pages.*;
 import pages.playground.*;
 
@@ -14,9 +13,5 @@ public class BaseSteps {
     protected final PlayGroundMousePage playGroundMousePage = new PlayGroundMousePage();
     protected final PlayGroundPage playGroundPage = new PlayGroundPage();
     protected final PlayGroundTablesPage playGroundTablesPage = new PlayGroundTablesPage();
-
-    protected void step(String message) {
-        Allure.step(message);
-    }
 
 }

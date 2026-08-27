@@ -8,8 +8,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayGroundJavaScriptPage extends BasePage {
 
@@ -29,6 +27,9 @@ public class PlayGroundJavaScriptPage extends BasePage {
 
     private final SelenideElement toastWindow =
             $("[data-testid='toast']");
+
+    private final SelenideElement dialogResult =
+            $("[data-testid='dialog-result']");
 
     // JavaScript Modal window
     private final SelenideElement modalButton =
@@ -51,44 +52,35 @@ public class PlayGroundJavaScriptPage extends BasePage {
         return alertButton;
     }
 
-    public PlayGroundJavaScriptPage verifyAlertText(String expectedText) {
-        String actualText = switchTo().alert().getText();
+    public String alertText() {
+        return switchTo().alert().getText();
+    }
 
-        assertEquals(expectedText, actualText);
-
+    public PlayGroundJavaScriptPage acceptAlert() {
         switchTo().alert().accept();
-
         return this;
     }
 
-    public PlayGroundJavaScriptPage verifyAlertClosed() {
-        assertThrows(
-                NoAlertPresentException.class,
-                () -> getWebDriver().switchTo().alert()
-        );
-
-        return this;
+    public boolean isAlertPresent() {
+        try {
+            getWebDriver().switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException ignored) {
+            return false;
+        }
     }
 
     public SelenideElement confirmButton() {
         return confirmButton;
     }
 
-    public PlayGroundJavaScriptPage confirmAccept(String expectedText) {
-        String actualText = switchTo().alert().getText();
-
-        assertEquals(expectedText, actualText);
-
+    public PlayGroundJavaScriptPage confirmAccept() {
         switchTo().alert().accept();
 
         return this;
     }
 
-    public PlayGroundJavaScriptPage confirmDismiss(String expectedText) {
-        String actualText = switchTo().alert().getText();
-
-        assertEquals(expectedText, actualText);
-
+    public PlayGroundJavaScriptPage confirmDismiss() {
         switchTo().alert().dismiss();
 
         return this;
@@ -98,25 +90,14 @@ public class PlayGroundJavaScriptPage extends BasePage {
         return promptButton;
     }
 
-    public PlayGroundJavaScriptPage promptAccept(
-            String expectedText,
-            String inputText
-    ) {
-        String actualText = switchTo().alert().getText();
-
-        assertEquals(expectedText, actualText);
-
+    public PlayGroundJavaScriptPage promptAccept(String inputText) {
         switchTo().alert().sendKeys(inputText);
         switchTo().alert().accept();
 
         return this;
     }
 
-    public PlayGroundJavaScriptPage promptDismiss(String expectedText) {
-        String actualText = switchTo().alert().getText();
-
-        assertEquals(expectedText, actualText);
-
+    public PlayGroundJavaScriptPage promptDismiss() {
         switchTo().alert().dismiss();
 
         return this;
@@ -124,6 +105,15 @@ public class PlayGroundJavaScriptPage extends BasePage {
 
     public SelenideElement toastButton() {
         return toastButton;
+    }
+
+    public SelenideElement dialogResult() {
+        return dialogResult;
+    }
+
+    public PlayGroundJavaScriptPage verifyDialogResultText(String expectedText) {
+        dialogResult.shouldHave(text(expectedText));
+        return this;
     }
 
     public SelenideElement toastWindow() {

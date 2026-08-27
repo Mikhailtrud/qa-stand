@@ -30,7 +30,7 @@ function LoginForm({ onLogin }) {
 
         <div>
 
-            <h2>Login</h2>
+            <h2 data-testid="login-title">Login</h2>
 
             <Alert
                 message={error}

@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Condition.text;
 
 public class UsersPage extends BasePage {
 
+    //Elements
     private final SelenideElement emailInput =
             $("[data-testid='email-input']");
 
@@ -19,7 +20,7 @@ public class UsersPage extends BasePage {
     private final SelenideElement roleSelect =
             $("[data-testid='role-select']");
 
-    public final SelenideElement createUserButton =
+    private final SelenideElement createUserButton =
             $("[data-testid='create-user-button']");
 
     private final SelenideElement usersTable =
@@ -34,9 +35,7 @@ public class UsersPage extends BasePage {
     private final SelenideElement deleteUserSuccessMessage =
             $(".alert.alert-success");
 
-
-
-
+    //Functions
     public UsersPage open() {
         openPage("/users");
         return this;
@@ -76,6 +75,10 @@ public class UsersPage extends BasePage {
         return usersTable;
     }
 
+    public SelenideElement createUserButton() {
+        return createUserButton;
+    }
+
     public SelenideElement createUserValidationErrorMessage() {
         return createUserValidationErrorMessage;
     }
@@ -84,8 +87,12 @@ public class UsersPage extends BasePage {
         return usersTable.$$("tbody tr").findBy(text(email));
     }
 
+    public SelenideElement userRowById(long id) {
+        return $("[data-testid='user-row-" + id + "']");
+    }
+
     public SelenideElement userDeleteButton(long id) {
-        return $("[data-testid='user-row-" + id + "'] .form-button");
+        return $("[data-testid='delete-user-" + id + "']");
     }
 
     public SelenideElement deleteUserSuccessMessage() {

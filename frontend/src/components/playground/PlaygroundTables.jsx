@@ -75,7 +75,7 @@ function PlaygroundTables() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-tables-section">
 
             <h2>Tables</h2>
 

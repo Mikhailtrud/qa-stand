@@ -1,8 +1,13 @@
 package config;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import steps.*;
 import steps.playground.*;
+
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class BaseTest {
 
@@ -19,7 +24,16 @@ public class BaseTest {
     static void setup() {
 
         DriverConfig.configure();
-
+        SelenideLogger.addListener(
+                "allure",
+                new AllureSelenide()
+                        .screenshots(true)
+                        .savePageSource(true)
+        );
     }
 
+    @AfterEach
+    void tearDown() {
+        closeWebDriver();
+    }
 }

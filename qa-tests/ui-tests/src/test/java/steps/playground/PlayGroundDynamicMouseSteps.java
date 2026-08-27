@@ -2,60 +2,67 @@ package steps.playground;
 
 import com.codeborne.selenide.Condition;
 import steps.BaseSteps;
+import io.qameta.allure.Step;
 
 public class PlayGroundDynamicMouseSteps extends BaseSteps {
 
+    @Step("Open the Playground page")
     public PlayGroundDynamicMouseSteps openPlayGroundPage() {
-        step("Открыть страницу PlayGround");
         playGroundPage.open();
         return this;
     }
 
+    @Step("Verify that the Dynamic Elements section is visible")
     public PlayGroundDynamicMouseSteps verifyPlaygroundDynamicElementsVisible() {
-        step("Проверить видимость блока с таблицей");
         playGroundPage.dynamicElementsBlock().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Start the loader")
     public PlayGroundDynamicMouseSteps clickOnStartLoaderButton() {
-        step("Нажать на кнопку старта лоадера");
         playGroundDynamicMousePage.startLoaderButton().click();
         return this;
     }
 
-    public PlayGroundDynamicMouseSteps verifyPlaygroundDynamicLoaderVisible() {
-        step("Проверить видимость лоадера");
-        playGroundPage.dynamicElementsBlock().shouldBe(Condition.visible);
-        return this;
-    }
-
-    public PlayGroundDynamicMouseSteps verifyPLoaderText(String text) {
-        step("Проверить текст лоадера");
+    @Step("Verify loader text: {text}")
+    public PlayGroundDynamicMouseSteps verifyLoaderText(String text) {
         playGroundDynamicMousePage.verifyLoaderText(text);
         return this;
     }
 
+    @Step("Verify that the loader is visible")
+    public PlayGroundDynamicMouseSteps verifyLoaderVisible() {
+        playGroundDynamicMousePage.verifyLoaderVisible();
+        return this;
+    }
+
+    @Step("Show the delayed button")
     public PlayGroundDynamicMouseSteps clickOnShowDelayedButton() {
-        step("Нажать на кнопку Show Delayed button");
         playGroundDynamicMousePage.showDelayedButton().click();
         return this;
     }
 
+    @Step("Verify that the delayed button is visible")
     public PlayGroundDynamicMouseSteps verifyPlaygroundDelayedButtonVisible() {
-        step("Проверить видимость кнопки с задержкой");
         playGroundDynamicMousePage.delayedButton().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Verify delayed button text: {text}")
     public PlayGroundDynamicMouseSteps verifyDelayedButtonText(String text) {
-        step("Проверить текст кнопки с задержкой");
         playGroundDynamicMousePage.verifyDelayedButtonText(text);
         return this;
     }
 
+    @Step("Verify dynamic element text: {text}")
     public PlayGroundDynamicMouseSteps verifyDynamicsElementsBlockText(String text) {
-        step("Проверить текст блока динамических элементов");
         playGroundDynamicMousePage.verifyDynamicsElementsBlockText(text);
+        return this;
+    }
+
+    @Step("Verify that the hidden element is visible")
+    public PlayGroundDynamicMouseSteps verifyHiddenElementVisible() {
+        playGroundDynamicMousePage.verifyHiddenElementVisible();
         return this;
     }
 

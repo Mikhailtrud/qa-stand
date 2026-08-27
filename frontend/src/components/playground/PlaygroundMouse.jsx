@@ -8,7 +8,7 @@ function PlaygroundMouse() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-mouse-section">
 
             <h2>Mouse Actions</h2>
 

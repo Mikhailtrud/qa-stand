@@ -1,0 +1,15 @@
+{
+  "output": "../reports/ui/allure-report",
+  "plugins": {
+    "awesome": {
+      "options": {
+        "singleFile": false,
+        "groupBy": [
+          "epic",
+          "feature",
+          "story"
+        ]
+      }
+    }
+  }
+}

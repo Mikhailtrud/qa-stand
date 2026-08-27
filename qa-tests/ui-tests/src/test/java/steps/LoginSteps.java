@@ -7,53 +7,47 @@ import static com.codeborne.selenide.Condition.visible;
 
 public class LoginSteps extends BaseSteps {
 
-    @Step
+    @Step("Open the login page")
     public LoginSteps openLoginPage() {
-        step("Открыть страницу авторизации");
         loginPage.open();
         return this;
     }
 
-    @Step
+    @Step("Log in as {email}")
     public LoginSteps login(String email, String password) {
-        step("Залогиниться");
         loginPage.fillLoginInput(email);
-        loginPage.fillLPasswordInput(password);
-        loginPage.loginButton.click();;
+        loginPage.fillPasswordInput(password);
+        loginPage.submitLogin();
         return this;
     }
 
-    @Step
+    @Step("Verify that the Login title is visible")
     public LoginSteps verifyLoginLabelVisible() {
-        step("Проверить отображение лейбла Login");
-        loginPage.loginLabel.shouldBe(visible);
+        loginPage.loginTitle().shouldBe(visible).shouldHave(text("Login"));
         return this;
     }
 
+    @Step("Log out")
     public LoginSteps logout() {
-        step("Выйти из системы");
         loginPage.logout();
         return this;
     }
 
-    @Step
-    public LoginSteps loginErrorMessageVisible() {
-        step("Проверить отображение лейбли QaSandbox");
-        loginPage.loginErrorMessage.should(visible).shouldHave(text("Validation failed"));
+    @Step("Verify login validation message: {text}")
+    public LoginSteps loginErrorMessageVisible(String text) {
+        loginPage.loginErrorMessage().should(visible).shouldHave(text(text));
         return this;
     }
 
-    @Step
+    @Step("Verify that the QA Sandbox title is visible")
     public LoginSteps qaSandboxLabelVisible() {
-        step("Проверить отображение лейбли QaSandbox");
-        loginPage.qaSandboxLabel.shouldBe(visible).should(text("QA Sandbox"));
+        loginPage.appTitle().shouldBe(visible).shouldHave(text("QA Sandbox"));
         return this;
     }
 
-    @Step
+    @Step("Verify the invalid credentials message")
     public LoginSteps invalidCredentialsMessageVisible() {
-        step("Проверить отображение лейбли QaSandbox");
-        loginPage.loginErrorMessage.should(visible).shouldHave(text("Invalid credentials"));
+        loginPage.loginErrorMessage().should(visible).shouldHave(text("Invalid credentials"));
         return this;
     }
 

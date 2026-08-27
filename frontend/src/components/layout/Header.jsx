@@ -8,7 +8,7 @@ function Header({ onLogout }) {
 
             <div>
 
-                <h2 className="header-title">
+                <h2 className="header-title" data-testid="app-title">
                     QA Sandbox
                 </h2>
 

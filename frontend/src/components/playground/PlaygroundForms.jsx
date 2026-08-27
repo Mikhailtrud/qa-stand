@@ -4,7 +4,7 @@ function PlaygroundForms() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-forms-section">
 
             <h2>Forms</h2>
 

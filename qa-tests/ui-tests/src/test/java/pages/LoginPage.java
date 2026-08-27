@@ -6,27 +6,29 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage extends BasePage {
 
+    //Elements
     private final SelenideElement loginInput =
             $("[data-testid='login-email']");
 
     private final SelenideElement passwordInput =
             $("[data-testid='login-password']");
 
-    public final SelenideElement loginButton =
+    private final SelenideElement loginButton =
             $("[data-testid='login-button']");
 
-    public final SelenideElement loginLabel =
-            $("#root h2");
+    private final SelenideElement loginTitle =
+            $("[data-testid='login-title']");
 
-    public final SelenideElement qaSandboxLabel =
-            $("#root h2");
+    private final SelenideElement appTitle =
+            $("[data-testid='app-title']");
 
-    public final SelenideElement loginErrorMessage =
-            $("div[class=\"alert alert-error\"]");
+    private final SelenideElement loginErrorMessage =
+            $(".alert.alert-error");
 
     private final SelenideElement logoutButton =
             $("[data-testid='logout-button']");
 
+    //Functions
     public LoginPage open() {
         openPage("/");
         return this;
@@ -37,14 +39,31 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public LoginPage fillLPasswordInput(String email) {
-        passwordInput.setValue(email);
+    public LoginPage fillPasswordInput(String password) {
+        passwordInput.setValue(password);
+        return this;
+    }
+
+    public LoginPage submitLogin() {
+        loginButton.click();
         return this;
     }
 
     public LoginPage logout() {
         logoutButton.click();
         return this;
+    }
+
+    public SelenideElement loginTitle() {
+        return loginTitle;
+    }
+
+    public SelenideElement appTitle() {
+        return appTitle;
+    }
+
+    public SelenideElement loginErrorMessage() {
+        return loginErrorMessage;
     }
 
 }

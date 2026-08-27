@@ -2,114 +2,143 @@ package steps.playground;
 
 import com.codeborne.selenide.Condition;
 import steps.BaseSteps;
+import io.qameta.allure.Step;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class PlayGroundJavaScriptSteps extends BaseSteps {
 
+    @Step("Open the Playground page")
     public PlayGroundJavaScriptSteps openPlayGroundPage() {
-        step("Открыть страницу PlayGround");
         playGroundPage.open();
         return this;
     }
 
-    public PlayGroundJavaScriptSteps verifyPlaygroundTabsVisible() {
-        step("Проверить видимость блока с JavaScript");
+    @Step("Verify that the JavaScript section is visible")
+    public PlayGroundJavaScriptSteps verifyPlaygroundJavaScriptVisible() {
         playGroundPage.javaScript().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Open the alert, verify text {expectedText}, and accept it")
     public PlayGroundJavaScriptSteps clickOnAlertButtonStep(String expectedText) {
-        step("Проверить появление алерат, его текст и закрыть алерт");
         playGroundJavaScriptPage.alertButton().click();
-        playGroundJavaScriptPage.verifyAlertText(expectedText);
-        playGroundJavaScriptPage.verifyAlertClosed();
+        verifyAlertText(expectedText);
+        playGroundJavaScriptPage.acceptAlert();
+        verifyAlertClosed();
         return this;
     }
 
+    @Step("Open the confirm, verify text {expectedText}, and accept it")
     public PlayGroundJavaScriptSteps clickOnAcceptConfirmButtonStep(String expectedText) {
-        step("Проверить появление Confirm, его текст и нажать на кнопку Accept");
         playGroundJavaScriptPage.confirmButton().click();
-        playGroundJavaScriptPage.confirmAccept(expectedText);
-        playGroundJavaScriptPage.verifyAlertClosed();
+        verifyAlertText(expectedText);
+        playGroundJavaScriptPage.confirmAccept();
+        verifyAlertClosed();
         return this;
     }
 
+    @Step("Open the confirm, verify text {expectedText}, and dismiss it")
     public PlayGroundJavaScriptSteps clickOnCancelConfirmButtonStep(String expectedText) {
-        step("Проверить появление Confirm, его текст и нажать на кнопку Cancel");
         playGroundJavaScriptPage.confirmButton().click();
-        playGroundJavaScriptPage.confirmDismiss(expectedText);
-        playGroundJavaScriptPage.verifyAlertClosed();
+        verifyAlertText(expectedText);
+        playGroundJavaScriptPage.confirmDismiss();
+        verifyAlertClosed();
         return this;
     }
 
 
+    @Step("Open the prompt, verify text {expectedText}, enter a value, and accept it")
     public PlayGroundJavaScriptSteps clickOnAcceptPromptButtonStep(String expectedText, String inputText) {
-        step("Проверить появление Prompt, его текст и нажать на кнопку Accept");
         playGroundJavaScriptPage.promptButton().click();
-        playGroundJavaScriptPage.promptAccept(expectedText, inputText);
-        playGroundJavaScriptPage.verifyAlertClosed();
+        verifyAlertText(expectedText);
+        playGroundJavaScriptPage.promptAccept(inputText);
+        verifyAlertClosed();
         return this;
     }
 
-    public PlayGroundJavaScriptSteps clickOnCancelPromptButtonStep(String expectedText, String inputText) {
-        step("Проверить появление Prompt, его текст и нажать на кнопку Cancel");
+    @Step("Open the prompt, verify text {expectedText}, and dismiss it")
+    public PlayGroundJavaScriptSteps clickOnCancelPromptButtonStep(String expectedText) {
         playGroundJavaScriptPage.promptButton().click();
-        playGroundJavaScriptPage.promptAccept(expectedText, inputText);
-        playGroundJavaScriptPage.verifyAlertClosed();
+        verifyAlertText(expectedText);
+        playGroundJavaScriptPage.promptDismiss();
+        verifyAlertClosed();
         return this;
     }
 
+    @Step("Show the toast")
     public PlayGroundJavaScriptSteps clickOnToastButtonStep() {
-        step("Нажать на кнопку вызова Toast");
         playGroundJavaScriptPage.toastButton().click();
         return this;
     }
 
+    @Step("Verify toast text: {expectedText}")
     public PlayGroundJavaScriptSteps verifyToastTextValue(String expectedText) {
-        step("Проверить текст в toast окне: " + expectedText);
         playGroundJavaScriptPage.verifyToastValue(expectedText);
         return this;
     }
 
+    @Step("Verify that the toast is visible")
     public PlayGroundJavaScriptSteps verifyPlaygroundToastBlockVisible() {
-        step("Выбрать опцию");
         playGroundJavaScriptPage.toastWindow().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Open the modal")
     public PlayGroundJavaScriptSteps clickOnModalButtonStep() {
-        step("Нажать на кнопку вызова Modal");
         playGroundJavaScriptPage.modalButton().click();
         return this;
     }
 
+    @Step("Verify modal title: {expectedText}")
     public PlayGroundJavaScriptSteps verifyModalWindowTitle(String expectedText) {
-        step("Проверить заголовок модальном окне: " + expectedText);
         playGroundJavaScriptPage.verifyModalWindowTitle(expectedText);
         return this;
     }
 
+    @Step("Verify modal description: {expectedText}")
     public PlayGroundJavaScriptSteps verifyModalWindowDescription(String expectedText) {
-        step("Проверить описание модальном окне: " + expectedText);
         playGroundJavaScriptPage.verifyModalWindowDescription(expectedText);
         return this;
     }
 
+    @Step("Verify that the modal is visible")
     public PlayGroundJavaScriptSteps verifyModalWindowVisible() {
-        step("Проверить отображение таблицы пользователей");
         playGroundJavaScriptPage.modalWindow().shouldBe(Condition.visible);
         return this;
     }
 
+    @Step("Close the modal")
     public PlayGroundJavaScriptSteps closeModalWindowStep() {
-        step("Закрыть модальное окно");
         playGroundJavaScriptPage.modalWindowCloseButton().click();
         return this;
     }
 
+    @Step("Verify that the modal is not visible")
     public PlayGroundJavaScriptSteps verifyModalWindowNotVisible() {
-        step("Проверить модальное окно не видно ");
         playGroundJavaScriptPage.modalWindow().shouldNotBe(Condition.visible);
         return this;
+    }
+
+    @Step("Verify that the JavaScript dialog result is visible")
+    public PlayGroundJavaScriptSteps verifyDialogResultVisible() {
+        playGroundJavaScriptPage.dialogResult().shouldBe(Condition.visible);
+        return this;
+    }
+
+    @Step("Verify JavaScript dialog result: {expectedText}")
+    public PlayGroundJavaScriptSteps verifyDialogResultText(String expectedText) {
+        playGroundJavaScriptPage.verifyDialogResultText(expectedText);
+        return this;
+    }
+
+    private void verifyAlertText(String expectedText) {
+        assertEquals(expectedText, playGroundJavaScriptPage.alertText());
+    }
+
+    private void verifyAlertClosed() {
+        assertFalse(playGroundJavaScriptPage.isAlertPresent(), "Browser dialog must be closed");
     }
 
 

@@ -1,74 +1,95 @@
 package tests.playGroundTests;
 
 import config.AuthenticatedTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@Epic("QA Stand")
+@Feature("Playground: Tables")
 public class TablesTests extends AuthenticatedTest {
 
-    @Test
-    void searchByNameTest() {
+    @BeforeEach
+    void setUp() {
         playGroundTablesSteps
                 .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
-                .enterSearchValue("John")
-                .verifyTableContainsText("John");
+                .verifyPlaygroundTablesVisible();
     }
 
     @Test
+    @Story("Search")
+    void searchByNameTest() {
+        playGroundTablesSteps
+                .enterSearchValue("John")
+                .verifySearchResultsVisible()
+                .verifySearchResults("John");
+    }
+
+    @Test
+    @Story("Role filter")
     void filterByRoleTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
                 .selectRoleFilter("ADMIN")
+                .verifyDisplayedRowsCount(2)
                 .verifyAllRowsContainRole("ADMIN");
     }
 
     @Test
+    @Story("ID sorting")
     void sortByIdDescendingTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
                 .sortById()
                 .verifyIdsSortedDescending();
     }
 
     @Test
+    @Story("ID sorting")
     void sortByIdAscendingTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
                 .sortById()
                 .sortById()
                 .verifyIdsSortedAscending();
     }
 
     @Test
+    @Story("Name sorting")
     void sortByNameTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
                 .sortByName()
                 .verifyNamesSortedAscending();
     }
 
     @Test
+    @Story("Pagination")
     void paginationNextPageTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
+                .rememberCurrentPageRows()
                 .goToNextPage()
-                .verifyCurrentPage("2");
+                .verifyCurrentPage("2 / 3")
+                .verifyCurrentPageRowsChanged();
     }
 
     @Test
+    @Story("Pagination")
     void paginationPreviousPageTest() {
         playGroundTablesSteps
-                .openPlayGroundPage()
-                .verifyPlaygroundTablesVisible()
+                .rememberCurrentPageRows()
                 .goToNextPage()
-                .verifyCurrentPage("2")
+                .verifyCurrentPage("2 / 3")
+                .verifyCurrentPageRowsChanged()
                 .goToPreviousPage()
-                .verifyCurrentPage("1");
+                .verifyCurrentPage("1 / 3")
+                .verifyRememberedPageRowsRestored();
+    }
+
+    @Test
+    @Story("Role sorting")
+    void sortByRoleAscendingTest() {
+        playGroundTablesSteps
+                .sortByRole()
+                .verifyRolesSortedAscending();
     }
 
 

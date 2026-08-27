@@ -8,7 +8,7 @@ function PlaygroundTabs() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-tabs-section">
 
             <h2>Tabs</h2>
 

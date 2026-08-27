@@ -2,6 +2,11 @@ package api;
 
 import data.testData.UserData;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+
+import java.util.List;
+import java.util.Map;
+import java.util.OptionalLong;
 
 import static io.restassured.RestAssured.given;
 
@@ -54,29 +59,39 @@ public class ApiHelper {
                 .getLong("id");
     }
 
-    public long getUser(String token, String email) {
-        Number userId = given()
+    public OptionalLong findUserId(String token, String email) {
+        List<Map<String, Object>> users = given()
                 .baseUri(baseUrl)
                 .auth().oauth2(token)
                 .when()
                 .get("/users")
-                .then().log().all()
+                .then()
                 .statusCode(200)
                 .extract()
                 .jsonPath()
-                .get("find { it.email == '" + email + "' }.id");
+                .getList("$");
 
-        return userId == null ? 0 : userId.longValue();
+        return users.stream()
+                .filter(user -> email.equals(user.get("email")))
+                .map(user -> (Number) user.get("id"))
+                .mapToLong(Number::longValue)
+                .findFirst();
     }
 
-    public void deleteUser(String token, long userId) {
-        given()
+    public void deleteUserIfExists(String token, long userId) {
+        Response response = given()
                 .baseUri(baseUrl)
                 .auth().oauth2(token)
                 .when()
-                .delete("/users/{id}", userId)
-                .then()
-                .statusCode(200);
+                .delete("/users/{id}", userId);
+
+        int statusCode = response.statusCode();
+        if (statusCode != 200 && statusCode != 404) {
+            throw new AssertionError(
+                    "Failed to clean up user %d: HTTP %d, body: %s"
+                            .formatted(userId, statusCode, response.asString())
+            );
+        }
     }
 
     private static String escape(String value) {

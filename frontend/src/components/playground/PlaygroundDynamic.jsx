@@ -40,7 +40,7 @@ function PlaygroundDynamic() {
 
     return (
 
-        <section className="playground-section">
+        <section className="playground-section" data-testid="playground-dynamic-section">
 
             <h2>Dynamic Elements</h2>
 

@@ -56,6 +56,20 @@ The UI tests expect the frontend at `http://localhost:5173` by default. See
 [ui-tests/README.md](ui-tests/README.md) for the current test and launch
 options.
 
+From `qa-tests/ui-tests`, run the tests and generate the retained Allure report:
+
+```powershell
+.\gradlew.bat test
+.\gradlew.bat allureReport --clean
+```
+
+UI raw results and the generated report are stored at:
+
+```text
+qa-tests/reports/ui/allure-results
+qa-tests/reports/ui/allure-report
+```
+
 ## Docker CI note
 
 `docker-compose.ci.yml` defines PostgreSQL, backend, frontend, and an API test

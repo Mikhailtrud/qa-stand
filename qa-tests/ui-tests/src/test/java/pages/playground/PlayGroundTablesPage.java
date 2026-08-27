@@ -4,13 +4,9 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import pages.BasePage;
 
-import java.util.List;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayGroundTablesPage extends BasePage {
 
@@ -63,24 +59,8 @@ public class PlayGroundTablesPage extends BasePage {
         return this;
     }
 
-    public PlayGroundTablesPage verifyTableContainsText(String expectedText) {
-        tableRows()
-                .findBy(text(expectedText))
-                .shouldBe(visible);
-
-        return this;
-    }
-
     public PlayGroundTablesPage selectRoleFilter(String role) {
         tableFilter.selectOption(role);
-        return this;
-    }
-
-    public PlayGroundTablesPage verifyAllRowsContainRole(String role) {
-        roleCells().forEach(
-                cell -> cell.shouldHave(text(role))
-        );
-
         return this;
     }
 
@@ -89,73 +69,13 @@ public class PlayGroundTablesPage extends BasePage {
         return this;
     }
 
-    public PlayGroundTablesPage verifyIdsSortedAscending() {
-        List<Integer> actualIds = idCells()
-                .texts()
-                .stream()
-                .map(Integer::parseInt)
-                .toList();
-
-        List<Integer> expectedIds = actualIds
-                .stream()
-                .sorted()
-                .toList();
-
-        assertEquals(expectedIds, actualIds);
-
-        return this;
-    }
-
-    public PlayGroundTablesPage verifyIdsSortedDescending() {
-        List<Integer> actualIds = idCells()
-                .texts()
-                .stream()
-                .map(Integer::parseInt)
-                .toList();
-
-        List<Integer> expectedIds = actualIds
-                .stream()
-                .sorted((a, b) -> b.compareTo(a))
-                .toList();
-
-        assertEquals(expectedIds, actualIds);
-
-        return this;
-    }
-
     public PlayGroundTablesPage clickSortByName() {
         tableSortByName.click();
         return this;
     }
 
-    public PlayGroundTablesPage verifyNamesSortedAscending() {
-        List<String> actualNames = nameCells().texts();
-
-        List<String> expectedNames = actualNames
-                .stream()
-                .sorted()
-                .toList();
-
-        assertEquals(expectedNames, actualNames);
-
-        return this;
-    }
-
     public PlayGroundTablesPage clickSortByRole() {
         tableSortByRole.click();
-        return this;
-    }
-
-    public PlayGroundTablesPage verifyRolesSortedAscending() {
-        List<String> actualRoles = roleCells().texts();
-
-        List<String> expectedRoles = actualRoles
-                .stream()
-                .sorted()
-                .toList();
-
-        assertEquals(expectedRoles, actualRoles);
-
         return this;
     }
 
@@ -169,8 +89,16 @@ public class PlayGroundTablesPage extends BasePage {
         return this;
     }
 
-    public PlayGroundTablesPage verifyCurrentPage(String page) {
-        tablesCurrentPage.shouldHave(text(page));
+    public PlayGroundTablesPage verifyCurrentPage(String pageState) {
+        tablesCurrentPage.shouldHave(exactText(pageState));
         return this;
+    }
+
+    public String currentPageState() {
+        return tablesCurrentPage.text();
+    }
+
+    public boolean nextPageIsEnabled() {
+        return tablePageNext.isEnabled();
     }
 }

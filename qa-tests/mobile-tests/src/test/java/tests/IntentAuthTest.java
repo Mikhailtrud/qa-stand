@@ -1,0 +1,17 @@
+package tests;
+
+import auth.IntentAuthProvider;
+import config.BaseTest;
+import io.qameta.allure.Description;
+import org.junit.jupiter.api.Test;
+
+class IntentAuthTest extends BaseTest {
+    private final IntentAuthProvider authProvider = new IntentAuthProvider();
+
+    @Test
+    @Description("Administrator is authorized through the debug-only Intent entry point")
+    void adminCanAuthorizeThroughIntent() {
+        authProvider.authorizeAsAdmin();
+        usersSteps.verifyUsersScreenDisplayed();
+    }
+}

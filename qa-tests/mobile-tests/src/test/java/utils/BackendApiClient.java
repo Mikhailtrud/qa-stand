@@ -2,7 +2,7 @@ package utils;
 
 import static io.restassured.RestAssured.given;
 
-import config.TestConfig;
+import config.EnvironmentConfig;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -13,7 +13,7 @@ public final class BackendApiClient {
 
     public BackendApiClient() {
         requestSpec = new RequestSpecBuilder()
-                .setBaseUri(TestConfig.backendUrl())
+                .setBaseUri(EnvironmentConfig.backendUrl())
                 .setContentType(ContentType.JSON)
                 .build();
     }

@@ -61,13 +61,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    var token by remember { mutableStateOf<String?>(null) }
-                    var screen by remember { mutableStateOf(Screen.LOGIN) }
+                    var token by remember { mutableStateOf(AuthTokenStore.get(this@MainActivity)) }
+                    var screen by remember {
+                        mutableStateOf(if (token == null) Screen.LOGIN else Screen.USERS)
+                    }
                     var selectedUser by remember { mutableStateOf<UserResponse?>(null) }
                     var refreshKey by remember { mutableIntStateOf(0) }
 
                     when (screen) {
                         Screen.LOGIN -> LoginScreen { loginToken ->
+                            AuthTokenStore.save(this@MainActivity, loginToken)
                             token = loginToken
                             screen = Screen.USERS
                         }
@@ -82,6 +85,13 @@ class MainActivity : ComponentActivity() {
                                 screen = Screen.EDIT_USER
                             },
                             onRefresh = { refreshKey++ },
+                            onLogout = {
+                                AuthTokenStore.clear(this@MainActivity)
+                                token = null
+                                selectedUser = null
+                                refreshKey = 0
+                                screen = Screen.LOGIN
+                            },
                         )
 
                         Screen.PLAYGROUND -> PlaygroundScreen(
@@ -217,6 +227,7 @@ private fun UsersScreen(
     onPlayground: () -> Unit,
     onEditUser: (UserResponse) -> Unit,
     onRefresh: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     var users by remember { mutableStateOf(emptyList<UserResponse>()) }
     var isLoading by remember { mutableStateOf(true) }
@@ -245,10 +256,20 @@ private fun UsersScreen(
         Text(text = "Users", style = MaterialTheme.typography.headlineMedium)
 
         Button(
-            onClick = onPlayground,
+            onClick = onLogout,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
+                .appiumTag("logout_button"),
+        ) {
+            Text("Logout")
+        }
+
+        Button(
+            onClick = onPlayground,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
                 .appiumTag("open_playground_button"),
         ) {
             Text("QA Playground")

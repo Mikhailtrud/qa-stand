@@ -21,6 +21,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.27.6'
     testImplementation 'io.qameta.allure:allure-junit5:2.35.4'
     testImplementation 'io.rest-assured:rest-assured:6.0.1'
+    testImplementation 'com.codeborne:selenide:7.9.3'
 }
 
 test {

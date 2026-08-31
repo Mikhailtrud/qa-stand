@@ -1,6 +1,5 @@
 package pages;
 
-import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 
 public final class EditUserPage extends BasePage {
@@ -9,10 +8,6 @@ public final class EditUserPage extends BasePage {
     private final By email = tag("user_email");
     private final By role = tag("user_role");
     private final By saveButton = tag("save_user_button");
-
-    public EditUserPage(AndroidDriver driver) {
-        super(driver);
-    }
 
     public boolean isDisplayed() {
         return isDisplayed(screen);

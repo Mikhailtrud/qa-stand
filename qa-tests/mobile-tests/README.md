@@ -54,8 +54,12 @@ Environment variables (equivalent `-DNAME=value` system properties are also supp
 |---|---|
 | `APPIUM_URL` | `http://127.0.0.1:4723` |
 | `DEVICE_NAME` | `Android Emulator` |
+| `UDID` | unset |
 | `PLATFORM_VERSION` | unset |
 | `APP_PATH` | repository-relative debug APK |
+| `APP_PACKAGE` | `com.qastand.android` |
+| `APP_ACTIVITY` | `.MainActivity` |
+| `ADB_PATH` | `$ANDROID_SDK_ROOT/platform-tools/adb` or `$ANDROID_HOME/platform-tools/adb` |
 | `BACKEND_URL` | `http://localhost:8080` |
 | `ADMIN_EMAIL` | required; no default |
 | `ADMIN_PASSWORD` | required; no default |
@@ -88,3 +92,13 @@ gradle testClasses
 ```
 
 The `BackendApiClient` is a deliberately small REST Assured helper for future API login, user creation, and cleanup preconditions.
+
+## Technical authorization
+
+`IntentAuthProvider` logs in through `/auth/login` and passes the returned token to the
+debug-only `TestAuthActivity`. This activity is declared under `android-app/app/src/debug`,
+so it is not present in release builds.
+
+`StorageAuthProvider` logs in through the same API and writes the token to the application's
+`auth_prefs` SharedPreferences with `adb run-as`. The installed application must be debuggable
+for this variant. Both providers remove the stored authorization during test cleanup.

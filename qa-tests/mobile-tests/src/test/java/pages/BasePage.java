@@ -1,6 +1,7 @@
 package pages;
 
-import config.TestConfig;
+import config.AppiumConfig;
+import driver.DriverManager;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import java.time.Duration;
@@ -11,12 +12,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BasePage {
-    protected final AndroidDriver driver;
-    private final WebDriverWait wait;
+    protected AndroidDriver getDriver() {
+        return DriverManager.getDriver();
+    }
 
-    protected BasePage(AndroidDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(TestConfig.explicitWaitSeconds()));
+    private WebDriverWait explicitWait() {
+        return new WebDriverWait(
+                getDriver(),
+                Duration.ofSeconds(AppiumConfig.explicitWaitSeconds())
+        );
     }
 
     protected By tag(String testTag) {
@@ -24,23 +28,23 @@ public abstract class BasePage {
     }
 
     protected WebElement visible(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return explicitWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     protected WebElement clickable(By locator) {
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return explicitWait().until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     protected void type(String testTag, String value) {
         visible(tag(testTag)).click();
-        WebElement input = driver.switchTo().activeElement();
+        WebElement input = getDriver().switchTo().activeElement();
         input.clear();
         input.sendKeys(value);
     }
 
     protected void tapAfterHidingKeyboard(String testTag) {
         try {
-            driver.hideKeyboard();
+            getDriver().hideKeyboard();
         } catch (WebDriverException ignored) {
             // The keyboard may already be hidden.
         }

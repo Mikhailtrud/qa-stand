@@ -1,16 +1,13 @@
 package pages;
 
-import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
+import io.appium.java_client.AppiumBy;
 
 public final class LoginPage extends BasePage {
     private final By email = tag("login_email");
     private final By password = tag("login_password");
     private final By loginButton = tag("login_button");
-
-    public LoginPage(AndroidDriver driver) {
-        super(driver);
-    }
+    private final By errorMessage = AppiumBy.androidUIAutomator("new UiSelector().text(\"Enter email and password\")");
 
     public LoginPage enterEmail(String value) {
         type("login_email", value);
@@ -20,6 +17,10 @@ public final class LoginPage extends BasePage {
     public LoginPage enterPassword(String value) {
         type("login_password", value);
         return this;
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        return isDisplayed(errorMessage);
     }
 
     public void tapLogin() {

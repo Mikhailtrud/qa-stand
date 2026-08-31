@@ -1,6 +1,5 @@
 package pages;
 
-import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 
 public final class CreateUserPage extends BasePage {
@@ -10,10 +9,6 @@ public final class CreateUserPage extends BasePage {
     private final By password = tag("user_password");
     private final By role = tag("user_role");
     private final By saveButton = tag("save_user_button");
-
-    public CreateUserPage(AndroidDriver driver) {
-        super(driver);
-    }
 
     public boolean isDisplayed() {
         return isDisplayed(screen);

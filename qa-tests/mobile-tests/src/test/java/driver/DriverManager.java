@@ -8,21 +8,22 @@ public final class DriverManager {
     private DriverManager() {
     }
 
-    public static AndroidDriver start() {
-        AndroidDriver driver = AndroidDriverFactory.create();
+    public static void setDriver(AndroidDriver driver) {
+        if (DRIVER.get() != null) {
+            throw new IllegalStateException("AndroidDriver is already set for the current thread");
+        }
         DRIVER.set(driver);
-        return driver;
     }
 
-    public static AndroidDriver get() {
+    public static AndroidDriver getDriver() {
         AndroidDriver driver = DRIVER.get();
         if (driver == null) {
-            throw new IllegalStateException("AndroidDriver has not been started");
+            throw new IllegalStateException("AndroidDriver has not been started for the current thread");
         }
         return driver;
     }
 
-    public static void quit() {
+    public static void quitDriver() {
         AndroidDriver driver = DRIVER.get();
         try {
             if (driver != null) {

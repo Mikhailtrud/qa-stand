@@ -1,6 +1,5 @@
 package pages;
 
-import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 
 public final class UsersPage extends BasePage {
@@ -9,10 +8,7 @@ public final class UsersPage extends BasePage {
     private final By refreshButton = tag("refresh_users_button");
     private final By createButton = tag("create_user_button");
     private final By playgroundButton = tag("open_playground_button");
-
-    public UsersPage(AndroidDriver driver) {
-        super(driver);
-    }
+    private final By logoutButton = tag("logout_button");
 
     public boolean isDisplayed() {
         return isDisplayed(screen);
@@ -32,6 +28,10 @@ public final class UsersPage extends BasePage {
 
     public void openPlayground() {
         clickable(playgroundButton).click();
+    }
+
+    public void logout() {
+        clickable(logoutButton).click();
     }
 
     public void editUser(long id) {

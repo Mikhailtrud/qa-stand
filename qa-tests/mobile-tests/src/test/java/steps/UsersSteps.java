@@ -2,15 +2,17 @@ package steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Step;
 import pages.UsersPage;
 
-public final class UsersSteps {
-    private final UsersPage page;
+public final class UsersSteps extends BaseSteps {
+    private final UsersPage page = new UsersPage();
 
-    public UsersSteps(AndroidDriver driver) {
-        this.page = new UsersPage(driver);
+    @Step("Verify the Users screen is displayed")
+    public void verifyUsersScreenDisplayed() {
+        assertThat(page.isDisplayed())
+                .as("Users screen should be visible after login")
+                .isTrue();
     }
 
     @Step("Refresh users")
@@ -21,5 +23,10 @@ public final class UsersSteps {
     @Step("Verify the users list is displayed")
     public void verifyUsersListDisplayed() {
         assertThat(page.isUsersListDisplayed()).isTrue();
+    }
+
+    @Step("Log out")
+    public void logout() {
+        page.logout();
     }
 }

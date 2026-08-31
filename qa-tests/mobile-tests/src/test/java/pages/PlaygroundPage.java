@@ -1,6 +1,5 @@
 package pages;
 
-import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 
 public final class PlaygroundPage extends BasePage {
@@ -10,10 +9,6 @@ public final class PlaygroundPage extends BasePage {
     private final By checkbox = tag("playground_checkbox");
     private final By alertButton = tag("playground_alert_button");
     private final By table = tag("dynamic_table");
-
-    public PlaygroundPage(AndroidDriver driver) {
-        super(driver);
-    }
 
     public boolean isDisplayed() {
         return isDisplayed(screen);

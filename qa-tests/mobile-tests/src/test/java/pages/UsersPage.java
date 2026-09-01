@@ -23,15 +23,13 @@ public final class UsersPage extends BasePage {
         return isDisplayed(userByEmail(email));
     }
 
-    public void scrollToUser(String email) {
-        visible(userByEmail(email));
-    }
-
     private By userByEmail(String email) {
-        String escapedEmail = email.replace("\\", "\\\\").replace("\"", "\\\"");
+        String escapedEmail = email
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
+
         return AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector().scrollable(true))"
-                        + ".scrollIntoView(new UiSelector().text(\"Email: " + escapedEmail + "\"))"
+                "new UiSelector().textContains(\"" + escapedEmail + "\")"
         );
     }
 
@@ -55,11 +53,15 @@ public final class UsersPage extends BasePage {
         clickable(tag("edit_user_" + id)).click();
     }
 
-    public void deleteUser(long id) {
-        clickable(tag("delete_user_button_" + id)).click();
-    }
-
     public void confirmDelete() {
         clickable(tag("confirm_delete_button")).click();
     }
+
+    public void deleteUser(long id) {
+        By deleteButton = tag("delete_user_button_" + id);
+
+        scrollToElement(usersList, deleteButton).click();
+    }
+
+
 }

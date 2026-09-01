@@ -11,6 +11,10 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Map;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.remote.RemoteWebElement;
+
 public abstract class BasePage {
     protected AndroidDriver getDriver() {
         return DriverManager.getDriver();
@@ -57,5 +61,46 @@ public abstract class BasePage {
         } catch (RuntimeException ignored) {
             return false;
         }
+    }
+    protected void swipeUp() {
+        getDriver().executeScript(
+                "mobile: swipeGesture",
+                java.util.Map.of(
+                        "left", 100,
+                        "top", 500,
+                        "width", 800,
+                        "height", 1200,
+                        "direction", "up",
+                        "percent", 0.75
+                )
+        );
+    }
+
+    private boolean scrollDown(RemoteWebElement container) {
+        return Boolean.TRUE.equals(
+                DriverManager.getDriver().executeScript(
+                        "mobile: scrollGesture",
+                        Map.of(
+                                "elementId", container.getId(),
+                                "direction", "down",
+                                "percent", 0.8
+                        )
+                )
+        );
+    }
+
+    protected WebElement scrollToElement(By containerLocator, By targetLocator) {
+        RemoteWebElement container =
+                (RemoteWebElement) visible(containerLocator);
+
+        while (DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
+            if (!scrollDown(container)) {
+                throw new NoSuchElementException(
+                        "Element not found after scrolling: " + targetLocator
+                );
+            }
+        }
+
+        return visible(targetLocator);
     }
 }

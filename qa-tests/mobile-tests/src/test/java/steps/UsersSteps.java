@@ -35,11 +35,11 @@ public final class UsersSteps extends BaseSteps {
                 .isTrue();
     }
 
-    @Step("Delete user {email} through the mobile UI")
-    public void deleteUser(long userId, String email) {
-        page.scrollToUser(email);
+    @Step("Delete user with id {userId}")
+    public UsersSteps deleteUser(long userId) {
         page.deleteUser(userId);
         page.confirmDelete();
+        return this;
     }
 
     @Step("Verify the users list is displayed")

@@ -1,8 +1,8 @@
-package api;
+package framework.api;
 
 import static io.restassured.RestAssured.given;
 
-import config.EnvironmentConfig;
+import framework.config.EnvironmentConfig;
 import io.restassured.http.ContentType;
 import java.util.Map;
 

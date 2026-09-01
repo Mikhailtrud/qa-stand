@@ -1,7 +1,6 @@
 package tests;
 
-import auth.StorageAuthProvider;
-import config.BaseTest;
+import framework.auth.StorageAuthProvider;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,7 @@
 package com.qastand.android
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
@@ -54,6 +56,8 @@ private enum class Screen {
     CREATE_USER,
     EDIT_USER,
 }
+
+private val CREATE_USER_PASSWORD_PATTERN = Regex("""^(?=.*[A-Za-z])(?=.*\d).{8,}$""")
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,8 +106,8 @@ class MainActivity : ComponentActivity() {
                             token = token!!,
                             user = null,
                             onSaved = {
-                                refreshKey++
                                 screen = Screen.USERS
+                                refreshKey++
                             },
                             onCancel = { screen = Screen.USERS },
                         )
@@ -392,8 +396,48 @@ private fun UserFormScreen(
     var email by remember(user) { mutableStateOf(user?.email.orEmpty()) }
     var password by remember(user) { mutableStateOf("") }
     var role by remember(user) { mutableStateOf(user?.role ?: "USER") }
+    var nameTouched by remember(user) { mutableStateOf(false) }
+    var emailTouched by remember(user) { mutableStateOf(false) }
+    var passwordTouched by remember(user) { mutableStateOf(false) }
+    var roleTouched by remember(user) { mutableStateOf(false) }
+    var nameWasFocused by remember(user) { mutableStateOf(false) }
+    var emailWasFocused by remember(user) { mutableStateOf(false) }
+    var passwordWasFocused by remember(user) { mutableStateOf(false) }
+    var roleWasFocused by remember(user) { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isSaving by remember { mutableStateOf(false) }
+    val isCreateMode = user == null
+    val normalizedEmail = email.trim()
+    val normalizedRole = role.trim().uppercase()
+    val nameError = when {
+        nameTouched && name.isBlank() -> "Name is required"
+        else -> null
+    }
+    val emailError = when {
+        emailTouched && email.isBlank() -> "Email is required"
+        emailTouched && !Patterns.EMAIL_ADDRESS.matcher(normalizedEmail).matches() -> "Enter a valid email"
+        else -> null
+    }
+    val passwordError = when {
+        !isCreateMode -> null
+        passwordTouched && password.isBlank() -> "Password is required"
+        passwordTouched && !CREATE_USER_PASSWORD_PATTERN.matches(password) ->
+            "Use 8+ chars with a letter and number"
+        else -> null
+    }
+    val roleError = when {
+        roleTouched && role.isBlank() -> "Role is required"
+        roleTouched && normalizedRole != "USER" && normalizedRole != "ADMIN" -> "Use USER or ADMIN"
+        else -> null
+    }
+    val requiredFieldsFilled = name.isNotBlank()
+            && email.isNotBlank()
+            && role.isNotBlank()
+            && (!isCreateMode || password.isNotBlank())
+    val isFormValid = requiredFieldsFilled
+            && emailError == null
+            && passwordError == null
+            && roleError == null
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -413,46 +457,94 @@ private fun UserFormScreen(
 
         OutlinedTextField(
             value = name,
-            onValueChange = { name = it },
+            onValueChange = {
+                name = it
+                nameTouched = true
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
-                .appiumEditableTag("user_name", name) { name = it },
-            label = { Text("Name") },
+                .onFocusChanged { focusState ->
+                    if (nameWasFocused && !focusState.isFocused) nameTouched = true
+                    nameWasFocused = focusState.isFocused
+                }
+                .appiumEditableTag("user_name", name) {
+                    name = it
+                    nameTouched = true
+                },
+            label = { Text("Name *") },
+            isError = nameError != null,
+            supportingText = nameError?.let { message -> { Text(message) } },
             singleLine = true,
         )
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                emailTouched = true
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .appiumEditableTag("user_email", email) { email = it },
-            label = { Text("Email") },
+                .onFocusChanged { focusState ->
+                    if (emailWasFocused && !focusState.isFocused) emailTouched = true
+                    emailWasFocused = focusState.isFocused
+                }
+                .appiumEditableTag("user_email", email) {
+                    email = it
+                    emailTouched = true
+                },
+            label = { Text("Email *") },
+            isError = emailError != null,
+            supportingText = emailError?.let { message -> { Text(message) } },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             singleLine = true,
         )
         if (user == null) {
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    password = it
+                    passwordTouched = true
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
-                    .appiumEditableTag("user_password", password) { password = it },
-                label = { Text("Password") },
+                    .onFocusChanged { focusState ->
+                        if (passwordWasFocused && !focusState.isFocused) passwordTouched = true
+                        passwordWasFocused = focusState.isFocused
+                    }
+                    .appiumEditableTag("user_password", password) {
+                        password = it
+                        passwordTouched = true
+                    },
+                label = { Text("Password *") },
+                isError = passwordError != null,
+                supportingText = passwordError?.let { message -> { Text(message) } },
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
             )
         }
         OutlinedTextField(
             value = role,
-            onValueChange = { role = it },
+            onValueChange = {
+                role = it
+                roleTouched = true
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
-                .appiumEditableTag("user_role", role) { role = it },
-            label = { Text("Role (USER or ADMIN)") },
+                .onFocusChanged { focusState ->
+                    if (roleWasFocused && !focusState.isFocused) roleTouched = true
+                    roleWasFocused = focusState.isFocused
+                }
+                .appiumEditableTag("user_role", role) {
+                    role = it
+                    roleTouched = true
+                },
+            label = { Text("Role * (USER or ADMIN)") },
+            isError = roleError != null,
+            supportingText = roleError?.let { message -> { Text(message) } },
             singleLine = true,
         )
 
@@ -464,13 +556,7 @@ private fun UserFormScreen(
             onClick = {
                 focusManager.clearFocus()
                 keyboardController?.hide()
-                val normalizedRole = role.trim().uppercase()
-                if (name.isBlank() || email.isBlank() || (user == null && password.isBlank())) {
-                    errorMessage = "Fill in all required fields"
-                    return@Button
-                }
-                if (normalizedRole != "USER" && normalizedRole != "ADMIN") {
-                    errorMessage = "Role must be USER or ADMIN"
+                if (!isFormValid) {
                     return@Button
                 }
 
@@ -483,18 +569,26 @@ private fun UserFormScreen(
                                 authorization = "Bearer $token",
                                 request = CreateUserRequest(
                                     name = name.trim(),
-                                    email = email.trim(),
+                                    email = normalizedEmail,
                                     password = password,
                                     role = normalizedRole,
                                 ),
                             )
+                            name = ""
+                            email = ""
+                            password = ""
+                            role = "USER"
+                            nameTouched = false
+                            emailTouched = false
+                            passwordTouched = false
+                            roleTouched = false
                         } else {
                             ApiClient.usersApi.updateUser(
                                 id = user.id,
                                 authorization = "Bearer $token",
                                 request = UpdateUserRequest(
                                     name = name.trim(),
-                                    email = email.trim(),
+                                    email = normalizedEmail,
                                     role = normalizedRole,
                                 ),
                             )
@@ -514,7 +608,7 @@ private fun UserFormScreen(
                 .fillMaxWidth()
                 .padding(top = 20.dp)
                 .appiumTag("save_user_button"),
-            enabled = !isSaving,
+            enabled = !isSaving && isFormValid,
         ) {
             Text("Save")
         }

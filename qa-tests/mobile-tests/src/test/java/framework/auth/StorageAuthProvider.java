@@ -1,8 +1,8 @@
-package auth;
+package framework.auth;
 
-import api.ApiAuthClient;
-import config.AppiumConfig;
-import driver.DriverManager;
+import framework.api.ApiAuthClient;
+import framework.config.AppiumConfig;
+import framework.driver.DriverManager;
 
 public final class StorageAuthProvider {
     private final ApiAuthClient authClient = new ApiAuthClient();

@@ -1,4 +1,4 @@
-package config;
+package framework.config;
 
 public final class EnvironmentConfig {
     private EnvironmentConfig() {

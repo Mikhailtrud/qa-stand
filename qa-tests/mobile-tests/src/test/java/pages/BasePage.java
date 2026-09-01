@@ -1,7 +1,7 @@
 package pages;
 
-import config.AppiumConfig;
-import driver.DriverManager;
+import framework.config.AppiumConfig;
+import framework.driver.DriverManager;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import java.time.Duration;

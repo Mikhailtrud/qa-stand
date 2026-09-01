@@ -1,4 +1,4 @@
-package auth;
+package framework.auth;
 
 public final class AuthStateCleaner {
     private final AdbAppStorage appStorage = new AdbAppStorage();

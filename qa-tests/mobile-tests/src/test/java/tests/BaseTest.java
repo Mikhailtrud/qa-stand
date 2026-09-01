@@ -1,8 +1,8 @@
-package config;
+package tests;
 
-import auth.AuthStateCleaner;
-import driver.AndroidDriverProvider;
-import driver.DriverManager;
+import framework.auth.AuthStateCleaner;
+import framework.driver.AndroidDriverProvider;
+import framework.driver.DriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
@@ -12,7 +12,7 @@ import steps.EditUserSteps;
 import steps.LoginSteps;
 import steps.PlaygroundSteps;
 import steps.UsersSteps;
-import utils.AllureAttachments;
+import framework.utils.AllureAttachments;
 
 public abstract class BaseTest {
     protected final LoginSteps loginSteps = new LoginSteps();

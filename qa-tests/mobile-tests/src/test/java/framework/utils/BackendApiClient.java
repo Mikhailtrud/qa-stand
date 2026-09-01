@@ -1,8 +1,8 @@
-package utils;
+package framework.utils;
 
 import static io.restassured.RestAssured.given;
 
-import config.EnvironmentConfig;
+import framework.config.EnvironmentConfig;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;

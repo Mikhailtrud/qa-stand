@@ -1,6 +1,6 @@
 package steps;
 
-import driver.DriverManager;
+import framework.driver.DriverManager;
 import io.appium.java_client.android.AndroidDriver;
 
 public abstract class BaseSteps {

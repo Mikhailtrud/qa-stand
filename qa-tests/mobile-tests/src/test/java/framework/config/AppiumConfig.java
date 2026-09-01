@@ -1,4 +1,4 @@
-package config;
+package framework.config;
 
 import java.nio.file.Path;
 

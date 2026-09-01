@@ -1,7 +1,6 @@
 package tests;
 
-import auth.IntentAuthProvider;
-import config.BaseTest;
+import framework.auth.IntentAuthProvider;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 

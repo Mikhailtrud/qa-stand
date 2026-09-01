@@ -1,5 +1,6 @@
 package pages;
 
+import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 
 public final class UsersPage extends BasePage {
@@ -16,6 +17,22 @@ public final class UsersPage extends BasePage {
 
     public boolean isUsersListDisplayed() {
         return isDisplayed(usersList);
+    }
+
+    public boolean isUserDisplayed(String email) {
+        return isDisplayed(userByEmail(email));
+    }
+
+    public void scrollToUser(String email) {
+        visible(userByEmail(email));
+    }
+
+    private By userByEmail(String email) {
+        String escapedEmail = email.replace("\\", "\\\\").replace("\"", "\\\"");
+        return AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true))"
+                        + ".scrollIntoView(new UiSelector().text(\"Email: " + escapedEmail + "\"))"
+        );
     }
 
     public void refresh() {

@@ -1,4 +1,4 @@
-package config;
+package framework.config;
 
 final class ConfigValue {
     private ConfigValue() {

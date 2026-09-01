@@ -1,6 +1,6 @@
 package steps;
 
-import config.EnvironmentConfig;
+import framework.config.EnvironmentConfig;
 import io.qameta.allure.Step;
 import pages.LoginPage;
 

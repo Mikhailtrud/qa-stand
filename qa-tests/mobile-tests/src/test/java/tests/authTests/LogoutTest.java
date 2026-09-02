@@ -1,7 +1,8 @@
-package tests;
+package tests.authTests;
 
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
+import tests.BaseTest;
 
 class LogoutTest extends BaseTest {
     @Test

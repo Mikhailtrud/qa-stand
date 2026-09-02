@@ -11,8 +11,12 @@ public final class UserTestData {
 
     public static final String EMPTY = "";
 
+    public static final String INVALID_NAME = "   ";
     public static final String INVALID_EMAIL = "invalid-email";
     public static final String INVALID_PASSWORD = "123";
     public static final String INVALID_ROLE = "a";
-    public static final String INVALID_NAME = "   ";
+
+    public static final String EDIT_NAME = "Update Name";
+    public static final String EDIT_EMAIL = "edit@email.test";
+    public static final String EDIT_ROLE = "ADMIN";
 }

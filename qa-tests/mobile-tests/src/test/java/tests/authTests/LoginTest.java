@@ -1,9 +1,10 @@
-package tests;
+package tests.authTests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Test;
+import tests.BaseTest;
 
 @Epic("QA Stand Mobile")
 @Feature("Login")

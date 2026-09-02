@@ -377,7 +377,10 @@ private fun UsersScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { userToDelete = null }) {
+                TextButton(
+                    onClick = { userToDelete = null },
+                    modifier = Modifier.appiumTag("cancel_delete_user_button"),
+                ) {
                     Text("Cancel")
                 }
             },
@@ -615,7 +618,12 @@ private fun UserFormScreen(
 
         TextButton(
             onClick = onCancel,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(
+                    if (user != null) Modifier.appiumTag("cancel_edit_user_button")
+                    else Modifier,
+                ),
         ) {
             Text("Cancel")
         }

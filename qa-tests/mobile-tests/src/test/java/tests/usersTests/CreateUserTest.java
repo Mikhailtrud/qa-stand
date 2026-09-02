@@ -1,4 +1,4 @@
-package tests;
+package tests.usersTests;
 
 import data.builder.UserBuilder;
 import framework.api.UsersApiClient;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tests.BaseTest;
 
 import java.util.stream.Stream;
 
@@ -39,7 +40,7 @@ public class CreateUserTest extends BaseTest {
                 .verifySaveButtonEnabled()
                 .save();
 
-        usersSteps.verifyUserDisplayed(user.email());
+        usersSteps.verifyUserDisplayedByEmail(user.email());
     }
 
     @ParameterizedTest(name = "{index}: expected error = {1}")

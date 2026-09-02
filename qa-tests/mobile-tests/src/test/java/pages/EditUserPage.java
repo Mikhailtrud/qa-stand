@@ -8,27 +8,38 @@ public final class EditUserPage extends BasePage {
     private final By email = tag("user_email");
     private final By role = tag("user_role");
     private final By saveButton = tag("save_user_button");
+    private final By cancelButton = tag("cancel_edit_user_button");
 
     public boolean isDisplayed() {
         return isDisplayed(screen);
     }
 
-    public EditUserPage replaceName(String value) {
+    public EditUserPage setName(String value) {
         type("user_name", value);
         return this;
     }
 
-    public EditUserPage replaceEmail(String value) {
+    public EditUserPage setEmail(String value) {
         type("user_email", value);
         return this;
     }
 
-    public EditUserPage replaceRole(String value) {
+    public EditUserPage setRole(String value) {
         type("user_role", value);
         return this;
     }
 
     public void save() {
         clickable(saveButton).click();
+    }
+
+    public void cancelEdit() {
+        clickable(cancelButton).click();
+    }
+
+    public boolean isSaveButtonClickable() {
+        return Boolean.parseBoolean(
+                visible(saveButton).getAttribute("clickable")
+        );
     }
 }

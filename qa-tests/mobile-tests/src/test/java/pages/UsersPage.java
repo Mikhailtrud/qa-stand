@@ -10,6 +10,7 @@ public final class UsersPage extends BasePage {
     private final By createButton = tag("create_user_button");
     private final By playgroundButton = tag("open_playground_button");
     private final By logoutButton = tag("logout_button");
+    private final By cancelDeleteUserButton = tag("cancel_delete_user_button");
 
     public boolean isDisplayed() {
         return isDisplayed(screen);
@@ -33,6 +34,26 @@ public final class UsersPage extends BasePage {
         );
     }
 
+    public boolean isUserDisplayedName(String name) {
+        return isDisplayed(userByName(name));
+    }
+
+    private By userByName(String name) {
+        return AppiumBy.androidUIAutomator(
+                "new UiSelector().textContains(\"" + name + "\")"
+        );
+    }
+
+    public boolean isUserDisplayedRole(String role) {
+        return isDisplayed(userByRole(role));
+    }
+
+    private By userByRole(String role) {
+        return AppiumBy.androidUIAutomator(
+                "new UiSelector().textContains(\"" + role + "\")"
+        );
+    }
+
     public void refresh() {
         clickable(refreshButton).click();
     }
@@ -49,18 +70,22 @@ public final class UsersPage extends BasePage {
         clickable(logoutButton).click();
     }
 
-    public void editUser(long id) {
-        clickable(tag("edit_user_" + id)).click();
-    }
-
     public void confirmDelete() {
         clickable(tag("confirm_delete_button")).click();
+    }
+
+    public void cancelDelete() {
+        clickable(tag("cancel_delete_user_button")).click();
     }
 
     public void deleteUser(long id) {
         By deleteButton = tag("delete_user_button_" + id);
 
         scrollToElement(usersList, deleteButton).click();
+    }
+
+    public void editUser(long id) {
+        scrollToElement(usersList, tag("edit_user_" + id)).click();
     }
 
 

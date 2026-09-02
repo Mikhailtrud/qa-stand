@@ -22,7 +22,7 @@ public class DeleteUserTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User should be deleted and should not be visible in users list")
     void deleteUserTest(){
         usersSteps
                 .refreshUsers()
@@ -32,7 +32,7 @@ public class DeleteUserTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User should not be deleted and should be displayed in users list")
     void canselDeleteUserTest(){
         usersSteps
                 .refreshUsers()

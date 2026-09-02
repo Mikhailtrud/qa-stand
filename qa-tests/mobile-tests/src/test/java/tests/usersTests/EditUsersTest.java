@@ -25,7 +25,7 @@ public class EditUsersTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User name should be edited and new name should be displayed in users list")
     void editUserNameTest() {
         usersSteps
                 .refreshUsers()
@@ -39,7 +39,7 @@ public class EditUsersTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User email should be edited and new email should be displayed in users list")
     void editUserEmailTest() {
         usersSteps
                 .refreshUsers()
@@ -53,7 +53,7 @@ public class EditUsersTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User role should be edited and new role should be displayed in users list")
     void editUserRoleTest() {
         usersSteps
                 .refreshUsers()
@@ -67,7 +67,7 @@ public class EditUsersTest extends BaseTest {
     }
 
     @Test
-    @Description("")
+    @Description("User data should be edited and new data should be displayed in users list")
     void editUserFieldsTest() {
         usersSteps
                 .refreshUsers()

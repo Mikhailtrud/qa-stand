@@ -37,7 +37,7 @@ public final class EditUserSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Save the new user")
+    @Step("Cancel save the user edition")
     public EditUserSteps cancelEdit() {
         editUserPage.cancelEdit();
         return this;

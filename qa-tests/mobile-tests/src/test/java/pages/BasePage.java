@@ -10,10 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.TimeoutException;
 
 import java.util.Map;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.RemoteWebElement;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class BasePage {
     protected AndroidDriver getDriver() {
@@ -39,11 +42,16 @@ public abstract class BasePage {
         return explicitWait().until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    protected void type(String testTag, String value) {
-        visible(tag(testTag)).click();
+    protected void type(By locator, String value) {
+        visible(locator).click();
         WebElement input = getDriver().switchTo().activeElement();
         input.clear();
         input.sendKeys(value);
+    }
+
+    protected void verifyText(By locator, String expectedText) {
+        assertThat(visible(locator).getText())
+                .isEqualTo(expectedText);
     }
 
     protected void tapAfterHidingKeyboard(String testTag) {
@@ -93,14 +101,22 @@ public abstract class BasePage {
         RemoteWebElement container =
                 (RemoteWebElement) visible(containerLocator);
 
-        while (DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
-            if (!scrollDown(container)) {
+        while (true) {
+            if (!DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
+                return visible(targetLocator);
+            }
+
+            boolean canScrollMore = scrollDown(container);
+
+            if (!DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
+                return visible(targetLocator);
+            }
+
+            if (!canScrollMore) {
                 throw new NoSuchElementException(
                         "Element not found after scrolling: " + targetLocator
                 );
             }
         }
-
-        return visible(targetLocator);
     }
 }

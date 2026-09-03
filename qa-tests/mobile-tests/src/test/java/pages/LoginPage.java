@@ -10,12 +10,12 @@ public final class LoginPage extends BasePage {
     private final By errorMessage = AppiumBy.androidUIAutomator("new UiSelector().text(\"Enter email and password\")");
 
     public LoginPage enterEmail(String value) {
-        type("login_email", value);
+        type(email, value);
         return this;
     }
 
     public LoginPage enterPassword(String value) {
-        type("login_password", value);
+        type(password, value);
         return this;
     }
 

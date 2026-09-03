@@ -19,22 +19,22 @@ public final class CreateUserPage extends BasePage {
     }
 
     public CreateUserPage enterName(String value) {
-        type("user_name", value);
+        type(name, value);
         return this;
     }
 
     public CreateUserPage enterEmail(String value) {
-        type("user_email", value);
+        type(email, value);
         return this;
     }
 
     public CreateUserPage enterPassword(String value) {
-        type("user_password", value);
+        type(password, value);
         return this;
     }
 
     public CreateUserPage enterRole(String value) {
-        type("user_role", value);
+        type(role, value);
         return this;
     }
 

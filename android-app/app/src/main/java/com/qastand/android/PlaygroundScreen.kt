@@ -48,6 +48,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.toggleableState
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import java.util.Calendar
 import kotlinx.coroutines.delay
@@ -180,21 +185,34 @@ private fun FormsSection() {
         }
         DropdownMenu(expanded = multiExpanded, onDismissRequest = { multiExpanded = false }) {
             playgroundLanguages.forEach { language ->
+                val selected = selectedLanguages.contains(language)
                 DropdownMenuItem(
                     text = {
-                        Row {
-                            Checkbox(checked = language in selectedLanguages, onCheckedChange = null)
+                        Row(
+                            modifier = Modifier.clearAndSetSemantics {
+                                contentDescription = "multiselect_${language.tagValue()}"
+                                role = Role.Checkbox
+                                toggleableState = if (selected) {
+                                    ToggleableState.On
+                                } else {
+                                    ToggleableState.Off
+                                }
+                            },
+                        ) {
+                            Checkbox(
+                                checked = selected,
+                                onCheckedChange = null,
+                            )
                             Text(language)
                         }
                     },
                     onClick = {
-                        selectedLanguages = if (language in selectedLanguages) {
+                        selectedLanguages = if (selected) {
                             selectedLanguages - language
                         } else {
                             selectedLanguages + language
                         }
                     },
-                    modifier = Modifier.appiumTag("multiselect_${language.tagValue()}"),
                 )
             }
         }
@@ -298,7 +316,14 @@ private fun DialogsSection() {
                     Text("OK")
                 }
             },
-            dismissButton = { TextButton(onClick = { dialog = null }) { Text("Cancel") } },
+            dismissButton = {
+                TextButton(
+                    onClick = { dialog = null },
+                    modifier = Modifier.appiumTag("prompt_cancel_button"),
+                ) {
+                    Text("Cancel")
+                }
+            },
         )
     }
 }

@@ -15,17 +15,17 @@ public final class EditUserPage extends BasePage {
     }
 
     public EditUserPage setName(String value) {
-        type("user_name", value);
+        type(name, value);
         return this;
     }
 
     public EditUserPage setEmail(String value) {
-        type("user_email", value);
+        type(email, value);
         return this;
     }
 
     public EditUserPage setRole(String value) {
-        type("user_role", value);
+        type(role, value);
         return this;
     }
 

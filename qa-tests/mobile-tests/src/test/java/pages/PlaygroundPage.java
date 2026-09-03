@@ -6,8 +6,6 @@ import org.openqa.selenium.By;
 
 import java.util.Objects;
 
-import static com.codeborne.selenide.Selenide.$$;
-
 public final class PlaygroundPage extends BasePage {
 
     private final By playgroundScreen  = tag("playground_screen");
@@ -117,8 +115,6 @@ public final class PlaygroundPage extends BasePage {
     //Forms Multi select
     private final By multiSelect = tag("playground_multiselect");
     private final By multiSelectJava = tag("multiselect_java");
-    private final By multiSelectKotlin = tag("multiselect_kotlin");
-    private final By multiSelectGroovy = tag("multiselect_groovy");
 
     public void clickOnMultiSelectElement() {
         clickable(multiSelect).click();
@@ -147,7 +143,6 @@ public final class PlaygroundPage extends BasePage {
 
     //Forms Upload file
     private final By chooseFileButton = tag("playground_file_upload");
-    private final By filePicker = By.id("com.google.android.documentsui:id/dir_list");
     private final By selectedFileName = tag("selected_file_name");
 
     public void clickOnSelectFileElement() {
@@ -185,9 +180,6 @@ public final class PlaygroundPage extends BasePage {
     }
 
     //Forms Radio buttons
-    private final By radioMale = tag("radio_male");
-    private final By radioFemale = tag("radio_female");
-
     private By radio(String option) {
         return tag("radio_" + option);
     }
@@ -301,9 +293,20 @@ public final class PlaygroundPage extends BasePage {
     }
 
     //Tabs
-    private final By tab1 = tag("tab_1_button");
-    private final By tab2 = tag("tab_2_button");
-    private final By tab3 = tag("tab_3_button");
+    private final By tabContent = tag("tab_content");
+
+    private By tabs(int tab) {
+        return tag("tab_" + tab + "_button");
+    }
+
+    public void selectTab(int tab) {
+        scrollToElement(playgroundScreen, tabs(tab)).click();
+    }
+
+    public void verifyTabContent(String expectedText) {
+        verifyText(tabContent, expectedText);
+    }
+
 
     //Table
     private final By tableSearch = tag("table_search");

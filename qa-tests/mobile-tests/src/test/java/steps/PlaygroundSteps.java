@@ -265,4 +265,17 @@ public final class PlaygroundSteps extends BaseSteps {
         playgroundPage.closeModal();
         return this;
     }
+
+    //Tabs
+    @Step("Close modal window")
+    public PlaygroundSteps selectTabs(int tab) {
+        playgroundPage.selectTab(tab);
+        return this;
+    }
+
+    @Step("Verify tab content: {expectedText}")
+    public PlaygroundSteps verifyTabContent(String expectedText) {
+        playgroundPage.verifyTabContent(expectedText);
+        return this;
+    }
 }

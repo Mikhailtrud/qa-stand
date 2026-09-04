@@ -404,7 +404,7 @@ private fun TablesSection() {
     fun changeSort(field: String) {
         if (sortField == field) ascending = !ascending else {
             sortField = field
-            ascending = true
+            ascending = false
         }
     }
 
@@ -500,7 +500,7 @@ private fun DynamicSection() {
         onClick = {
             scope.launch {
                 showLoader = true
-                delay(3_000)
+                delay(5_000)
                 showLoader = false
             }
         },
@@ -518,9 +518,14 @@ private fun DynamicSection() {
     ) { Text("Show Delayed Button") }
     }
     if (showLoader) {
-        Row(modifier = Modifier.appiumTag("loader")) {
+        Row {
             CircularProgressIndicator()
-            Text("Loading...", modifier = Modifier.padding(12.dp))
+            Text(
+                "Loading...",
+                modifier = Modifier
+                    .padding(12.dp)
+                    .appiumTag("loader"),
+            )
         }
     }
     if (showDelayedButton) {

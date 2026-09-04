@@ -3,7 +3,13 @@ package pages;
 import framework.driver.DriverManager;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.remote.RemoteWebElement;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public final class PlaygroundPage extends BasePage {
@@ -312,33 +318,185 @@ public final class PlaygroundPage extends BasePage {
     private final By tableSearch = tag("table_search");
     private final By roleFilter = tag("role_filter");
     private final By table = tag("dynamic_table");
-    private final By tableRow = tag("table_row_1");
     private final By tableNextButton = tag("next_page_button");
+    private final By filterRolePanel = By.id("android:id/content");
     private final By tablePreviousButton = tag("previous_page_button");
     private final By currentPage = tag("current_page");
     private final By sortId = tag("sort_id");
     private final By sortName = tag("sort_name");
     private final By sortRole = tag("sort_role");
 
-    //Dynamic Elements
-    private final By startLoaderButton = tag("start_loader_button");
-    private final By showDelayedButton = tag("show_delayed_button");
-    private final By delayedButton = tag("delayed_button");
-
-    //Mouse Actions
-    private final By hoverButton = tag("hover_button");
-    private final By doubleClickButton = tag("double_click_button");
-    private final By rightClickButton = tag("right_click_button");
-
-    public boolean isDisplayed() {
-        return isDisplayed(playgroundScreen);
+    public void scrollToTable() {
+        while (getDriver().findElements(tableNextButton).isEmpty()) {
+            swipeUp();
+        }
     }
 
     public boolean isTableDisplayed() {
         return isDisplayed(table);
     }
 
+    public void tableSearchClick() {
+        clickable(tableSearch).click();
+    }
+
+    public void tableSearchFillText(String value) {
+        type(tableSearch, value);
+    }
+
+    private By tableName(String name) {
+        return AppiumBy.androidUIAutomator(
+                "new UiSelector().text(\"" + name + "\")"
+        );
+    }
+
+    public void verifyNameAfterSearch(String expectedText) {
+        verifyText(tableName(expectedText), expectedText);
+    }
+
+    public List<String> getTableRowValues(int id) {
+        WebElement row = visible(tag("table_row_" + id));
+
+        return row.findElements(By.className("android.widget.TextView"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public List<String> getTableColumnValues(String columnName) {
+        List<String> columns = List.of("ID", "Name", "Role");
+
+        int columnIndex = columns.indexOf(columnName);
+
+        if (columnIndex == -1) {
+            throw new NoSuchElementException("Column not found: " + columnName);
+        }
+
+        List<WebElement> rows = getDriver()
+                .findElements(AppiumBy.androidUIAutomator(
+                        "new UiSelector().descriptionStartsWith(\"table_row_\")"
+                ));
+
+        List<String> values = new ArrayList<>();
+
+        for (WebElement row : rows) {
+            List<WebElement> cells =
+                    row.findElements(By.className("android.widget.TextView"));
+
+            values.add(cells.get(columnIndex).getText());
+        }
+
+        return values;
+    }
+
+    public void openFilterClick() {
+        clickable(roleFilter).click();
+        visible(roleFilter("all"));
+    }
+
+    private By roleFilter(String role) {
+        return tag("role_filter_" + role.toLowerCase() );
+    }
+
+    public void selectRoleFilter(String role) {
+        scrollToElement(filterRolePanel, roleFilter(role)).click();
+    }
+
+    public void tableNextButtonClick() {
+        clickable(tableNextButton).click();
+    }
+
+    public void tablePreviousButtonClick() {
+        clickable(tablePreviousButton).click();
+    }
+
+    public void sortByIdClick() {
+        clickable(sortId).click();
+    }
+
+    public void sortByNameClick() {
+        clickable(sortName).click();
+    }
+
+    public void sortByRoleClick() {
+        clickable(sortRole).click();
+    }
+
+    //Dynamic Elements
+    private final By startLoaderButton = tag("start_loader_button");
+    private final By showDelayedButton = tag("show_delayed_button");
+    private final By delayedButton = tag("delayed_button");
+    private final By hiddenElementText = tag("hidden_element");
+
+    public void scrollToDawn() {
+        while (getDriver().findElements(hoverButton).isEmpty()) {
+            swipeUp();
+        }
+    }
+
+    public void startLoaderButtonClick() {
+        clickable(startLoaderButton).click();
+    }
+
+    public void showDelayedButtonClick() {
+        clickable(showDelayedButton).click();
+    }
+
+    public void delayedButtonVisible() {
+        visible(delayedButton);
+    }
+
+    public boolean isLoaderDisplayed() {
+        return Objects.requireNonNull(getDriver()
+                        .getPageSource())
+                .contains("Loading...");
+    }
+
+    public boolean isHiddenElementDisplayed(String expectedText) {
+        return Objects.requireNonNull(DriverManager.getDriver()
+                        .getPageSource())
+                .contains(expectedText);
+    }
+
+    //Mouse Actions
+    private final By hoverButton = tag("hover_button");
+    private final By doubleClickButton = tag("double_click_button");
+    private final By rightClickButton = tag("right_click_button");
+    private final By mouseActionResult = tag("mouse_action_result");
+
+    public void tapHoverButton() {
+        clickable(hoverButton).click();
+    }
+
+    public void doubleTapButton() {
+        RemoteWebElement button = (RemoteWebElement) clickable(doubleClickButton);
+        getDriver().executeScript(
+                "mobile: doubleClickGesture",
+                Map.of("elementId", button.getId())
+        );
+    }
+
+    public void longPressButton() {
+        RemoteWebElement button = (RemoteWebElement) clickable(rightClickButton);
+        getDriver().executeScript(
+                "mobile: longClickGesture",
+                Map.of(
+                        "elementId", button.getId(),
+                        "duration", 1000
+                )
+        );
+    }
+
+    public String getMouseActionResult() {
+        return visible(mouseActionResult).getText();
+    }
+
+    public boolean isDisplayed() {
+        return isDisplayed(playgroundScreen);
+    }
+
     public void openUsers() {
         clickable(usersButton).click();
     }
+
 }

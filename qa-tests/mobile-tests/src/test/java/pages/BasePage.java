@@ -69,6 +69,7 @@ public abstract class BasePage {
             return false;
         }
     }
+
     protected void swipeUp() {
         getDriver().executeScript(
                 "mobile: swipeGesture",

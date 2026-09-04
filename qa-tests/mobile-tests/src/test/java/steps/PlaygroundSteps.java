@@ -6,6 +6,8 @@ import io.qameta.allure.Step;
 import pages.PlaygroundPage;
 import pages.UsersPage;
 
+import java.util.List;
+
 public final class PlaygroundSteps extends BaseSteps {
     private final UsersPage usersPage = new UsersPage();
     private final PlaygroundPage playgroundPage = new PlaygroundPage();
@@ -276,6 +278,161 @@ public final class PlaygroundSteps extends BaseSteps {
     @Step("Verify tab content: {expectedText}")
     public PlaygroundSteps verifyTabContent(String expectedText) {
         playgroundPage.verifyTabContent(expectedText);
+        return this;
+    }
+
+    //Table
+    @Step("Close modal window")
+    public PlaygroundSteps scrollToTable() {
+        playgroundPage.scrollToTable();
+        return this;
+    }
+
+    @Step("Click on search field")
+    public PlaygroundSteps tableSearchClick() {
+        playgroundPage.tableSearchClick();
+        return this;
+    }
+
+    @Step("Fill forms search input")
+    public PlaygroundSteps tableSearchFillText(String text) {
+        playgroundPage.tableSearchFillText(text);
+        return this;
+    }
+
+    @Step("Verify name {name}")
+    public PlaygroundSteps verifyNameAfterSearch(String name) {
+        playgroundPage.verifyNameAfterSearch(name);
+        return this;
+    }
+
+    @Step("Verify table row: {id}, {name}, {role}")
+    public PlaygroundSteps verifyTableRow(int id, String name, String role) {
+        assertThat(playgroundPage.getTableRowValues(id))
+                .containsExactly(
+                        String.valueOf(id),
+                        name,
+                        role
+                );
+
+        return this;
+    }
+
+    @Step("Open role filter")
+    public PlaygroundSteps openFilterClick() {
+        playgroundPage.openFilterClick();
+        return this;
+    }
+
+    @Step("Click on role filter")
+    public PlaygroundSteps roleFilterClick(String role) {
+        playgroundPage.selectRoleFilter(role);
+        return this;
+    }
+
+    @Step("Verify column {columnName} values")
+    public PlaygroundSteps verifyColumnValues(
+            String columnName,
+            String... expectedValues
+    ) {
+        assertThat(playgroundPage.getTableColumnValues(columnName))
+                .containsExactly(expectedValues);
+
+        return this;
+    }
+
+    @Step("Open next page")
+    public PlaygroundSteps tableNextButtonClick() {
+        playgroundPage.tableNextButtonClick();
+        return this;
+    }
+
+    @Step("Open previous page")
+    public PlaygroundSteps tablePreviousButtonClick() {
+        playgroundPage.tablePreviousButtonClick();
+        return this;
+    }
+
+    @Step("Sort by ID")
+    public PlaygroundSteps sortByIdClick() {
+        playgroundPage.sortByIdClick();
+        return this;
+    }
+
+    @Step("Sort by Name")
+    public PlaygroundSteps sortByNameClick() {
+        playgroundPage.sortByNameClick();
+        return this;
+    }
+
+    @Step("Sort by Role")
+    public PlaygroundSteps sortByRoleClick() {
+        playgroundPage.sortByRoleClick();
+        return this;
+    }
+
+    //Dynamic Elements
+    @Step("Scroll dawn")
+    public PlaygroundSteps scrollDawn() {
+        playgroundPage.scrollToDawn();
+        return this;
+    }
+
+    @Step("Close modal window")
+    public PlaygroundSteps startLoader() {
+        playgroundPage.startLoaderButtonClick();
+        return this;
+    }
+
+    @Step("Verify loader is displayed")
+    public PlaygroundSteps verifyLoaderDisplayed() {
+        assertThat(playgroundPage.isLoaderDisplayed())
+                .isTrue();
+        return this;
+    }
+
+    @Step("Show delayed button")
+    public PlaygroundSteps showDelayedButton() {
+        playgroundPage.showDelayedButtonClick();
+        return this;
+    }
+
+    @Step("Vrify delayed button displayed")
+    public PlaygroundSteps delayedButtonVisible() {
+        playgroundPage.delayedButtonVisible();
+        return this;
+    }
+
+    @Step("Verify toast text: {expectedText}")
+    public PlaygroundSteps verifyHiddenElementText(String expectedText) {
+        assertThat(playgroundPage.isHiddenElementDisplayed(expectedText))
+                .isTrue();
+        return this;
+    }
+
+    //Mouse Actions
+    @Step("Tap Hover action")
+    public PlaygroundSteps tapHoverAction() {
+        playgroundPage.tapHoverButton();
+        return this;
+    }
+
+    @Step("Double tap action")
+    public PlaygroundSteps doubleClickAction() {
+        playgroundPage.doubleTapButton();
+        return this;
+    }
+
+    @Step("Long press Right Click action")
+    public PlaygroundSteps rightClickAction() {
+        playgroundPage.longPressButton();
+        return this;
+    }
+
+    @Step("Verify mouse action result: {expectedText}")
+    public PlaygroundSteps verifyMouseActionResult(String expectedText) {
+        assertThat(playgroundPage.getMouseActionResult())
+                .isEqualTo(expectedText);
         return this;
     }
 }

@@ -93,18 +93,4 @@ public final class UsersPage extends BasePage {
         scrollToElement(usersList, tag("edit_user_" + id)).click();
     }
 
-    private By testElem(long id) {
-        return tag("edit_user_" + id );
-    }
-
-    public void scrollToDawn(long id) {
-        while (getDriver().findElements(tag("edit_user_" + id)).isEmpty()) {
-            swipeUp();
-        }
-    }
-
-    public void testElement(long id) {
-        clickable(testElem(id)).click();
-    }
-
 }

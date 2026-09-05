@@ -71,9 +71,7 @@ public final class UsersSteps extends BaseSteps {
 
     @Step("Open edit form for user with id {userId}")
     public UsersSteps editUser(long userId) {
-/*        usersPage.editUser(userId);*/
-        usersPage.scrollToDawn(userId);
-        usersPage.testElement(userId);
+        usersPage.editUser(userId);
         return this;
     }
 

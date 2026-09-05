@@ -327,9 +327,7 @@ public final class PlaygroundPage extends BasePage {
     private final By sortRole = tag("sort_role");
 
     public void scrollToTable() {
-        while (getDriver().findElements(tableNextButton).isEmpty()) {
-            swipeUp();
-        }
+        swipeUpToElement(tableNextButton);
     }
 
     public boolean isTableDisplayed() {
@@ -429,9 +427,7 @@ public final class PlaygroundPage extends BasePage {
     private final By hiddenElementText = tag("hidden_element");
 
     public void scrollToDawn() {
-        while (getDriver().findElements(hoverButton).isEmpty()) {
-            swipeUp();
-        }
+        swipeUpToElement(hoverButton);
     }
 
     public void startLoaderButtonClick() {

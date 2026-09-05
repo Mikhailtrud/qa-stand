@@ -6,6 +6,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class BasePage {
+    private static final int MAX_SCROLL_ATTEMPTS = 20;
+
     protected AndroidDriver getDriver() {
         return DriverManager.getDriver();
     }
@@ -72,16 +75,38 @@ public abstract class BasePage {
     }
 
     protected void swipeUp() {
+        Dimension windowSize = getDriver().manage().window().getSize();
+
         getDriver().executeScript(
                 "mobile: swipeGesture",
                 java.util.Map.of(
-                        "left", 100,
-                        "top", 500,
-                        "width", 800,
-                        "height", 1200,
+                        "left", windowSize.width / 10,
+                        "top", windowSize.height / 5,
+                        "width", windowSize.width * 8 / 10,
+                        "height", windowSize.height * 6 / 10,
                         "direction", "up",
                         "percent", 0.75
                 )
+        );
+    }
+
+    protected WebElement swipeUpToElement(By targetLocator) {
+        if (!getDriver().findElements(targetLocator).isEmpty()) {
+            return visible(targetLocator);
+        }
+
+        for (int attempt = 1; attempt <= MAX_SCROLL_ATTEMPTS; attempt++) {
+            swipeUp();
+
+            if (!getDriver().findElements(targetLocator).isEmpty()) {
+                return visible(targetLocator);
+            }
+        }
+
+        throw new NoSuchElementException(
+                "Element " + targetLocator
+                        + " was not found after " + MAX_SCROLL_ATTEMPTS
+                        + " upward swipe attempts"
         );
     }
 
@@ -102,22 +127,26 @@ public abstract class BasePage {
         RemoteWebElement container =
                 (RemoteWebElement) visible(containerLocator);
 
-        while (true) {
-            if (!DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
-                return visible(targetLocator);
-            }
+        if (!getDriver().findElements(targetLocator).isEmpty()) {
+            return visible(targetLocator);
+        }
 
+        for (int attempt = 1; attempt <= MAX_SCROLL_ATTEMPTS; attempt++) {
             boolean canScrollMore = scrollDown(container);
 
-            if (!DriverManager.getDriver().findElements(targetLocator).isEmpty()) {
+            if (!getDriver().findElements(targetLocator).isEmpty()) {
                 return visible(targetLocator);
             }
 
             if (!canScrollMore) {
-                throw new NoSuchElementException(
-                        "Element not found after scrolling: " + targetLocator
-                );
+                break;
             }
         }
+
+        throw new NoSuchElementException(
+                "Element " + targetLocator
+                        + " was not found in container " + containerLocator
+                        + " after at most " + MAX_SCROLL_ATTEMPTS + " scroll attempts"
+        );
     }
 }

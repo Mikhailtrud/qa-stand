@@ -23,7 +23,8 @@ public class JavaScriptTest extends BaseTest {
         playgroundSteps
                 .openAlert()
                 .verifyAlertWindowVisible()
-                .closeAlert();
+                .closeAlert()
+                .verifyAlertWindowClosed();
     }
 
     @Test
@@ -32,7 +33,8 @@ public class JavaScriptTest extends BaseTest {
         playgroundSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
-                .clickOnOkConfirmButton();
+                .clickOnOkConfirmButton()
+                .verifyConfirmWindowClosed();
     }
 
     @Test
@@ -41,7 +43,8 @@ public class JavaScriptTest extends BaseTest {
         playgroundSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
-                .cancelConfirm();
+                .cancelConfirm()
+                .verifyConfirmWindowClosed();
     }
 
     @Test
@@ -51,7 +54,8 @@ public class JavaScriptTest extends BaseTest {
                 .openPrompt()
                 .verifyPromptWindowVisible()
                 .fillPromptInput("Test")
-                .clickOnOkPromptButton();
+                .clickOnOkPromptButton()
+                .verifyPromptWindowClosed();
     }
 
     @Test
@@ -61,7 +65,8 @@ public class JavaScriptTest extends BaseTest {
                 .openPrompt()
                 .verifyPromptWindowVisible()
                 .fillPromptInput("Test")
-                .cancelPrompt();
+                .cancelPrompt()
+                .verifyPromptWindowClosed();
     }
 
     @Test
@@ -78,6 +83,7 @@ public class JavaScriptTest extends BaseTest {
         playgroundSteps
                 .openModal()
                 .verifyAModalWindowVisible()
-                .closeModal();
+                .closeModal()
+                .verifyModalWindowClosed();
     }
 }

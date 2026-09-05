@@ -163,13 +163,19 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify alert window visible")
     public PlaygroundSteps verifyAlertWindowVisible() {
-        playgroundPage.verifyAlertWindowVisible();
+        assertThat(playgroundPage.isAlertWindowDisplayed()).isTrue();
         return this;
     }
 
     @Step("Close alert")
     public PlaygroundSteps closeAlert() {
         playgroundPage.closeAlert();
+        return this;
+    }
+
+    @Step("Verify alert window closed")
+    public PlaygroundSteps verifyAlertWindowClosed() {
+        assertThat(playgroundPage.isAlertWindowClosed()).isTrue();
         return this;
     }
 
@@ -182,7 +188,7 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify confirm window visible")
     public PlaygroundSteps verifyConfirmWindowVisible() {
-        playgroundPage.verifyConfirmWindowVisible();
+        assertThat(playgroundPage.isConfirmWindowDisplayed()).isTrue();
         return this;
     }
 
@@ -195,6 +201,12 @@ public final class PlaygroundSteps extends BaseSteps {
     @Step("Click on OK button on confirm window")
     public PlaygroundSteps cancelConfirm() {
         playgroundPage.cancelConfirm();
+        return this;
+    }
+
+    @Step("Verify confirm window closed")
+    public PlaygroundSteps verifyConfirmWindowClosed() {
+        assertThat(playgroundPage.isConfirmWindowClosed()).isTrue();
         return this;
     }
 
@@ -213,7 +225,7 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify prompt window visible")
     public PlaygroundSteps verifyPromptWindowVisible() {
-        playgroundPage.verifyPromptWindowVisible();
+        assertThat(playgroundPage.isPromptWindowDisplayed()).isTrue();
         return this;
     }
 
@@ -226,6 +238,12 @@ public final class PlaygroundSteps extends BaseSteps {
     @Step("Click on OK button on prompt window")
     public PlaygroundSteps cancelPrompt() {
         playgroundPage.cancelCPrompt();
+        return this;
+    }
+
+    @Step("Verify prompt window closed")
+    public PlaygroundSteps verifyPromptWindowClosed() {
+        assertThat(playgroundPage.isPromptWindowClosed()).isTrue();
         return this;
     }
 
@@ -253,13 +271,19 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify modal window visible")
     public PlaygroundSteps verifyAModalWindowVisible() {
-        playgroundPage.verifyAModalWindowVisible();
+        assertThat(playgroundPage.isModalWindowDisplayed()).isTrue();
         return this;
     }
 
     @Step("Close modal window")
     public PlaygroundSteps closeModal() {
         playgroundPage.closeModal();
+        return this;
+    }
+
+    @Step("Verify modal window closed")
+    public PlaygroundSteps verifyModalWindowClosed() {
+        assertThat(playgroundPage.isModalWindowClosed()).isTrue();
         return this;
     }
 
@@ -392,14 +416,14 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Vrify delayed button displayed")
     public PlaygroundSteps delayedButtonVisible() {
-        playgroundPage.delayedButtonVisible();
+        assertThat(playgroundPage.isDelayedButtonDisplayed()).isTrue();
         return this;
     }
 
     @Step("Verify toast text: {expectedText}")
     public PlaygroundSteps verifyHiddenElementText(String expectedText) {
-        assertThat(playgroundPage.isHiddenElementDisplayed(expectedText))
-                .isTrue();
+        assertThat(playgroundPage.getHiddenElementText())
+                .isEqualTo(expectedText);
         return this;
     }
 

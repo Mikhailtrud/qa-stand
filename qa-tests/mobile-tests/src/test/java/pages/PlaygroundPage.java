@@ -10,7 +10,6 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public final class PlaygroundPage extends BasePage {
 
@@ -207,12 +206,16 @@ public final class PlaygroundPage extends BasePage {
     private final By alertDialog = tag("alert_dialog");
     private final By okAlertButton = tag("alert_dialog_close_button");
 
-    public void verifyAlertWindowVisible() {
-        visible(alertDialog);
+    public boolean isAlertWindowDisplayed() {
+        return isDisplayed(alertDialog);
     }
 
     public void closeAlert() {
         clickable(okAlertButton).click();
+    }
+
+    public boolean isAlertWindowClosed() {
+        return !isDisplayed(alertDialog);
     }
 
     public void openAlert() {
@@ -229,8 +232,8 @@ public final class PlaygroundPage extends BasePage {
         scrollToElement(playgroundScreen, confirmButton).click();
     }
 
-    public void verifyConfirmWindowVisible() {
-        visible(confirmDialog);
+    public boolean isConfirmWindowDisplayed() {
+        return isDisplayed(confirmDialog);
     }
 
     public void clickOnOkConfirmButton() {
@@ -239,6 +242,10 @@ public final class PlaygroundPage extends BasePage {
 
     public void cancelConfirm() {
         clickable(cancelConfirmButton).click();
+    }
+
+    public boolean isConfirmWindowClosed() {
+        return !isDisplayed(confirmDialog);
     }
 
     //JavaScript Prompt
@@ -252,8 +259,8 @@ public final class PlaygroundPage extends BasePage {
         scrollToElement(playgroundScreen, promptButton).click();
     }
 
-    public void verifyPromptWindowVisible() {
-        visible(promptDialog);
+    public boolean isPromptWindowDisplayed() {
+        return isDisplayed(promptDialog);
     }
 
     public void clickOnOkPromptButton() {
@@ -262,6 +269,10 @@ public final class PlaygroundPage extends BasePage {
 
     public void cancelCPrompt() {
         clickable(promptCancelButton).click();
+    }
+
+    public boolean isPromptWindowClosed() {
+        return !isDisplayed(promptDialog);
     }
 
     public void enterTextPromptInput(String value) {
@@ -286,12 +297,16 @@ public final class PlaygroundPage extends BasePage {
     private final By modalWindow = tag("modal_window");
     private final By modalWindowCloseButton = tag("modal_window_close_button");
 
-    public void verifyAModalWindowVisible() {
-        visible(modalWindow);
+    public boolean isModalWindowDisplayed() {
+        return isDisplayed(modalWindow);
     }
 
     public void closeModal() {
         clickable(modalWindowCloseButton).click();
+    }
+
+    public boolean isModalWindowClosed() {
+        return !isDisplayed(modalWindow);
     }
 
     public void openModal() {
@@ -424,6 +439,7 @@ public final class PlaygroundPage extends BasePage {
     private final By startLoaderButton = tag("start_loader_button");
     private final By showDelayedButton = tag("show_delayed_button");
     private final By delayedButton = tag("delayed_button");
+    private final By loader = tag("loader");
     private final By hiddenElementText = tag("hidden_element");
 
     public void scrollToDawn() {
@@ -438,20 +454,16 @@ public final class PlaygroundPage extends BasePage {
         clickable(showDelayedButton).click();
     }
 
-    public void delayedButtonVisible() {
-        visible(delayedButton);
+    public boolean isDelayedButtonDisplayed() {
+        return isDisplayed(delayedButton);
     }
 
     public boolean isLoaderDisplayed() {
-        return Objects.requireNonNull(getDriver()
-                        .getPageSource())
-                .contains("Loading...");
+        return isDisplayed(loader);
     }
 
-    public boolean isHiddenElementDisplayed(String expectedText) {
-        return Objects.requireNonNull(DriverManager.getDriver()
-                        .getPageSource())
-                .contains(expectedText);
+    public String getHiddenElementText() {
+        return visible(hiddenElementText).getText();
     }
 
     //Mouse Actions

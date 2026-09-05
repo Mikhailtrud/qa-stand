@@ -23,6 +23,10 @@ public final class DriverManager {
         return driver;
     }
 
+    public static AndroidDriver getDriverOrNull() {
+        return DRIVER.get();
+    }
+
     public static void quitDriver() {
         AndroidDriver driver = DRIVER.get();
         try {

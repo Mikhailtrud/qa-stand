@@ -26,6 +26,12 @@ public final class UsersSteps extends BaseSteps {
         return this;
     }
 
+    @Step("Open QA Playground")
+    public UsersSteps openPlayground() {
+        usersPage.openPlayground();
+        return this;
+    }
+
     @Step("Verify user with email {email} is displayed")
     public UsersSteps verifyUserDisplayedByEmail(String email) {
         assertThat(usersPage.isUserDisplayed(email))

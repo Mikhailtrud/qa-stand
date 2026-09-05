@@ -18,8 +18,8 @@ public class MouseActionsTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
+        usersSteps.openPlayground();
+        playgroundMouseActionsSteps
                 .verifyPlaygroundDisplayed()
                 .scrollToBottom();
     }
@@ -27,7 +27,7 @@ public class MouseActionsTest extends BaseTest {
     @Test
     @Description("Tapping Hover displays the Hover result")
     void tapDisplaysHoverResult() {
-        playgroundSteps
+        playgroundMouseActionsSteps
                 .tapHoverAction()
                 .verifyMouseActionResult("Hover");
     }
@@ -35,7 +35,7 @@ public class MouseActionsTest extends BaseTest {
     @Test
     @Description("Double tapping displays the Double Click result")
     void doubleTapDisplaysDoubleClickResult() {
-        playgroundSteps
+        playgroundMouseActionsSteps
                 .doubleClickAction()
                 .verifyMouseActionResult("Double Click");
     }
@@ -43,7 +43,7 @@ public class MouseActionsTest extends BaseTest {
     @Test
     @Description("Long pressing displays the Right Click result")
     void longPressDisplaysRightClickResult() {
-        playgroundSteps
+        playgroundMouseActionsSteps
                 .rightClickAction()
                 .verifyMouseActionResult("Right Click");
     }

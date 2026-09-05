@@ -41,6 +41,10 @@ public abstract class BasePage {
         return explicitWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    protected WebElement present(By locator) {
+        return explicitWait().until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
     protected WebElement clickable(By locator) {
         return explicitWait().until(ExpectedConditions.elementToBeClickable(locator));
     }

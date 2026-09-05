@@ -26,7 +26,11 @@ public final class UsersPage extends BasePage {
     }
 
     public boolean isUserDisplayed(String email) {
-        return isDisplayed(userByEmail(email));
+        try {
+            return scrollToElement(usersList, userByEmail(email)).isDisplayed();
+        } catch (NoSuchElementException | TimeoutException ignored) {
+            return false;
+        }
     }
 
     private By userByEmail(String email) {

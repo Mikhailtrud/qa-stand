@@ -7,5 +7,4 @@ public abstract class BaseSteps {
     protected final EditUserPage editUserPage = new EditUserPage();
     protected final LoginPage loginPage = new LoginPage();
     protected final UsersPage usersPage = new UsersPage();
-    protected final PlaygroundPage playgroundPage = new PlaygroundPage();
 }

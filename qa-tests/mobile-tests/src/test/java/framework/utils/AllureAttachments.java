@@ -28,4 +28,14 @@ public final class AllureAttachments {
             // A dead Appium session should not hide the original test failure.
         }
     }
+
+    public static void attachDiagnostic(String name, Throwable error) {
+        String details = error.getClass().getName() + ": " + error.getMessage();
+        Allure.addAttachment(
+                name,
+                "text/plain",
+                new ByteArrayInputStream(details.getBytes(StandardCharsets.UTF_8)),
+                ".txt"
+        );
+    }
 }

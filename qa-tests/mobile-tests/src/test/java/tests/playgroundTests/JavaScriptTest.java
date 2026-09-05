@@ -18,15 +18,14 @@ public class JavaScriptTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
-                .verifyPlaygroundDisplayed();
+        usersSteps.openPlayground();
+        playgroundDialogsSteps.verifyPlaygroundDisplayed();
     }
 
     @Test
     @Description("The alert can be opened and closed")
     void alertCanBeClosed() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openAlert()
                 .verifyAlertWindowVisible()
                 .closeAlert()
@@ -36,7 +35,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The confirm dialog closes after accepting it")
     void confirmCanBeAccepted() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
                 .acceptConfirm()
@@ -46,7 +45,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The confirm dialog closes after cancelling it")
     void confirmCanBeCancelled() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
                 .cancelConfirm()
@@ -56,7 +55,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The prompt closes after submitting entered text")
     void promptCanBeSubmitted() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openPrompt()
                 .verifyPromptWindowVisible()
                 .fillPromptInput("Test")
@@ -67,7 +66,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The prompt closes after cancelling entered text")
     void promptCanBeCancelled() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openPrompt()
                 .verifyPromptWindowVisible()
                 .fillPromptInput("Test")
@@ -78,7 +77,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The toast displays the successful operation message")
     void toastDisplaysSuccessMessage() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openToast()
                 .verifyToast("Operation completed successfully");
     }
@@ -86,7 +85,7 @@ public class JavaScriptTest extends BaseTest {
     @Test
     @Description("The modal window can be opened and closed")
     void modalCanBeClosed() {
-        playgroundSteps
+        playgroundDialogsSteps
                 .openModal()
                 .verifyModalWindowVisible()
                 .closeModal()

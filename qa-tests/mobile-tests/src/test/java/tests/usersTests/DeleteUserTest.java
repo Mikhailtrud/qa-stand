@@ -34,7 +34,6 @@ public class DeleteUserTest extends BaseTest {
                 .refreshUsers()
                 .deleteUser(createdUserId)
                 .verifyUserCardNotDisplayed(createdUserId);
-        createdUserId = 0;
     }
 
     @Test

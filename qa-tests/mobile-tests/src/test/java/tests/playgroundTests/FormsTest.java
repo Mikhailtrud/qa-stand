@@ -27,9 +27,8 @@ public class FormsTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
-                .verifyPlaygroundDisplayed();
+        usersSteps.openPlayground();
+        playgroundFormsSteps.verifyPlaygroundDisplayed();
     }
 
     @Test
@@ -37,7 +36,7 @@ public class FormsTest extends BaseTest {
     void textInputDisplaysEnteredValue() {
         String text = "Test input text";
 
-        playgroundSteps
+        playgroundFormsSteps
                 .fillInput(text)
                 .verifyInputValue(text);
     }
@@ -47,7 +46,7 @@ public class FormsTest extends BaseTest {
     void textareaDisplaysEnteredValue() {
         String text = "Test textarea text";
 
-        playgroundSteps
+        playgroundFormsSteps
                 .fillTextarea(text)
                 .verifyTextareaValue(text);
     }
@@ -60,7 +59,7 @@ public class FormsTest extends BaseTest {
                 .minusMonths(1)
                 .withDayOfMonth(11);
 
-        playgroundSteps
+        playgroundFormsSteps
                 .selectDate(targetDate.getYear(), targetDate.getDayOfMonth())
                 .verifySelectedDate(targetDate.toString());
     }
@@ -68,7 +67,7 @@ public class FormsTest extends BaseTest {
     @Test
     @Description("The selected option is displayed in the select field")
     void optionCanBeSelected() {
-        playgroundSteps
+        playgroundFormsSteps
                 .openSelect()
                 .verifyOptionDisplayed(1)
                 .selectOption(2)
@@ -78,7 +77,7 @@ public class FormsTest extends BaseTest {
     @Test
     @Description("Multiple options can be selected and displayed")
     void multipleOptionsCanBeSelected() {
-        playgroundSteps
+        playgroundFormsSteps
                 .openMultiSelect()
                 .selectMultiOptions("java", "kotlin", "groovy")
                 .verifyOptionsSelected("java", "kotlin", "groovy")
@@ -100,17 +99,17 @@ public class FormsTest extends BaseTest {
                 uploadFile
         );
 
-        playgroundSteps
+        playgroundFormsSteps
                 .openFileChooser()
                 .chooseFile(fileName)
-                .verifyFileSelected(fileName);
+                .verifyFileSelected();
     }
 
     @Test
     @Description("The Accept Terms checkbox can be selected and cleared")
     void acceptTermsCanBeToggled() {
 
-        playgroundSteps
+        playgroundFormsSteps
                 .verifyAcceptTermsState(false)
                 .toggleAcceptTerms()
                 .verifyAcceptTermsState(true)
@@ -122,7 +121,7 @@ public class FormsTest extends BaseTest {
     @Description("Selecting Male clears the Female radio option")
     void maleRadioOptionCanBeSelected() {
 
-        playgroundSteps
+        playgroundFormsSteps
                 .selectRadio("male")
                 .verifyRadioState("male", true)
                 .verifyRadioState("female", false);
@@ -132,7 +131,7 @@ public class FormsTest extends BaseTest {
     @Description("Selecting Female clears the Male radio option")
     void femaleRadioOptionCanBeSelected() {
 
-        playgroundSteps
+        playgroundFormsSteps
                 .selectRadio("female")
                 .verifyRadioState("female", true)
                 .verifyRadioState("male", false);

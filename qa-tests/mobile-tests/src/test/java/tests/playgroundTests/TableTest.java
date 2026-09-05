@@ -20,8 +20,8 @@ public class TableTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
+        usersSteps.openPlayground();
+        playgroundTableSteps
                 .verifyPlaygroundDisplayed()
                 .scrollToTable();
     }
@@ -29,7 +29,7 @@ public class TableTest extends BaseTest {
     @Test
     @Description("Searching by name displays the matching table row")
     void searchFiltersRowsByName() {
-        playgroundSteps
+        playgroundTableSteps
                 .focusTableSearch()
                 .enterTableSearch("John")
                 .verifyNameAfterSearch("John")
@@ -48,7 +48,7 @@ public class TableTest extends BaseTest {
             String firstRole,
             String secondRole
     ) {
-        playgroundSteps
+        playgroundTableSteps
                 .openRoleFilter()
                 .selectRoleFilter(filter)
                 .verifyColumnValues("Role", firstRole, secondRole);
@@ -57,7 +57,7 @@ public class TableTest extends BaseTest {
     @Test
     @Description("Table pagination displays the expected rows on each page")
     void paginationNavigatesBetweenPages() {
-        playgroundSteps
+        playgroundTableSteps
                 .openNextTablePage()
                 .verifyTableRow(3, "Mike", "USER")
                 .verifyTableRow(4, "Sara", "ADMIN")
@@ -69,7 +69,7 @@ public class TableTest extends BaseTest {
     @Test
     @Description("Sorting by ID orders the visible ID values")
     void idColumnCanBeSorted() {
-        playgroundSteps
+        playgroundTableSteps
                 .sortById()
                 .verifyColumnValues("ID", "5", "4");
     }
@@ -77,7 +77,7 @@ public class TableTest extends BaseTest {
     @Test
     @Description("Sorting by Name orders the visible name values")
     void nameColumnCanBeSorted() {
-        playgroundSteps
+        playgroundTableSteps
                 .sortByName()
                 .verifyColumnValues("Name", "Tom", "Sara");
     }
@@ -85,7 +85,7 @@ public class TableTest extends BaseTest {
     @Test
     @Description("Sorting by Role orders the visible role values")
     void roleColumnCanBeSorted() {
-        playgroundSteps
+        playgroundTableSteps
                 .sortByRole()
                 .verifyColumnValues("Role", "USER", "USER");
     }

@@ -18,8 +18,8 @@ public class DynamicElementsTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
+        usersSteps.openPlayground();
+        playgroundDynamicSteps
                 .verifyPlaygroundDisplayed()
                 .scrollToBottom();
     }
@@ -27,7 +27,7 @@ public class DynamicElementsTest extends BaseTest {
     @Test
     @Description("Starting the loader displays its progress indicator")
     void loaderAppearsAfterStart() {
-        playgroundSteps
+        playgroundDynamicSteps
                 .startLoader()
                 .verifyLoaderDisplayed();
     }
@@ -35,7 +35,7 @@ public class DynamicElementsTest extends BaseTest {
     @Test
     @Description("The delayed button appears after it is requested")
     void delayedButtonAppears() {
-        playgroundSteps
+        playgroundDynamicSteps
                 .showDelayedButton()
                 .verifyDelayedButtonDisplayed();
     }
@@ -43,7 +43,7 @@ public class DynamicElementsTest extends BaseTest {
     @Test
     @Description("The hidden element becomes visible with the expected text")
     void hiddenElementAppears() {
-        playgroundSteps
+        playgroundDynamicSteps
                 .verifyHiddenElementText("Hidden element appeared.");
     }
 

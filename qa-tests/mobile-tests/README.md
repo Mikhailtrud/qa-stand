@@ -44,9 +44,12 @@ Use locators in this order:
 Tests require a running QA Stand backend, a local Appium server with the
 UiAutomator2 driver, and a running Android emulator.
 
-Required environment variables:
+Administrator credentials are resolved in this order: explicit Gradle project
+property, environment variable, QA Stand local default.
 
 ```powershell
+.\gradlew.bat test -PADMIN_EMAIL='<admin-email>' -PADMIN_PASSWORD='<admin-password>'
+# or
 $env:ADMIN_EMAIL='<admin-email>'
 $env:ADMIN_PASSWORD='<admin-password>'
 ```
@@ -67,8 +70,9 @@ Common optional properties and defaults:
 | `EXPLICIT_WAIT_SECONDS` | `10` |
 | `IMPLICIT_WAIT_SECONDS` | `2` |
 
-Configuration values can be supplied as environment variables or Java system
-properties. `ADMIN_EMAIL` and `ADMIN_PASSWORD` have no defaults.
+The local QA Stand defaults are `test@email.com` and `admin123`. CI credentials
+should be supplied with `-PADMIN_EMAIL`/`-PADMIN_PASSWORD` or environment variables;
+no credentials are stored in `gradle.properties`.
 
 ## Run
 

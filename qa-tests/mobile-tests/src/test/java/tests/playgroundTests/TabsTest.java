@@ -20,9 +20,8 @@ public class TabsTest extends BaseTest {
     @BeforeEach
     void setUp() {
         authProvider.authorizeAsAdmin();
-        playgroundSteps
-                .openPlayground()
-                .verifyPlaygroundDisplayed();
+        usersSteps.openPlayground();
+        playgroundTabsSteps.verifyPlaygroundDisplayed();
     }
 
     @ParameterizedTest(name = "Tab {0} -> {1}")
@@ -33,7 +32,7 @@ public class TabsTest extends BaseTest {
             "3, Content Tab 3"
     })
     void selectedTabDisplaysExpectedContent(int tabNumber, String expectedText) {
-        playgroundSteps
+        playgroundTabsSteps
                 .selectTab(tabNumber)
                 .verifyTabContent(expectedText);
     }

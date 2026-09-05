@@ -32,6 +32,13 @@ test {
         events 'passed', 'skipped', 'failed'
         exceptionFormat 'full'
     }
-    systemProperty "ADMIN_EMAIL", project.findProperty("ADMIN_EMAIL")
-    systemProperty "ADMIN_PASSWORD", project.findProperty("ADMIN_PASSWORD")
+    def adminEmail = gradle.startParameter.projectProperties['ADMIN_EMAIL']
+            ?: System.getenv('ADMIN_EMAIL')
+            ?: 'test@email.com'
+    def adminPassword = gradle.startParameter.projectProperties['ADMIN_PASSWORD']
+            ?: System.getenv('ADMIN_PASSWORD')
+            ?: 'admin123'
+
+    systemProperty 'ADMIN_EMAIL', adminEmail
+    systemProperty 'ADMIN_PASSWORD', adminPassword
 }

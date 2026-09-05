@@ -30,6 +30,20 @@ public final class PlaygroundSteps extends BaseSteps {
         return this;
     }
 
+    @Step("Verify forms input value: {expectedText}")
+    public PlaygroundSteps verifyInputValue(String expectedText) {
+        assertThat(playgroundPage.getTextInputValue())
+                .isEqualTo(expectedText);
+        return this;
+    }
+
+    @Step("Verify forms textarea value: {expectedText}")
+    public PlaygroundSteps verifyTextareaValue(String expectedText) {
+        assertThat(playgroundPage.getTextareaValue())
+                .isEqualTo(expectedText);
+        return this;
+    }
+
     //Datepicker
     @Step("Select date {day}.{month}.{year}")
     public PlaygroundSteps selectDate(int year, int day) {
@@ -39,7 +53,8 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify selected date: {expectedDate}")
     public PlaygroundSteps verifySelectedDate(String expectedDate) {
-        playgroundPage.verifySelectedDate(expectedDate);
+        assertThat(playgroundPage.getSelectedDate(expectedDate))
+                .isEqualTo(expectedDate);
         return this;
     }
 
@@ -64,7 +79,8 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify selected option")
     public PlaygroundSteps verifyOptionSelected(String expectedOption) {
-        playgroundPage.verifyText(expectedOption);
+        assertThat(playgroundPage.getDisplayedOptionText(expectedOption))
+                .isEqualTo(expectedOption);
         return this;
     }
 
@@ -95,7 +111,8 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify selected multi option")
     public PlaygroundSteps verifyMultiOptionSelected(String expectedOption) {
-        playgroundPage.verifyText(expectedOption);
+        assertThat(playgroundPage.getDisplayedOptionText(expectedOption))
+                .isEqualTo(expectedOption);
         return this;
     }
 
@@ -118,10 +135,10 @@ public final class PlaygroundSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Verify file was selected")
-    public PlaygroundSteps verifyFileSelected() {
+    @Step("Verify selected file name: {expectedFileName}")
+    public PlaygroundSteps verifyFileSelected(String expectedFileName) {
         assertThat(playgroundPage.getSelectedFileName())
-                .isNotEqualTo("No file selected");
+                .isEqualTo(expectedFileName);
         return this;
     }
 

@@ -24,6 +24,10 @@ public final class PlaygroundPage extends BasePage {
         return this;
     }
 
+    public String getTextInputValue() {
+        return visible(textInput).getText();
+    }
+
     //Forms textarea
     private final By textarea = tag("playground_textarea");
 
@@ -32,12 +36,14 @@ public final class PlaygroundPage extends BasePage {
         return this;
     }
 
+    public String getTextareaValue() {
+        return visible(textarea).getText();
+    }
+
     //Forms Datepicker
     private final By chooseDate = tag("playground_date");
     private final By datepicker = By.id("android:id/date_picker_header");
-    private final By nextMonthButton = By.id("android:id/next");
     private final By previousMonthButton = By.id("android:id/prev");
-    private final By datePickerCancelButton  = By.id("android:id/button2");
     private final By datePickerOkButton  = By.id("android:id/button1");
     private final By selectYearButton  = By.id("android:id/date_picker_header_year");
     private By year(int year) { return By.xpath("//*[@text='" + year + "']"); }
@@ -53,9 +59,8 @@ public final class PlaygroundPage extends BasePage {
         return this;
     }
 
-    public PlaygroundPage verifySelectedDate(String expectedDate) {
-        verifyText(dateValue(expectedDate), expectedDate);
-        return this;
+    public String getSelectedDate(String expectedDate) {
+        return visible(dateValue(expectedDate)).getText();
     }
 
     private void openDatePicker() {
@@ -112,9 +117,8 @@ public final class PlaygroundPage extends BasePage {
         );
     }
 
-    public PlaygroundPage verifyText(String expectedOption) {
-        verifyText(verifyTextEquals(expectedOption), expectedOption);
-        return this;
+    public String getDisplayedOptionText(String expectedOption) {
+        return visible(verifyTextEquals(expectedOption)).getText();
     }
 
     //Forms Multi select
@@ -172,15 +176,13 @@ public final class PlaygroundPage extends BasePage {
 
     //Forms Checkbox
     private final By checkbox = tag("playground_checkbox");
-    private final By acceptTerms = By.xpath("//*[@content-desc='playground_checkbox']/..");
-
     public void toggleAcceptTerms() {
         clickable(checkbox).click();
     }
 
     public boolean isAcceptTermsChecked() {
         return Boolean.parseBoolean(
-                visible(acceptTerms).getAttribute("checked")
+                visible(checkbox).getAttribute("checked")
         );
     }
 

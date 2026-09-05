@@ -10,13 +10,13 @@ import framework.driver.DriverManager;
 import java.io.File;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class FormsTest extends BaseTest {
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
-
-    private static final String TEST_FILE_NAME = "test-upload.xml";
-    private static final String TEST_FILE_PATH = "src/test/resources/files/" + TEST_FILE_NAME;
 
     @BeforeEach
     void setUp() {
@@ -29,13 +29,21 @@ public class FormsTest extends BaseTest {
     @Test
     @Description("")
     void inputTest() {
-        playgroundSteps.fillInput("Test input text");
+        String text = "Test input text";
+
+        playgroundSteps
+                .fillInput(text)
+                .verifyInputValue(text);
     }
 
     @Test
     @Description("")
     void textareaTest() {
-        playgroundSteps.fillTextarea("Test textarea text");
+        String text = "Test textarea text";
+
+        playgroundSteps
+                .fillTextarea(text)
+                .verifyTextareaValue(text);
     }
 
     @Test
@@ -74,18 +82,22 @@ public class FormsTest extends BaseTest {
 
     @Test
     @Description("")
-    void uploadFileTest() throws IOException {
+    void uploadFileTest() throws IOException, URISyntaxException {
         String fileName = "test.png";
+        File uploadFile = Path.of(Objects.requireNonNull(
+                FormsTest.class.getResource("/files/" + fileName),
+                "Upload test resource not found: " + fileName
+        ).toURI()).toFile();
 
         DriverManager.getDriver().pushFile(
                 "/sdcard/Download/" + fileName,
-                new File("src/test/resources/files/" + fileName)
+                uploadFile
         );
 
         playgroundSteps
                 .openChooseFile()
                 .chooseFile(fileName)
-                .verifyFileSelected();
+                .verifyFileSelected(fileName);
     }
 
     @Test

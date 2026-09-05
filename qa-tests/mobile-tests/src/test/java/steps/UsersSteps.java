@@ -75,11 +75,6 @@ public final class UsersSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Verify the users list is displayed")
-    public void verifyUsersListDisplayed() {
-        assertThat(usersPage.isUsersListDisplayed()).isTrue();
-    }
-
     @Step("Log out")
     public void logout() {
         usersPage.logout();

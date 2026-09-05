@@ -2,8 +2,6 @@ package steps;
 
 import io.qameta.allure.Step;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public final class EditUserSteps extends BaseSteps {
 
     @Step("Replace all editable user fields")
@@ -42,9 +40,4 @@ public final class EditUserSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Save button should be clickable")
-    public EditUserSteps verifySaveButtonClickable() {
-        assertThat(editUserPage.isSaveButtonClickable()).isTrue();
-        return this;
-    }
 }

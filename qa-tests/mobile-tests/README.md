@@ -1,104 +1,98 @@
 # QA Stand mobile tests
 
-Standalone Java 21/Appium foundation for native Android automation. The project currently contains one login smoke test; CRUD and Playground test suites are intentionally not implemented yet.
+Native Android UI tests for QA Stand.
 
-## Prerequisites
+## Stack
 
-- JDK 21
-- Gradle 8.x
-- Android SDK and an Android emulator
-- Node.js and Appium 2/3
-- Appium UiAutomator2 driver
-- QA Stand backend running locally or at `BACKEND_URL`
-- Allure CLI to open reports
+- Java 21
+- JUnit 5
+- Appium Java Client with UiAutomator2
+- AssertJ
+- Allure
 
-Install and verify Appium:
-
-```powershell
-npm install -g appium
-appium driver install uiautomator2
-appium driver doctor uiautomator2
-```
-
-## Build the application
-
-From `android-app`:
-
-```powershell
-.\gradlew.bat assembleDebug
-```
-
-By default, the test project resolves the APK at:
+## Structure
 
 ```text
-../../android-app/app/build/outputs/apk/debug/app-debug.apk
+src/test/java
+├── framework   # driver, config, auth, API helpers, attachments
+├── pages       # UI interaction and state
+├── steps       # test actions and assertions
+├── tests       # authentication, users and QA Playground tests
+└── data        # test models, builders and fixed test data
 ```
 
-Override it with `APP_PATH` when needed. Appium installs/launches the configured APK, so a separate `adb install` is optional.
+The interaction flow is:
 
-## Start the emulator and Appium
-
-Start an Android Virtual Device, verify it with `adb devices`, then run:
-
-```powershell
-appium
+```text
+Tests -> Steps -> Pages -> Appium / BasePage
 ```
 
-The default device capability is `Android Emulator`. Set `DEVICE_NAME` to the device name expected by your local/CI Appium environment.
+Coverage includes Authentication, Users CRUD, Forms, Dialogs, Tabs, Tables,
+Dynamic Elements and Mouse Actions.
+
+## Locators
+
+Use locators in this order:
+
+1. `accessibilityId` / Android `content-desc`
+2. `resource-id`
+3. `UiSelector`
+4. XPath only when a relationship cannot be expressed reliably otherwise
 
 ## Configuration
 
-Environment variables (equivalent `-DNAME=value` system properties are also supported):
+Tests require a running QA Stand backend, a local Appium server with the
+UiAutomator2 driver, and a running Android emulator.
 
-| Variable | Default |
+Required environment variables:
+
+```powershell
+$env:ADMIN_EMAIL='<admin-email>'
+$env:ADMIN_PASSWORD='<admin-password>'
+```
+
+Common optional properties and defaults:
+
+| Property | Default |
 |---|---|
 | `APPIUM_URL` | `http://127.0.0.1:4723` |
 | `DEVICE_NAME` | `Android Emulator` |
-| `UDID` | unset |
-| `PLATFORM_VERSION` | unset |
-| `APP_PATH` | repository-relative debug APK |
+| `UDID` | empty |
+| `PLATFORM_VERSION` | empty |
+| `APP_PATH` | `../../android-app/app/build/outputs/apk/debug/app-debug.apk` |
 | `APP_PACKAGE` | `com.qastand.android` |
 | `APP_ACTIVITY` | `.MainActivity` |
-| `ADB_PATH` | `$ANDROID_SDK_ROOT/platform-tools/adb` or `$ANDROID_HOME/platform-tools/adb` |
 | `BACKEND_URL` | `http://localhost:8080` |
-| `ADMIN_EMAIL` | required; no default |
-| `ADMIN_PASSWORD` | required; no default |
+| `ADB_PATH` | resolved from Android SDK, otherwise `adb` |
 | `EXPLICIT_WAIT_SECONDS` | `10` |
 | `IMPLICIT_WAIT_SECONDS` | `2` |
 
-Example:
+Configuration values can be supplied as environment variables or Java system
+properties. `ADMIN_EMAIL` and `ADMIN_PASSWORD` have no defaults.
+
+## Run
+
+Build the debug APK first if `APP_PATH` does not point to an existing APK:
 
 ```powershell
-$env:DEVICE_NAME='emulator-5554'
-$env:PLATFORM_VERSION='15'
-$env:ADMIN_EMAIL='<admin-email>'
-$env:ADMIN_PASSWORD='<admin-password>'
-gradle test
+cd ..\..\android-app
+.\gradlew.bat assembleDebug
 ```
 
-## Run and report
-
-From `qa-tests/mobile-tests`:
+Start the emulator and Appium, then run from `qa-tests/mobile-tests`:
 
 ```powershell
-gradle test
+.\gradlew.bat test
+```
+
+Compile tests without starting Appium:
+
+```powershell
+.\gradlew.bat compileTestJava
+```
+
+Allure results are written to `build/allure-results`. Generate and open a report with:
+
+```powershell
 allure serve build/allure-results
 ```
-
-For test discovery/compilation without starting Appium:
-
-```powershell
-gradle testClasses
-```
-
-The `BackendApiClient` is a deliberately small REST Assured helper for future API login, user creation, and cleanup preconditions.
-
-## Technical authorization
-
-`IntentAuthProvider` logs in through `/auth/login` and passes the returned token to the
-debug-only `TestAuthActivity`. This activity is declared under `android-app/app/src/debug`,
-so it is not present in release builds.
-
-`StorageAuthProvider` logs in through the same API and writes the token to the application's
-`auth_prefs` SharedPreferences with `adb run-as`. The installed application must be debuggable
-for this variant. Both providers remove the stored authorization during test cleanup.

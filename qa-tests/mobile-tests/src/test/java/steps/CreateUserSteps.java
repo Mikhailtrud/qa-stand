@@ -17,12 +17,6 @@ public final class CreateUserSteps extends BaseSteps {
         return fillForm(user.name(), user.email(), user.password(), user.role());
     }
 
-    @Step("Error message should be visible")
-    public CreateUserSteps verifyErrorMessageDisplayed() {
-        assertThat(createUserPage.isErrorMessageDisplayed()).isTrue();
-        return this;
-    }
-
     @Step("Save button should be enabled")
     public CreateUserSteps verifySaveButtonEnabled() {
         assertThat(createUserPage.isSaveButtonEnabled()).isTrue();
@@ -38,12 +32,6 @@ public final class CreateUserSteps extends BaseSteps {
     @Step("Save button should not be clickable")
     public CreateUserSteps verifySaveButtonNotClickable() {
         assertThat(createUserPage.isSaveButtonClickable()).isFalse();
-        return this;
-    }
-
-    @Step("Save button should be clickable")
-    public CreateUserSteps verifySaveButtonClickable() {
-        assertThat(createUserPage.isSaveButtonClickable()).isTrue();
         return this;
     }
 

@@ -14,7 +14,6 @@ import java.util.Map;
 public final class PlaygroundPage extends BasePage {
 
     private final By playgroundScreen  = tag("playground_screen");
-    private final By usersButton = tag("open_users_button");
 
     //Forms input
     private final By textInput = tag("playground_text_input");
@@ -334,21 +333,15 @@ public final class PlaygroundPage extends BasePage {
     //Table
     private final By tableSearch = tag("table_search");
     private final By roleFilter = tag("role_filter");
-    private final By table = tag("dynamic_table");
     private final By tableNextButton = tag("next_page_button");
     private final By filterRolePanel = By.id("android:id/content");
     private final By tablePreviousButton = tag("previous_page_button");
-    private final By currentPage = tag("current_page");
     private final By sortId = tag("sort_id");
     private final By sortName = tag("sort_name");
     private final By sortRole = tag("sort_role");
 
     public void scrollToTable() {
         swipeUpToElement(tableNextButton);
-    }
-
-    public boolean isTableDisplayed() {
-        return isDisplayed(table);
     }
 
     public void focusTableSearch() {
@@ -503,10 +496,6 @@ public final class PlaygroundPage extends BasePage {
 
     public boolean isDisplayed() {
         return isDisplayed(playgroundScreen);
-    }
-
-    public void openUsers() {
-        clickable(usersButton).click();
     }
 
 }

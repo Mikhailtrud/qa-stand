@@ -25,10 +25,6 @@ public final class UsersPage extends BasePage {
         return isDisplayed(screen);
     }
 
-    public boolean isUsersListDisplayed() {
-        return isDisplayed(usersList);
-    }
-
     public boolean isUserDisplayed(String email) {
         return isDisplayed(userByEmail(email));
     }

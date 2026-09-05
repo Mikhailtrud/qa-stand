@@ -2,6 +2,9 @@ package tests.playgroundTests;
 
 import framework.auth.IntentAuthProvider;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
@@ -15,6 +18,9 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Epic("QA Stand Mobile")
+@Feature("QA Playground")
+@Story("Forms")
 public class FormsTest extends BaseTest {
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
 
@@ -27,8 +33,8 @@ public class FormsTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void inputTest() {
+    @Description("Entered text is displayed in the text input")
+    void textInputDisplaysEnteredValue() {
         String text = "Test input text";
 
         playgroundSteps
@@ -37,8 +43,8 @@ public class FormsTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void textareaTest() {
+    @Description("Entered text is displayed in the textarea")
+    void textareaDisplaysEnteredValue() {
         String text = "Test textarea text";
 
         playgroundSteps
@@ -47,8 +53,8 @@ public class FormsTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void selectDateTest() {
+    @Description("A date from the previous month can be selected")
+    void previousMonthDateCanBeSelected() {
         LocalDate targetDate = LocalDate.now()
                 .minusYears(1)
                 .minusMonths(1)
@@ -60,29 +66,29 @@ public class FormsTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void getOptionTest() {
+    @Description("The selected option is displayed in the select field")
+    void optionCanBeSelected() {
         playgroundSteps
-                .selectOption()
-                .verifySaveButtonEnabled(1)
+                .openSelect()
+                .verifyOptionDisplayed(1)
                 .selectOption(2)
                 .verifyOptionSelected("Option 2");
     }
 
     @Test
-    @Description("")
-    void multiSelectTest() {
+    @Description("Multiple options can be selected and displayed")
+    void multipleOptionsCanBeSelected() {
         playgroundSteps
                 .openMultiSelect()
-                .selectOptions("java", "kotlin", "groovy")
+                .selectMultiOptions("java", "kotlin", "groovy")
                 .verifyOptionsSelected("java", "kotlin", "groovy")
                 .closeMultiSelect()
-                .verifyMultiOptionSelected("Java, Kotlin, Groovy");
+                .verifyMultiSelectSummary("Java, Kotlin, Groovy");
     }
 
     @Test
-    @Description("")
-    void uploadFileTest() throws IOException, URISyntaxException {
+    @Description("An uploaded file name is displayed in the form")
+    void fileCanBeUploaded() throws IOException, URISyntaxException {
         String fileName = "test.png";
         File uploadFile = Path.of(Objects.requireNonNull(
                 FormsTest.class.getResource("/files/" + fileName),
@@ -95,26 +101,26 @@ public class FormsTest extends BaseTest {
         );
 
         playgroundSteps
-                .openChooseFile()
+                .openFileChooser()
                 .chooseFile(fileName)
                 .verifyFileSelected(fileName);
     }
 
     @Test
-    @Description("")
-    void acceptTermsTest() {
+    @Description("The Accept Terms checkbox can be selected and cleared")
+    void acceptTermsCanBeToggled() {
 
         playgroundSteps
                 .verifyAcceptTermsState(false)
-                .selectAcceptTerms()
+                .toggleAcceptTerms()
                 .verifyAcceptTermsState(true)
-                .selectAcceptTerms()
+                .toggleAcceptTerms()
                 .verifyAcceptTermsState(false);
     }
 
     @Test
-    @Description("")
-    void radioButtonsMaleTest() {
+    @Description("Selecting Male clears the Female radio option")
+    void maleRadioOptionCanBeSelected() {
 
         playgroundSteps
                 .selectRadio("male")
@@ -123,8 +129,8 @@ public class FormsTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void radioButtonsFemaleTest() {
+    @Description("Selecting Female clears the Male radio option")
+    void femaleRadioOptionCanBeSelected() {
 
         playgroundSteps
                 .selectRadio("female")

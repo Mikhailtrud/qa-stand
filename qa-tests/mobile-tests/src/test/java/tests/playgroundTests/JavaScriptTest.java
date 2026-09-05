@@ -2,10 +2,16 @@ package tests.playgroundTests;
 
 import framework.auth.IntentAuthProvider;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
 
+@Epic("QA Stand Mobile")
+@Feature("QA Playground")
+@Story("Dialogs")
 public class JavaScriptTest extends BaseTest {
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
 
@@ -18,8 +24,8 @@ public class JavaScriptTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void alertTest() {
+    @Description("The alert can be opened and closed")
+    void alertCanBeClosed() {
         playgroundSteps
                 .openAlert()
                 .verifyAlertWindowVisible()
@@ -28,18 +34,18 @@ public class JavaScriptTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void confirmTest() {
+    @Description("The confirm dialog closes after accepting it")
+    void confirmCanBeAccepted() {
         playgroundSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
-                .clickOnOkConfirmButton()
+                .acceptConfirm()
                 .verifyConfirmWindowClosed();
     }
 
     @Test
-    @Description("")
-    void cancelConfirmTest() {
+    @Description("The confirm dialog closes after cancelling it")
+    void confirmCanBeCancelled() {
         playgroundSteps
                 .openConfirm()
                 .verifyConfirmWindowVisible()
@@ -48,19 +54,19 @@ public class JavaScriptTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void promptTest() {
+    @Description("The prompt closes after submitting entered text")
+    void promptCanBeSubmitted() {
         playgroundSteps
                 .openPrompt()
                 .verifyPromptWindowVisible()
                 .fillPromptInput("Test")
-                .clickOnOkPromptButton()
+                .submitPrompt()
                 .verifyPromptWindowClosed();
     }
 
     @Test
-    @Description("")
-    void cancelPromptTest() {
+    @Description("The prompt closes after cancelling entered text")
+    void promptCanBeCancelled() {
         playgroundSteps
                 .openPrompt()
                 .verifyPromptWindowVisible()
@@ -70,19 +76,19 @@ public class JavaScriptTest extends BaseTest {
     }
 
     @Test
-    @Description("")
-    void toastText() {
+    @Description("The toast displays the successful operation message")
+    void toastDisplaysSuccessMessage() {
         playgroundSteps
                 .openToast()
                 .verifyToast("Operation completed successfully");
     }
 
     @Test
-    @Description("")
-    void modalTest() {
+    @Description("The modal window can be opened and closed")
+    void modalCanBeClosed() {
         playgroundSteps
                 .openModal()
-                .verifyAModalWindowVisible()
+                .verifyModalWindowVisible()
                 .closeModal()
                 .verifyModalWindowClosed();
     }

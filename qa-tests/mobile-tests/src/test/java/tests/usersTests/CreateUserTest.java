@@ -6,6 +6,9 @@ import framework.auth.IntentAuthProvider;
 import data.testData.UserData;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +19,9 @@ import java.util.stream.Stream;
 
 import static data.testData.UserTestData.*;
 
+@Epic("QA Stand Mobile")
+@Feature("Users")
+@Story("Create User")
 public class CreateUserTest extends BaseTest {
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
     private final UsersApiClient usersApiClient = new UsersApiClient();
@@ -31,7 +37,7 @@ public class CreateUserTest extends BaseTest {
 
     @Test
     @Description("An administrator can create a unique user through the mobile UI")
-    void createUserSuccess() {
+    void administratorCanCreateUser() {
         UserData user = UserBuilder.user().build();
         createdUserEmail = user.email();
 
@@ -45,7 +51,7 @@ public class CreateUserTest extends BaseTest {
 
     @ParameterizedTest(name = "{index}: expected error = {1}")
     @MethodSource("emptyRequiredFields")
-    @Description("Save button should not be clickable if any required field will be empty and error message should be visible")
+    @Description("An empty required field displays validation and keeps Save disabled")
     void shouldShowValidationErrorForEmptyRequiredField(
             UserData user,
             String expectedError
@@ -79,7 +85,7 @@ public class CreateUserTest extends BaseTest {
 
     @ParameterizedTest(name = "{index}: expected error = {1}")
     @MethodSource("invalidRequiredFields")
-    @Description("Save button should not be clickable if user data is invalid and error message should be visible")
+    @Description("Invalid user data displays validation and keeps Save disabled")
     void shouldShowValidationErrorForInvalidRequiredField(
             UserData user,
             String expectedError

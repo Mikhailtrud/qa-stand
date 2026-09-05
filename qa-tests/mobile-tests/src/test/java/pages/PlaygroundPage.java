@@ -31,7 +31,7 @@ public final class PlaygroundPage extends BasePage {
     //Forms textarea
     private final By textarea = tag("playground_textarea");
 
-    public PlaygroundPage enterTextTextarea(String value) {
+    public PlaygroundPage enterTextarea(String value) {
         type(textarea, value);
         return this;
     }
@@ -99,11 +99,11 @@ public final class PlaygroundPage extends BasePage {
         return tag("select_option_" + number);
     }
 
-    public void clickOnOptionSelectElement() {
+    public void openSelect() {
         clickable(optionsSelect).click();
     }
 
-    public boolean verifyOptionVisible(int number) {
+    public boolean isOptionDisplayed(int number) {
         return isDisplayed(option(number));
     }
 
@@ -125,7 +125,7 @@ public final class PlaygroundPage extends BasePage {
     private final By multiSelect = tag("playground_multiselect");
     private final By multiSelectJava = tag("multiselect_java");
 
-    public void clickOnMultiSelectElement() {
+    public void openMultiSelect() {
         clickable(multiSelect).click();
         visible(multiSelectJava);
     }
@@ -134,7 +134,7 @@ public final class PlaygroundPage extends BasePage {
         return tag("multiselect_" + option);
     }
 
-    public void selectOptions(String option) {
+    public void selectMultiOption(String option) {
             clickable(multiOption(option)).click();
     }
 
@@ -154,7 +154,7 @@ public final class PlaygroundPage extends BasePage {
     private final By chooseFileButton = tag("playground_file_upload");
     private final By selectedFileName = tag("selected_file_name");
 
-    public void clickOnSelectFileElement() {
+    public void openFileChooser() {
         clickable(chooseFileButton).click();
     }
 
@@ -238,7 +238,7 @@ public final class PlaygroundPage extends BasePage {
         return isDisplayed(confirmDialog);
     }
 
-    public void clickOnOkConfirmButton() {
+    public void acceptConfirm() {
         clickable(okConfirmButton).click();
     }
 
@@ -265,11 +265,11 @@ public final class PlaygroundPage extends BasePage {
         return isDisplayed(promptDialog);
     }
 
-    public void clickOnOkPromptButton() {
+    public void submitPrompt() {
         clickable(promptOkButton).click();
     }
 
-    public void cancelCPrompt() {
+    public void cancelPrompt() {
         clickable(promptCancelButton).click();
     }
 
@@ -351,11 +351,11 @@ public final class PlaygroundPage extends BasePage {
         return isDisplayed(table);
     }
 
-    public void tableSearchClick() {
+    public void focusTableSearch() {
         clickable(tableSearch).click();
     }
 
-    public void tableSearchFillText(String value) {
+    public void enterTableSearch(String value) {
         type(tableSearch, value);
     }
 
@@ -404,7 +404,7 @@ public final class PlaygroundPage extends BasePage {
         return values;
     }
 
-    public void openFilterClick() {
+    public void openRoleFilter() {
         clickable(roleFilter).click();
         visible(roleFilter("all"));
     }
@@ -417,23 +417,23 @@ public final class PlaygroundPage extends BasePage {
         scrollToElement(filterRolePanel, roleFilter(role)).click();
     }
 
-    public void tableNextButtonClick() {
+    public void openNextTablePage() {
         clickable(tableNextButton).click();
     }
 
-    public void tablePreviousButtonClick() {
+    public void openPreviousTablePage() {
         clickable(tablePreviousButton).click();
     }
 
-    public void sortByIdClick() {
+    public void sortById() {
         clickable(sortId).click();
     }
 
-    public void sortByNameClick() {
+    public void sortByName() {
         clickable(sortName).click();
     }
 
-    public void sortByRoleClick() {
+    public void sortByRole() {
         clickable(sortRole).click();
     }
 
@@ -444,15 +444,15 @@ public final class PlaygroundPage extends BasePage {
     private final By loader = tag("loader");
     private final By hiddenElementText = tag("hidden_element");
 
-    public void scrollToDawn() {
+    public void scrollToBottom() {
         swipeUpToElement(hoverButton);
     }
 
-    public void startLoaderButtonClick() {
+    public void startLoader() {
         clickable(startLoaderButton).click();
     }
 
-    public void showDelayedButtonClick() {
+    public void showDelayedButton() {
         clickable(showDelayedButton).click();
     }
 

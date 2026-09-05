@@ -5,9 +5,15 @@ import data.testData.UserData;
 import framework.api.UsersApiClient;
 import framework.auth.IntentAuthProvider;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tests.BaseTest;
 
+@Epic("QA Stand Mobile")
+@Feature("Users")
+@Story("Delete User")
 public class DeleteUserTest extends BaseTest {
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
     private final UsersApiClient usersApiClient = new UsersApiClient();
@@ -23,7 +29,7 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     @Description("User should be deleted and should not be visible in users list")
-    void deleteUserTest(){
+    void userCanBeDeleted() {
         usersSteps
                 .refreshUsers()
                 .deleteUser(createdUserId)
@@ -33,7 +39,7 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     @Description("User should not be deleted and should be displayed in users list")
-    void canselDeleteUserTest(){
+    void userDeletionCanBeCancelled() {
         usersSteps
                 .refreshUsers()
                 .cancelDeleteUser(createdUserId)

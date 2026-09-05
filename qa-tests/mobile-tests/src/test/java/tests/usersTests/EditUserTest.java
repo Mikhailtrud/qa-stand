@@ -5,12 +5,18 @@ import data.testData.UserData;
 import framework.api.UsersApiClient;
 import framework.auth.IntentAuthProvider;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import tests.BaseTest;
 
 import static data.testData.UserTestData.*;
 
-public class EditUsersTest extends BaseTest {
+@Epic("QA Stand Mobile")
+@Feature("Users")
+@Story("Edit User")
+public class EditUserTest extends BaseTest {
 
     private final IntentAuthProvider authProvider = new IntentAuthProvider();
     private final UsersApiClient usersApiClient = new UsersApiClient();
@@ -26,7 +32,7 @@ public class EditUsersTest extends BaseTest {
 
     @Test
     @Description("User name should be edited and new name should be displayed in users list")
-    void editUserNameTest() {
+    void userNameCanBeEdited() {
         usersSteps
                 .refreshUsers()
                 .editUser(createdUserId);
@@ -40,7 +46,7 @@ public class EditUsersTest extends BaseTest {
 
     @Test
     @Description("User email should be edited and new email should be displayed in users list")
-    void editUserEmailTest() {
+    void userEmailCanBeEdited() {
         usersSteps
                 .refreshUsers()
                 .editUser(createdUserId);
@@ -54,7 +60,7 @@ public class EditUsersTest extends BaseTest {
 
     @Test
     @Description("User role should be edited and new role should be displayed in users list")
-    void editUserRoleTest() {
+    void userRoleCanBeEdited() {
         usersSteps
                 .refreshUsers()
                 .editUser(createdUserId);
@@ -68,7 +74,7 @@ public class EditUsersTest extends BaseTest {
 
     @Test
     @Description("User data should be edited and new data should be displayed in users list")
-    void editUserFieldsTest() {
+    void allUserFieldsCanBeEdited() {
         usersSteps
                 .refreshUsers()
                 .editUser(createdUserId);
@@ -83,7 +89,7 @@ public class EditUsersTest extends BaseTest {
 
     @Test
     @Description("Edit should be cancelled and data should not be saved")
-    void cancelEditUserFieldsTest() {
+    void userEditingCanBeCancelled() {
         usersSteps
                 .refreshUsers()
                 .editUser(createdUserId);

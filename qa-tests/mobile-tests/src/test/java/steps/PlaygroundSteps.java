@@ -26,7 +26,7 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Fill forms textarea")
     public PlaygroundSteps fillTextarea(String text) {
-        playgroundPage.enterTextTextarea(text);
+        playgroundPage.enterTextarea(text);
         return this;
     }
 
@@ -45,7 +45,7 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     //Datepicker
-    @Step("Select date {day}.{month}.{year}")
+    @Step("Select day {day} in the previous month of {year}")
     public PlaygroundSteps selectDate(int year, int day) {
         playgroundPage.selectDate(year, day);
         return this;
@@ -59,15 +59,15 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     //Forms Options select
-    @Step("Select date option")
-    public PlaygroundSteps selectOption() {
-        playgroundPage.clickOnOptionSelectElement();
+    @Step("Open the options select")
+    public PlaygroundSteps openSelect() {
+        playgroundPage.openSelect();
         return this;
     }
 
     @Step("Verify option {number} visible")
-    public PlaygroundSteps verifySaveButtonEnabled(int number) {
-        assertThat(playgroundPage.verifyOptionVisible(number)).isTrue();
+    public PlaygroundSteps verifyOptionDisplayed(int number) {
+        assertThat(playgroundPage.isOptionDisplayed(number)).isTrue();
         return this;
     }
 
@@ -87,14 +87,14 @@ public final class PlaygroundSteps extends BaseSteps {
     //Forms Multi select
     @Step("Open multi select")
     public PlaygroundSteps openMultiSelect() {
-        playgroundPage.clickOnMultiSelectElement();
+        playgroundPage.openMultiSelect();
         return this;
     }
 
-    @Step("Select options")
-    public PlaygroundSteps selectOptions(String... options) {
+    @Step("Select multi-select options: {options}")
+    public PlaygroundSteps selectMultiOptions(String... options) {
         for (String option : options) {
-            playgroundPage.selectOptions(option);
+            playgroundPage.selectMultiOption(option);
         }
         return this;
     }
@@ -109,8 +109,8 @@ public final class PlaygroundSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Verify selected multi option")
-    public PlaygroundSteps verifyMultiOptionSelected(String expectedOption) {
+    @Step("Verify multi-select summary: {expectedOption}")
+    public PlaygroundSteps verifyMultiSelectSummary(String expectedOption) {
         assertThat(playgroundPage.getDisplayedOptionText(expectedOption))
                 .isEqualTo(expectedOption);
         return this;
@@ -124,8 +124,8 @@ public final class PlaygroundSteps extends BaseSteps {
 
     //Forms Upload file
     @Step("Open file chooser")
-    public PlaygroundSteps openChooseFile() {
-        playgroundPage.clickOnSelectFileElement();
+    public PlaygroundSteps openFileChooser() {
+        playgroundPage.openFileChooser();
         return this;
     }
 
@@ -143,8 +143,8 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     //Forms Checkbox
-    @Step("Select Accept Terms")
-    public PlaygroundSteps selectAcceptTerms() {
+    @Step("Toggle Accept Terms")
+    public PlaygroundSteps toggleAcceptTerms() {
         playgroundPage.toggleAcceptTerms();
         return this;
     }
@@ -209,13 +209,13 @@ public final class PlaygroundSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Click on OK button on confirm window")
-    public PlaygroundSteps clickOnOkConfirmButton() {
-        playgroundPage.clickOnOkConfirmButton();
+    @Step("Accept the confirm dialog")
+    public PlaygroundSteps acceptConfirm() {
+        playgroundPage.acceptConfirm();
         return this;
     }
 
-    @Step("Click on OK button on confirm window")
+    @Step("Cancel the confirm dialog")
     public PlaygroundSteps cancelConfirm() {
         playgroundPage.cancelConfirm();
         return this;
@@ -246,15 +246,15 @@ public final class PlaygroundSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Click on OK button on prompt window")
-    public PlaygroundSteps clickOnOkPromptButton() {
-        playgroundPage.clickOnOkPromptButton();
+    @Step("Submit the prompt dialog")
+    public PlaygroundSteps submitPrompt() {
+        playgroundPage.submitPrompt();
         return this;
     }
 
-    @Step("Click on OK button on prompt window")
+    @Step("Cancel the prompt dialog")
     public PlaygroundSteps cancelPrompt() {
-        playgroundPage.cancelCPrompt();
+        playgroundPage.cancelPrompt();
         return this;
     }
 
@@ -287,7 +287,7 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     @Step("Verify modal window visible")
-    public PlaygroundSteps verifyAModalWindowVisible() {
+    public PlaygroundSteps verifyModalWindowVisible() {
         assertThat(playgroundPage.isModalWindowDisplayed()).isTrue();
         return this;
     }
@@ -305,8 +305,8 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     //Tabs
-    @Step("Close modal window")
-    public PlaygroundSteps selectTabs(int tab) {
+    @Step("Select tab {tab}")
+    public PlaygroundSteps selectTab(int tab) {
         playgroundPage.selectTab(tab);
         return this;
     }
@@ -318,21 +318,21 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     //Table
-    @Step("Close modal window")
+    @Step("Scroll to the table")
     public PlaygroundSteps scrollToTable() {
         playgroundPage.scrollToTable();
         return this;
     }
 
-    @Step("Click on search field")
-    public PlaygroundSteps tableSearchClick() {
-        playgroundPage.tableSearchClick();
+    @Step("Focus the table search field")
+    public PlaygroundSteps focusTableSearch() {
+        playgroundPage.focusTableSearch();
         return this;
     }
 
-    @Step("Fill forms search input")
-    public PlaygroundSteps tableSearchFillText(String text) {
-        playgroundPage.tableSearchFillText(text);
+    @Step("Enter table search text: {text}")
+    public PlaygroundSteps enterTableSearch(String text) {
+        playgroundPage.enterTableSearch(text);
         return this;
     }
 
@@ -354,13 +354,13 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     @Step("Open role filter")
-    public PlaygroundSteps openFilterClick() {
-        playgroundPage.openFilterClick();
+    public PlaygroundSteps openRoleFilter() {
+        playgroundPage.openRoleFilter();
         return this;
     }
 
-    @Step("Click on role filter")
-    public PlaygroundSteps roleFilterClick(String role) {
+    @Step("Select role filter: {role}")
+    public PlaygroundSteps selectRoleFilter(String role) {
         playgroundPage.selectRoleFilter(role);
         return this;
     }
@@ -376,45 +376,45 @@ public final class PlaygroundSteps extends BaseSteps {
     }
 
     @Step("Open next page")
-    public PlaygroundSteps tableNextButtonClick() {
-        playgroundPage.tableNextButtonClick();
+    public PlaygroundSteps openNextTablePage() {
+        playgroundPage.openNextTablePage();
         return this;
     }
 
     @Step("Open previous page")
-    public PlaygroundSteps tablePreviousButtonClick() {
-        playgroundPage.tablePreviousButtonClick();
+    public PlaygroundSteps openPreviousTablePage() {
+        playgroundPage.openPreviousTablePage();
         return this;
     }
 
     @Step("Sort by ID")
-    public PlaygroundSteps sortByIdClick() {
-        playgroundPage.sortByIdClick();
+    public PlaygroundSteps sortById() {
+        playgroundPage.sortById();
         return this;
     }
 
     @Step("Sort by Name")
-    public PlaygroundSteps sortByNameClick() {
-        playgroundPage.sortByNameClick();
+    public PlaygroundSteps sortByName() {
+        playgroundPage.sortByName();
         return this;
     }
 
     @Step("Sort by Role")
-    public PlaygroundSteps sortByRoleClick() {
-        playgroundPage.sortByRoleClick();
+    public PlaygroundSteps sortByRole() {
+        playgroundPage.sortByRole();
         return this;
     }
 
     //Dynamic Elements
-    @Step("Scroll dawn")
-    public PlaygroundSteps scrollDawn() {
-        playgroundPage.scrollToDawn();
+    @Step("Scroll to the bottom of QA Playground")
+    public PlaygroundSteps scrollToBottom() {
+        playgroundPage.scrollToBottom();
         return this;
     }
 
-    @Step("Close modal window")
+    @Step("Start the loader")
     public PlaygroundSteps startLoader() {
-        playgroundPage.startLoaderButtonClick();
+        playgroundPage.startLoader();
         return this;
     }
 
@@ -427,17 +427,17 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Show delayed button")
     public PlaygroundSteps showDelayedButton() {
-        playgroundPage.showDelayedButtonClick();
+        playgroundPage.showDelayedButton();
         return this;
     }
 
-    @Step("Vrify delayed button displayed")
-    public PlaygroundSteps delayedButtonVisible() {
+    @Step("Verify delayed button is displayed")
+    public PlaygroundSteps verifyDelayedButtonDisplayed() {
         assertThat(playgroundPage.isDelayedButtonDisplayed()).isTrue();
         return this;
     }
 
-    @Step("Verify toast text: {expectedText}")
+    @Step("Verify hidden element text: {expectedText}")
     public PlaygroundSteps verifyHiddenElementText(String expectedText) {
         assertThat(playgroundPage.getHiddenElementText())
                 .isEqualTo(expectedText);

@@ -21,7 +21,7 @@ public final class LoginSteps extends BaseSteps {
     }
 
     @Step("Error message should be visible")
-    public LoginSteps verifyErrorMessageShouldBeVisible() {
+    public LoginSteps verifyErrorMessageDisplayed() {
         assertThat(loginPage.isErrorMessageDisplayed()).isTrue();
         return this;
     }

@@ -18,12 +18,12 @@ public final class CreateUserSteps extends BaseSteps {
     }
 
     @Step("Error message should be visible")
-    public CreateUserSteps verifyErrorMessageShouldBeVisible() {
+    public CreateUserSteps verifyErrorMessageDisplayed() {
         assertThat(createUserPage.isErrorMessageDisplayed()).isTrue();
         return this;
     }
 
-    @Step("Save button should be disabled")
+    @Step("Save button should be enabled")
     public CreateUserSteps verifySaveButtonEnabled() {
         assertThat(createUserPage.isSaveButtonEnabled()).isTrue();
         return this;

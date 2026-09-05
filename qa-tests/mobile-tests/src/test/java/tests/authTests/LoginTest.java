@@ -3,11 +3,13 @@ package tests.authTests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
 
 @Epic("QA Stand Mobile")
-@Feature("Login")
+@Feature("Authentication")
+@Story("Login")
 class LoginTest extends BaseTest {
 
     @Test
@@ -22,7 +24,7 @@ class LoginTest extends BaseTest {
     void loginWithEmptyEmail() {
         loginSteps
                 .login("", "123123123")
-                .verifyErrorMessageShouldBeVisible();
+                .verifyErrorMessageDisplayed();
     }
 
     @Test
@@ -30,7 +32,7 @@ class LoginTest extends BaseTest {
     void loginWithEmptyPassword() {
         loginSteps
                 .login("testuser@email.com", "")
-                .verifyErrorMessageShouldBeVisible();
+                .verifyErrorMessageDisplayed();
     }
 
     @Test
@@ -38,6 +40,6 @@ class LoginTest extends BaseTest {
     void loginWithEmptyEmailAndPassword() {
         loginSteps
                 .login("", "")
-                .verifyErrorMessageShouldBeVisible();
+                .verifyErrorMessageDisplayed();
     }
 }

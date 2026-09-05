@@ -357,7 +357,14 @@ private fun PlaygroundDialog(title: String, text: String, tag: String, onClose: 
             }
         },
         dismissButton = if (tag == "confirm_dialog") {
-            { TextButton(onClick = onClose) { Text("Cancel") } }
+            {
+                TextButton(
+                    onClick = onClose,
+                    modifier = Modifier.appiumTag("confirm_dialog_cancel_button"),
+                ) {
+                    Text("Cancel")
+                }
+            }
         } else null,
     )
 }

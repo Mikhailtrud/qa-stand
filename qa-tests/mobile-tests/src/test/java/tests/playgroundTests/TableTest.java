@@ -64,8 +64,7 @@ public class TableTest extends BaseTest {
     void sortByIdTest() {
         playgroundSteps
                 .sortByIdClick()
-                .verifyTableRow(5, "Tom", "USER")
-                .verifyTableRow(4, "Sara", "ADMIN");
+                .verifyColumnValues("ID", "5", "4");
     }
 
     @Test
@@ -73,8 +72,7 @@ public class TableTest extends BaseTest {
     void sortByNameTest() {
         playgroundSteps
                 .sortByNameClick()
-                .verifyTableRow(5, "Tom", "USER")
-                .verifyTableRow(4, "Sara", "ADMIN");
+                .verifyColumnValues("Name", "Tom", "Sara");
     }
 
     @Test
@@ -82,8 +80,7 @@ public class TableTest extends BaseTest {
     void sortByRoleTest() {
         playgroundSteps
                 .sortByRoleClick()
-                .verifyTableRow(2, "Kate", "USER")
-                .verifyTableRow(3, "Mike", "USER");
+                .verifyColumnValues("Role", "USER", "USER");
     }
 
 

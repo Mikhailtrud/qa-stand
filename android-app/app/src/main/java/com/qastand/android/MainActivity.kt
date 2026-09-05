@@ -318,7 +318,8 @@ private fun UsersScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 6.dp),
+                        .padding(vertical = 6.dp)
+                        .appiumTag("user_card_${user.id}"),
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text("ID: ${user.id}", style = MaterialTheme.typography.labelMedium)

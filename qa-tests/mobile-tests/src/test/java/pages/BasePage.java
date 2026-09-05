@@ -6,13 +6,14 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Map;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +66,7 @@ public abstract class BasePage {
     protected boolean isDisplayed(By locator) {
         try {
             return visible(locator).isDisplayed();
-        } catch (RuntimeException ignored) {
+        } catch (NoSuchElementException | TimeoutException ignored) {
             return false;
         }
     }

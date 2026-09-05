@@ -2,6 +2,11 @@ package pages;
 
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public final class UsersPage extends BasePage {
     private final By screen = tag("users_screen");
@@ -11,6 +16,10 @@ public final class UsersPage extends BasePage {
     private final By playgroundButton = tag("open_playground_button");
     private final By logoutButton = tag("logout_button");
     private final By cancelDeleteUserButton = tag("cancel_delete_user_button");
+
+    private By userCard(long id) {
+        return tag("user_card_" + id);
+    }
 
     public boolean isDisplayed() {
         return isDisplayed(screen);
@@ -34,24 +43,20 @@ public final class UsersPage extends BasePage {
         );
     }
 
-    public boolean isUserDisplayedName(String name) {
-        return isDisplayed(userByName(name));
+    public List<String> getUserCardValues(long id) {
+        WebElement card = scrollToElement(usersList, userCard(id));
+        return card.findElements(By.className("android.widget.TextView"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
     }
 
-    private By userByName(String name) {
-        return AppiumBy.androidUIAutomator(
-                "new UiSelector().textContains(\"" + name + "\")"
-        );
-    }
-
-    public boolean isUserDisplayedRole(String role) {
-        return isDisplayed(userByRole(role));
-    }
-
-    private By userByRole(String role) {
-        return AppiumBy.androidUIAutomator(
-                "new UiSelector().textContains(\"" + role + "\")"
-        );
+    public boolean isUserCardDisplayed(long id) {
+        try {
+            return scrollToElement(usersList, userCard(id)).isDisplayed();
+        } catch (NoSuchElementException | TimeoutException ignored) {
+            return false;
+        }
     }
 
     public void refresh() {

@@ -27,7 +27,7 @@ public class DeleteUserTest extends BaseTest {
         usersSteps
                 .refreshUsers()
                 .deleteUser(createdUserId)
-                .verifyUserNotDisplayedByEmail(user.email());
+                .verifyUserCardNotDisplayed(createdUserId);
         createdUserId = 0;
     }
 
@@ -37,9 +37,7 @@ public class DeleteUserTest extends BaseTest {
         usersSteps
                 .refreshUsers()
                 .cancelDeleteUser(createdUserId)
-                .verifyUserDisplayedByName(user.name())
-                .verifyUserDisplayedByEmail(user.email())
-                .verifyUserDisplayedByRole(user.role());
+                .verifyUserCard(createdUserId, user.name(), user.email(), user.role());
     }
 
     @AfterEach

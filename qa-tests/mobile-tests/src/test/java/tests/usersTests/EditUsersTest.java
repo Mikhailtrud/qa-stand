@@ -35,7 +35,7 @@ public class EditUsersTest extends BaseTest {
                 .editName(EDIT_NAME)
                 .save();
 
-        usersSteps.verifyUserDisplayedByName(EDIT_NAME);
+        usersSteps.verifyUserCard(createdUserId, EDIT_NAME, user.email(), user.role());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class EditUsersTest extends BaseTest {
                 .editEmail(EDIT_EMAIL)
                 .save();
 
-        usersSteps.verifyUserDisplayedByEmail(EDIT_EMAIL);
+        usersSteps.verifyUserCard(createdUserId, user.name(), EDIT_EMAIL, user.role());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class EditUsersTest extends BaseTest {
                 .editRole(EDIT_ROLE)
                 .save();
 
-        usersSteps.verifyUserDisplayedByRole(EDIT_ROLE);
+        usersSteps.verifyUserCard(createdUserId, user.name(), user.email(), EDIT_ROLE);
     }
 
     @Test
@@ -78,9 +78,7 @@ public class EditUsersTest extends BaseTest {
                 .save();
 
         usersSteps
-                .verifyUserDisplayedByName(EDIT_NAME)
-                .verifyUserDisplayedByEmail(EDIT_EMAIL)
-                .verifyUserDisplayedByRole(EDIT_ROLE);
+                .verifyUserCard(createdUserId, EDIT_NAME, EDIT_EMAIL, EDIT_ROLE);
     }
 
     @Test
@@ -95,9 +93,7 @@ public class EditUsersTest extends BaseTest {
                 .cancelEdit();
 
         usersSteps
-                .verifyUserDisplayedByName(user.name())
-                .verifyUserDisplayedByEmail(user.email())
-                .verifyUserDisplayedByRole(user.role());
+                .verifyUserCard(createdUserId, user.name(), user.email(), user.role());
     }
 
     @AfterEach

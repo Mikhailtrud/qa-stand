@@ -223,7 +223,7 @@ public final class PlaygroundPage extends BasePage {
     private final By confirmButton = tag("playground_confirm_button");
     private final By confirmDialog = tag("confirm_dialog");
     private final By okConfirmButton = tag("confirm_dialog_close_button");
-    private final By cancelConfirmButton = tag("confirm_dialog_close_button");
+    private final By cancelConfirmButton = tag("confirm_dialog_cancel_button");
 
     public void openConfirm() {
         scrollToElement(playgroundScreen, confirmButton).click();

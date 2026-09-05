@@ -26,14 +26,6 @@ public final class UsersSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Verify user with name {name} is displayed")
-    public UsersSteps verifyUserDisplayedByName(String name) {
-        assertThat(usersPage.isUserDisplayedName(name))
-                .as("User with name %s should be displayed", name)
-                .isTrue();
-        return this;
-    }
-
     @Step("Verify user with email {email} is displayed")
     public UsersSteps verifyUserDisplayedByEmail(String email) {
         assertThat(usersPage.isUserDisplayed(email))
@@ -42,18 +34,23 @@ public final class UsersSteps extends BaseSteps {
         return this;
     }
 
-    @Step("Verify user with email {email} is displayed")
-    public UsersSteps verifyUserDisplayedByRole(String role) {
-        assertThat(usersPage.isUserDisplayedRole(role))
-                .as("User with role %s should be displayed", role)
-                .isTrue();
+    @Step("Verify user card {userId}: {name}, {email}, {role}")
+    public UsersSteps verifyUserCard(long userId, String name, String email, String role) {
+        assertThat(usersPage.getUserCardValues(userId))
+                .as("User card %s should contain the expected user data", userId)
+                .contains(
+                        "ID: " + userId,
+                        name,
+                        "Email: " + email,
+                        "Role: " + role
+                );
         return this;
     }
 
-    @Step("Verify user with email {email} is not displayed")
-    public UsersSteps verifyUserNotDisplayedByEmail(String email) {
-        assertThat(usersPage.isUserDisplayed(email))
-                .as("User with email %s should be displayed", email)
+    @Step("Verify user card {userId} is not displayed")
+    public UsersSteps verifyUserCardNotDisplayed(long userId) {
+        assertThat(usersPage.isUserCardDisplayed(userId))
+                .as("User card %s should not be displayed", userId)
                 .isFalse();
         return this;
     }

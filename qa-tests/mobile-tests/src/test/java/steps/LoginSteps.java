@@ -2,12 +2,10 @@ package steps;
 
 import framework.config.EnvironmentConfig;
 import io.qameta.allure.Step;
-import pages.LoginPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class LoginSteps extends BaseSteps {
-    private final LoginPage loginPage = new LoginPage();
 
     @Step("Log in as the configured administrator")
     public void loginAsAdmin() {

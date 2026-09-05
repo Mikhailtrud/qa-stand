@@ -82,8 +82,8 @@ public class TableTest extends BaseTest {
     void sortByRoleTest() {
         playgroundSteps
                 .sortByRoleClick()
-                .verifyTableRow(1, "John", "ADMIN")
-                .verifyTableRow(4, "Sara", "ADMIN");
+                .verifyTableRow(2, "Kate", "USER")
+                .verifyTableRow(3, "Mike", "USER");
     }
 
 

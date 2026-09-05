@@ -3,14 +3,8 @@ package steps;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.qameta.allure.Step;
-import pages.PlaygroundPage;
-import pages.UsersPage;
-
-import java.util.List;
 
 public final class PlaygroundSteps extends BaseSteps {
-    private final UsersPage usersPage = new UsersPage();
-    private final PlaygroundPage playgroundPage = new PlaygroundPage();
 
     @Step("Open QA Playground")
     public PlaygroundSteps openPlayground() {
@@ -244,8 +238,9 @@ public final class PlaygroundSteps extends BaseSteps {
 
     @Step("Verify toast text: {expectedText}")
     public PlaygroundSteps verifyToast(String expectedText) {
-        assertThat(playgroundPage.isToastDisplayed(expectedText))
-                .isTrue();
+        assertThat(playgroundPage.getToastText())
+                .isEqualTo(expectedText);
+
         return this;
     }
 
@@ -314,7 +309,6 @@ public final class PlaygroundSteps extends BaseSteps {
                         name,
                         role
                 );
-
         return this;
     }
 
@@ -337,7 +331,6 @@ public final class PlaygroundSteps extends BaseSteps {
     ) {
         assertThat(playgroundPage.getTableColumnValues(columnName))
                 .containsExactly(expectedValues);
-
         return this;
     }
 

@@ -275,10 +275,10 @@ public final class PlaygroundPage extends BasePage {
         scrollToElement(playgroundScreen, toastButton).click();
     }
 
-    public boolean isToastDisplayed(String expectedText) {
-        return Objects.requireNonNull(DriverManager.getDriver()
-                        .getPageSource())
-                .contains(expectedText);
+    private final By toastMessage = tag("toast_message");
+
+    public String getToastText() {
+        return visible(toastMessage).getText();
     }
 
     //JavaScript Modal window

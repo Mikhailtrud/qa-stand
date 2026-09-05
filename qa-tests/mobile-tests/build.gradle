@@ -32,4 +32,6 @@ test {
         events 'passed', 'skipped', 'failed'
         exceptionFormat 'full'
     }
+    systemProperty "ADMIN_EMAIL", project.findProperty("ADMIN_EMAIL")
+    systemProperty "ADMIN_PASSWORD", project.findProperty("ADMIN_PASSWORD")
 }

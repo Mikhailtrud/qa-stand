@@ -262,7 +262,9 @@ private val playgroundLanguages = listOf(
 private fun DialogsSection() {
     var dialog by remember { mutableStateOf<String?>(null) }
     var promptText by remember { mutableStateOf("") }
+    var toastMessage by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     PlaygroundSection("JavaScript") {
         FlowRow(
@@ -280,7 +282,15 @@ private fun DialogsSection() {
                 Text("Prompt")
             }
             Button(
-                onClick = { Toast.makeText(context, "Operation completed successfully", Toast.LENGTH_LONG).show() },
+                onClick = {
+                    val message = "Operation completed successfully"
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    toastMessage = message
+                    scope.launch {
+                        delay(5_000)
+                        toastMessage = null
+                    }
+                },
                 modifier = Modifier.appiumTag("playground_toast_button"),
             ) {
                 Text("Toast")
@@ -288,6 +298,12 @@ private fun DialogsSection() {
             Button(onClick = { dialog = "modal" }, modifier = Modifier.appiumTag("open_modal_button")) {
                 Text("Modal")
             }
+        }
+        toastMessage?.let { message ->
+            Text(
+                text = message,
+                modifier = Modifier.appiumTag("toast_message"),
+            )
         }
     }
 

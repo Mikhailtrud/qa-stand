@@ -1,12 +1,10 @@
 package steps;
 
 import io.qameta.allure.Step;
-import pages.EditUserPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class EditUserSteps extends BaseSteps {
-    private final EditUserPage editUserPage = new EditUserPage();
 
     public EditUserSteps replaceForm(String name, String email, String role) {
         editUserPage.setName(name).setEmail(email).setRole(role);

@@ -2,12 +2,10 @@ package steps;
 
 import data.testData.UserData;
 import io.qameta.allure.Step;
-import pages.CreateUserPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class CreateUserSteps extends BaseSteps {
-    private final CreateUserPage createUserPage = new CreateUserPage();
 
     @Step("Fill the create user form")
     public CreateUserSteps fillForm(String name, String email, String password, String role) {
